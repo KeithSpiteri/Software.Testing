@@ -3,6 +3,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @WebServlet(name="helloServlet", urlPatterns={"/hello"})
-public class LoginServlet {
+public class LoginServlet extends HttpServlet {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
 
@@ -30,7 +31,15 @@ public class LoginServlet {
 		PrintWriter out = response.getWriter();
 		out.println("<h1>" + message + "</h1>");
 	}
-
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       PrintWriter out = response.getWriter();
+       
+       String user = request.getParameter("Username");
+       String password = request.getParameter("Password");
+       
+       out.write(user + " - " + password);
+    }
 	public void destroy() {
 		// do nothing.
 	}
