@@ -10,6 +10,15 @@ public class User {
 	private String surname;
 	private Date dob;
 
+	public User(String username, String password, String name, String surname,
+			Date dob) {
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.dob = dob;
+	}
+
 	public String getUsername() {
 		return username;
 	}
