@@ -1,31 +1,37 @@
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.ServletException;
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@WebServlet(name="helloServlet", urlPatterns={"/hello"})
 public class LoginServlet {
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
 
-		String login = request.getParameter("login");
-		String password = request.getParameter("passwordHash");
+	private static Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
 
-		//
-		// Do what ever you want with login and passwordHash here...
-		//
+	private String message;
 
-		// Because we are using ajax we need to respond to it stating whether we
-		// can redirect or not to new location, see lines below
+	public void init() throws ServletException {
+		// Do required initialization
+		message = "Hello World";
+	}
 
-		// Content type of the response - You could also return application/json
-		// for example (which would be better in this case)
-		response.setContentType("text/plain"); // Using text/plain for example
-		response.setCharacterEncoding("UTF-8");
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// Set response content type
+		response.setContentType("text/html");
 
-		// Change this as you like - it can also be url or anything else you
-		// want...
-		response.getWriter().write("SUCCESS");
+		// Actual logic goes here.
+		PrintWriter out = response.getWriter();
+		out.println("<h1>" + message + "</h1>");
+	}
 
+	public void destroy() {
+		// do nothing.
 	}
 }
