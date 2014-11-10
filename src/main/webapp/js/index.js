@@ -204,7 +204,7 @@ $(function() {
 						}
 					});
 
-	/*$("#register_submit")
+	$("#register_submit")
 			.click(
 					function(event) {
 						var form_data = $("#contact").serializeArray();
@@ -214,7 +214,7 @@ $(function() {
 							var valid = element.hasClass("valid");
 							element.focus().blur();
 							var error_element = $("span", element.parent());
-							if (!valid) {
+							if (!valid && form_data[input]['name'] != "subscription") {
 								error_element.removeClass("error").addClass(
 										"error_show");
 								var message;
@@ -251,9 +251,8 @@ $(function() {
 						}
 						if (!error_free) {
 							event.preventDefault();
-						} else {
-							alert('No errors: Form will be submitted');
 						}
-					});*/
+					
+					});
 
 });
