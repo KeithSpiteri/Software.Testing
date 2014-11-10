@@ -39,8 +39,8 @@
 				<h1 style="padding-bottom: 50px">Login</h1>
 				<form id="user_login" method="post" action="login">
 					<ul>
-						<li><input type="text" placeholder="Username" /></li>
-						<li><input type="password" placeholder="Password" /></li>
+						<li><input type="text" placeholder="Username" name="user"/></li>
+						<li><input type="password" placeholder="Password" name="pass"/></li>
 						<li><input type="submit" id="login_submit" value="Login" class="button" /></li>
 					</ul>
 				</form>
@@ -50,7 +50,7 @@
 				<h1>Register</h1>
 				<p>Enter your Registration Details.</p>
 				<br>
-		<form id="contact" method="post" action="./register">
+		<form id="contact" method="get" action="./register">
 		    <!-- Username -->
 		    <div>
 		        <input type="text" name="user" id="user" placeholder="Username" />
