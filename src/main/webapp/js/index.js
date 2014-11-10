@@ -204,7 +204,7 @@ $(function() {
 						}
 					});
 
-	$("#register_submit")
+	/*$("#register_submit")
 			.click(
 					function(event) {
 						var form_data = $("#contact").serializeArray();
@@ -254,6 +254,6 @@ $(function() {
 						} else {
 							alert('No errors: Form will be submitted');
 						}
-					});
+					});*/
 
 });

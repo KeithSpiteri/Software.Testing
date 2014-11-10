@@ -2,35 +2,35 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RegisterServlet {
+public class RegisterServlet extends HttpServlet {
 
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(RegisterServlet.class);
 
 	private String message;
 
-	public void init() throws ServletException {
-		// Do required initialization
-		message = "Hello World";
-	}
-
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// Set response content type
-		response.setContentType("text/html");
-
-		// Actual logic goes here.
+	@Override
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		out.println("<h1>" + message + "</h1>");
-	}
 
-	public void destroy() {
-		// do nothing.
+		String user = request.getParameter("user");
+		String password = request.getParameter("pass");
+		String name = request.getParameter("name");
+		String surname = request.getParameter("surname");
+		String dob = request.getParameter("date");
+
+		out.write("user - " + user + "\n");
+		out.write("password - " + password + "\n");
+		out.write("name - " + name + "\n");
+		out.write("surname - " + surname + "\n");
+		out.write("dob - " + dob + "\n");
 	}
 }

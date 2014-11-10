@@ -17,11 +17,6 @@ public class LoginServlet extends HttpServlet {
 
 	private String message;
 
-	public void init() throws ServletException {
-		// Do required initialization
-		message = "Hello World";
-	}
-	
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -30,10 +25,8 @@ public class LoginServlet extends HttpServlet {
 		String user = request.getParameter("user");
 		String password = request.getParameter("pass");
 
-		out.write("From doPost: "+user + " - " + password);
-	}
+		out.write("user - " + user + "\n");
+		out.write("password - " + password + "\n");
 
-	public void destroy() {
-		// do nothing.
 	}
 }

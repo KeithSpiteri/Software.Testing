@@ -50,7 +50,7 @@
 				<h1>Register</h1>
 				<p>Enter your Registration Details.</p>
 				<br>
-		<form id="contact" method="get" action="./register">
+		<form id="contact" method="post" action="register">
 		    <!-- Username -->
 		    <div>
 		        <input type="text" name="user" id="user" placeholder="Username" />
