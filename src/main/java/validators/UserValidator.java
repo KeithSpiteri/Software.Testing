@@ -1,5 +1,7 @@
 package validators;
 
+import org.apache.commons.lang3.StringUtils;
+
 import persistant.User;
 
 public class UserValidator {
@@ -15,5 +17,12 @@ public class UserValidator {
 		else
 			return false;
 
+	}
+
+	public boolean validateNameOrSurname(String name) {
+		if (StringUtils.isBlank(name) || ! StringUtils.isAlphaSpace(name))
+			return false;
+		else
+			return true;
 	}
 }
