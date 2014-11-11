@@ -55,7 +55,7 @@ public class RegisterServlet extends HttpServlet {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		SimpleDateFormat expiryFormatter = new SimpleDateFormat("yyyy-MM");
 
 		Date expiryDate = null;
@@ -68,17 +68,16 @@ public class RegisterServlet extends HttpServlet {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		boolean free = true;
 		boolean premium = false;
 
-		if(subscription.equals("premium")){
+		if (subscription.equals("premium")) {
 			free = false;
 			premium = true;
 		}
 		User user = new User(username, password, name, surname, dateOfBirth,
-				creditCardNumber, expiryDate, Integer.parseInt(cvv), premium,
-				free);
+				creditCardNumber, expiryDate, cvv, premium, free);
 
 		DbService service = new DbService();
 

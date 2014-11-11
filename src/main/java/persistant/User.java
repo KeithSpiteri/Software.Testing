@@ -11,12 +11,13 @@ public class User {
 	private Date dob;
 	private String creditCardNumber;
 	private Date expiry;
-	private int cvv;
+	private String cvv;
 	private boolean premium;
 	private boolean free;
 
 	public User(String username, String password, String name, String surname,
-			Date dob, String creditCardNumber, Date expiry, int cvv, boolean premium, boolean free) {
+			Date dob, String creditCardNumber, Date expiry, String cvv,
+			boolean premium, boolean free) {
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -27,7 +28,7 @@ public class User {
 		this.cvv = cvv;
 		this.premium = premium;
 		this.free = free;
-			}
+	}
 
 	public String getUsername() {
 		return username;
@@ -85,11 +86,11 @@ public class User {
 		this.expiry = expiry;
 	}
 
-	public int getCvv() {
+	public String getCvv() {
 		return cvv;
 	}
 
-	public void setCvv(int cvv) {
+	public void setCvv(String cvv) {
 		this.cvv = cvv;
 	}
 

@@ -15,7 +15,7 @@
 		<property name="dob" column="dob" type="timestamp" />
 		<property name="creditCardNumber" column="credit_card_number" type="string" />
 		<property name="expiry" column="expiry_date" type="timestamp" />
-		<property name="cvv" column="cvv" type="integer" />
+		<property name="cvv" column="cvv" type="string" />
 		<property name="premium" column="premium" type="boolean" />
 		<property name="free" column="free" type="boolean" />
 	</class>

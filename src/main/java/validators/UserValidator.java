@@ -41,4 +41,11 @@ public class UserValidator {
 			return false;
 
 	}
+
+	public boolean validateCvv(String cvv) {
+		if(cvv.length() == 3 && StringUtils.isNumeric(cvv)) {
+			return true;
+		}
+		else return false;
+	}
 }

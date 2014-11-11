@@ -113,7 +113,46 @@ public class UserValidatorTests {
 		calendar.add(Calendar.YEAR, -20);
 		Date dob = calendar.getTime();
 		
-		assertTrue(validator.validateDob(dob));
-		
+		assertTrue(validator.validateDob(dob));		
+	}
+	
+	@Test
+	public void testCvv000() {
+		assertTrue(validator.validateCvv("000"));
+	}
+	
+	@Test
+	public void testCvv999(){
+		assertTrue(validator.validateCvv("999"));
+	}
+	
+	@Test
+	public void testCvv512(){
+		assertTrue(validator.validateCvv("512"));
+	}
+	
+	@Test
+	public void test2DigitCvv(){
+		assertFalse(validator.validateCvv("12"));
+	}
+	
+	@Test
+	public void test4DigitCvv(){
+		assertFalse(validator.validateCvv("1234"));
+	}
+	
+	@Test
+	public void testCvv00000(){
+		assertFalse(validator.validateCvv("00000"));
+	}
+	
+	@Test
+	public void testCvvWithLetters(){
+		assertFalse(validator.validateCvv("h56"));
+	}
+	
+	@Test
+	public void testCvvWithWhiteSpaces(){
+		assertFalse(validator.validateCvv("05 6"));
 	}
 }
