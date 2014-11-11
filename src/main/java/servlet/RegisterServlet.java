@@ -34,21 +34,51 @@ public class RegisterServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String surname = request.getParameter("surname");
 		String dob = request.getParameter("date");
+		String creditCardNumber = request.getParameter("CCN");
+		String expiry = request.getParameter("expiry");
+		String cvv = request.getParameter("CVV");
+		String subscription = request.getParameter("subscription");
+		LOGGER.info("############################################################################################");
+		LOGGER.info("EXPIRY DATE IS: " + expiry);
+		LOGGER.info("SUBSCRIPTION IS: " + subscription);
+		LOGGER.info("############################################################################################");
 
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+		SimpleDateFormat dobFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-		Date date = null;
+		Date dateOfBirth = null;
 		try {
 
-			date = formatter.parse(dob);
-			System.out.println(date);
-			System.out.println(formatter.format(date));
+			dateOfBirth = dobFormatter.parse(dob);
+			System.out.println(dateOfBirth);
+			System.out.println(dobFormatter.format(dateOfBirth));
 
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
+		SimpleDateFormat expiryFormatter = new SimpleDateFormat("yyyy-MM");
 
-		User user = new User(username, password, name, surname, date);
+		Date expiryDate = null;
+		try {
+
+			expiryDate = expiryFormatter.parse(expiry);
+			System.out.println(expiryDate);
+			System.out.println(expiryFormatter.format(expiryDate));
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		boolean free = true;
+		boolean premium = false;
+
+		if(subscription.equals("premium")){
+			free = false;
+			premium = true;
+		}
+		User user = new User(username, password, name, surname, dateOfBirth,
+				creditCardNumber, expiryDate, Integer.parseInt(cvv), premium,
+				free);
 
 		DbService service = new DbService();
 
