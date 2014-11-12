@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -38,6 +39,7 @@ public class RegisterServlet extends HttpServlet {
 		String expiry = request.getParameter("expiry");
 		String cvv = request.getParameter("CVV");
 		String subscription = request.getParameter("subscription");
+		
 		LOGGER.info("############################################################################################");
 		LOGGER.info("EXPIRY DATE IS: " + expiry);
 		LOGGER.info("SUBSCRIPTION IS: " + subscription);
@@ -76,6 +78,16 @@ public class RegisterServlet extends HttpServlet {
 			free = false;
 			premium = true;
 		}
+		
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.setTime(expiryDate);
+		calendar.add(Calendar.MONTH, 1);
+		calendar.set(Calendar.DATE,1);
+		calendar.add(Calendar.DATE, -1);
+		
+		expiryDate.setDate(calendar.get(Calendar.DATE));
+		
 		User user = new User(username, password, name, surname, dateOfBirth,
 				creditCardNumber, expiryDate, cvv, premium, free);
 
