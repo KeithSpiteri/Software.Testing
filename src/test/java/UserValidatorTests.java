@@ -105,54 +105,108 @@ public class UserValidatorTests {
 
 		assertFalse(validator.validateDob(dob));
 	}
-	
+
 	@Test
 	public void testDob20YearsOld() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(today);
 		calendar.add(Calendar.YEAR, -20);
 		Date dob = calendar.getTime();
-		
-		assertTrue(validator.validateDob(dob));		
+
+		assertTrue(validator.validateDob(dob));
 	}
-	
+
 	@Test
 	public void testCvv000() {
 		assertTrue(validator.validateCvv("000"));
 	}
-	
+
 	@Test
-	public void testCvv999(){
+	public void testCvv999() {
 		assertTrue(validator.validateCvv("999"));
 	}
-	
+
 	@Test
-	public void testCvv512(){
+	public void testCvv512() {
 		assertTrue(validator.validateCvv("512"));
 	}
-	
+
 	@Test
-	public void test2DigitCvv(){
+	public void test2DigitCvv() {
 		assertFalse(validator.validateCvv("12"));
 	}
-	
+
 	@Test
-	public void test4DigitCvv(){
+	public void test4DigitCvv() {
 		assertFalse(validator.validateCvv("1234"));
 	}
-	
+
 	@Test
-	public void testCvv00000(){
+	public void testCvv00000() {
 		assertFalse(validator.validateCvv("00000"));
 	}
-	
+
 	@Test
-	public void testCvvWithLetters(){
+	public void testCvvWithLetters() {
 		assertFalse(validator.validateCvv("h56"));
+	}
+
+	@Test
+	public void testCvvWithWhiteSpaces() {
+		assertFalse(validator.validateCvv("05 6"));
+	}
+
+	@Test
+	public void testPremiumNotFree() {
+		assertTrue(validator.validateFreeOrPremium(true, false));
+	}
+
+	@Test
+	public void testFreeNotPremium() {
+		assertTrue(validator.validateFreeOrPremium(false, true));
+	}
+
+	@Test
+	public void testNotFreeAndNotPremium() {
+		assertFalse(validator.validateFreeOrPremium(false, false));
+	}
+
+	@Test
+	public void testFreeAndPremium() {
+		assertFalse(validator.validateFreeOrPremium(true, true));
+	}
+
+	@Test
+	public void testCardExpiresTomorrow() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(today);
+		calendar.add(Calendar.DATE, 1);
+
+		Date expiry = calendar.getTime();
+
+		assertTrue(validator.validateCCExpiry(expiry));
 	}
 	
 	@Test
-	public void testCvvWithWhiteSpaces(){
-		assertFalse(validator.validateCvv("05 6"));
+	public void testCardExpiresToday()
+	{
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(today);
+		
+		Date expiry = calendar.getTime();
+		
+		assertTrue(validator.validateCCExpiry(expiry));
+	}
+	
+	@Test
+	public void testCardExpiredYesterday()
+	{
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(today);
+		calendar.add(Calendar.DATE,-1);
+		
+		Date expiry = calendar.getTime();
+		
+		assertFalse(validator.validateCCExpiry(expiry));
 	}
 }

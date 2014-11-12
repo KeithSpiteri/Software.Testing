@@ -48,4 +48,15 @@ public class UserValidator {
 		}
 		else return false;
 	}
+	
+	public boolean validateFreeOrPremium(boolean free, boolean premium)
+	{
+		return free^premium;
+	}
+	
+	public boolean validateCCExpiry(Date expiry)
+	{
+		Date today = new Date();
+		return !today.after(expiry);
+	}
 }
