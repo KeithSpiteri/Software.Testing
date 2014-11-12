@@ -24,10 +24,7 @@ $(function() {
 						.fadeIn(550);
 			});
 
-	// $('#login_submit').on('click',function(){
-	// window.location.href = "/Software.Testing/src/main/webapp/bet.jsp";
-	// return false;
-	// });
+
 
 	$('#user').blur(function(event) {
 		var input = $(this);
@@ -222,7 +219,7 @@ $(function() {
 								if (input == 0)
 									message = "Invalid Username!";
 								else if (input == 1)
-									message = "Invalid Passowrd - Must be more than 8 characters long!";
+									message = "Invalid Password - Must be more than 8 characters long!";
 								else if (input == 2)
 									message = "Invalid Name!";
 								else if (input == 3)
