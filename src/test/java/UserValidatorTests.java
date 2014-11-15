@@ -186,27 +186,30 @@ public class UserValidatorTests {
 
 		assertTrue(validator.validateCCExpiry(expiry));
 	}
-	
+
 	@Test
-	public void testCardExpiresToday()
-	{
+	public void testCardExpiresToday() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(today);
-		
+
 		Date expiry = calendar.getTime();
-		
+
 		assertTrue(validator.validateCCExpiry(expiry));
 	}
-	
+
 	@Test
-	public void testCardExpiredYesterday()
-	{
+	public void testCardExpiredYesterday() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(today);
-		calendar.add(Calendar.DATE,-1);
-		
+		calendar.add(Calendar.DATE, -1);
+
 		Date expiry = calendar.getTime();
-		
+
 		assertFalse(validator.validateCCExpiry(expiry));
+	}
+
+	@Test
+	public void testAmericanExpressCard1() {
+		assertTrue(validator.validateCCNumber(""));
 	}
 }

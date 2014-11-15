@@ -63,7 +63,7 @@ public class UserValidator {
 				| validateVisa(number);
 	}
 
-	public boolean validateAmericanExpress(String number) {
+	private boolean validateAmericanExpress(String number) {
 		if (number.length() == 15
 				&& (number.substring(0, 3).equals("34") || number.substring(0,
 						3).equals("37"))) {
