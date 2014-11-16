@@ -91,7 +91,7 @@ public class RegisterServlet extends HttpServlet {
 		User user = new User(username, password, name, surname, dateOfBirth,
 				creditCardNumber, expiryDate, cvv, premium, free);
 
-		DbService service = new DbService();
+		DbService service = DbService.getInstance();
 
 		if (service.addUser(user)) {
 			out.write("user - " + username + "\n");

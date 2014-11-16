@@ -5,15 +5,15 @@
 <web-app>
 	<display-name>Bet Test</display-name>
 
-<!-- 	<servlet>
+	<servlet>
 		<servlet-name>loginServlet</servlet-name>
 		<servlet-class>servlet.LoginServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>loginServlet</servlet-name>
 		<url-pattern>/login</url-pattern>
-	</servlet-mapping> -->
-	
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>registerServlet</servlet-name>
 		<servlet-class>servlet.RegisterServlet</servlet-class>
@@ -22,5 +22,4 @@
 		<servlet-name>registerServlet</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
-
 </web-app>

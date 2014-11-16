@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import persistant.User;
+import db.services.DbService;
+
 @WebServlet(name = "helloServlet", urlPatterns = { "/hello" })
 public class LoginServlet extends HttpServlet {
 
@@ -24,11 +27,16 @@ public class LoginServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 
-		String user = request.getParameter("user");
+		String username = request.getParameter("user");
 		String password = request.getParameter("pass");
 
-		out.write("user - " + user + "\n");
-		out.write("password - " + password + "\n");
+		DbService dbService = DbService.getInstance();
 
+		User user = dbService.loadUser(username);
+
+		if (user != null && password.equals(user.getPassword()))
+			response.sendRedirect("bet.jsp");
+		else
+			out.write("Invalid username or password");
 	}
 }

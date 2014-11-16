@@ -15,6 +15,10 @@ public class User {
 	private boolean premium;
 	private boolean free;
 
+	public User() {
+
+	}
+
 	public User(String username, String password, String name, String surname,
 			Date dob, String creditCardNumber, Date expiry, String cvv,
 			boolean premium, boolean free) {
