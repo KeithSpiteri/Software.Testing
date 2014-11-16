@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import validators.UserValidator;
@@ -209,7 +210,52 @@ public class UserValidatorTests {
 	}
 
 	@Test
-	public void testAmericanExpressCard1() {
-		assertTrue(validator.validateCCNumber(""));
+	public void testAmericanExpressCardInitial37() {
+		assertTrue(validator.validateCCNumber("378282246310005"));
+	}
+
+	@Test
+	public void testAmericanExpressCardInitial34() {
+		assertTrue(validator.validateCCNumber("343600267608555"));
+	}
+
+	@Test
+	public void testMasterCardInitial51() {
+		assertTrue(validator.validateCCNumber("5189979879493713"));
+	}
+
+	@Test
+	public void testMasterCardInitial52() {
+		assertTrue(validator.validateCCNumber("5237850415434598"));
+	}
+
+	@Test
+	public void testMasterCardInitial53() {
+		assertTrue(validator.validateCCNumber("5359015256295696"));
+	}
+
+	@Test
+	public void testMasterCardInitial54() {
+		assertTrue(validator.validateCCNumber("5421626287957775"));
+	}
+
+	@Test
+	public void testMasterCardInitial55() {
+		assertTrue(validator.validateCCNumber("5566531231928903"));
+	}
+
+	@Test
+	public void testVisa16Digit() {
+		assertTrue(validator.validateCCNumber("4596274040889084"));
+	}
+
+	@Test
+	public void testVisa13Digit() {
+		assertTrue(validator.validateCCNumber("4929411679018"));
+	}
+
+	@Test
+	public void testInvalidCCNumber() {
+		assertFalse(validator.validateCCNumber("5821626287957775"));
 	}
 }

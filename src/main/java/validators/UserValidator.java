@@ -65,8 +65,8 @@ public class UserValidator {
 
 	private boolean validateAmericanExpress(String number) {
 		if (number.length() == 15
-				&& (number.substring(0, 3).equals("34") || number.substring(0,
-						3).equals("37"))) {
+				&& (number.substring(0, 2).equals("34") || number.substring(0,
+						2).equals("37"))) {
 			return luhnVerification(number);
 		} else
 			return false;
@@ -74,11 +74,11 @@ public class UserValidator {
 
 	private boolean validateMastercard(String number) {
 		if (number.length() == 16
-				&& (number.substring(0, 3).equals("1")
-						|| number.substring(0, 3).equals("32")
-						|| number.substring(0, 3).equals("33")
-						|| number.substring(0, 3).equals("34") || number
-						.substring(0, 3).equals("35"))) {
+				&& (number.substring(0, 2).equals("51")
+						|| number.substring(0, 2).equals("52")
+						|| number.substring(0, 2).equals("53")
+						|| number.substring(0, 2).equals("54") || number
+						.substring(0, 2).equals("55"))) {
 			return luhnVerification(number);
 		} else
 			return false;
@@ -86,7 +86,7 @@ public class UserValidator {
 
 	private boolean validateVisa(String number) {
 		if (number.charAt(0) == '4'
-				&& (number.length() == 14 || number.length() == 16)) {
+				&& (number.length() == 13 || number.length() == 16)) {
 			return luhnVerification(number);
 		} else
 			return false;
@@ -96,19 +96,18 @@ public class UserValidator {
 
 		int check = 0;
 
-		for (int i = 0; i < number.length(); i += 2) {
+		for (int i = number.length() - 2; i >= 0; i -= 2) {
 			int num = (int) (Integer.parseInt("" + number.charAt(i)));
 			int prod = num * 2;
 
 			check += prod % 10;
 			if (prod > 9)
-				check += prod - (prod % 10);
+				check++;
 		}
-		for (int i = 1; i < number.length(); i += 2) {
+		for (int i = number.length() - 1; i >= 0; i -= 2) {
 			int num = (int) (Integer.parseInt("" + number.charAt(i)));
 			check += num;
 		}
-
 		return (check % 10 == 0);
 	}
 }
