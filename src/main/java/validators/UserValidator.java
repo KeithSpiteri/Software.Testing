@@ -6,13 +6,23 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 
+import db.services.DbService;
 import persistant.User;
 
 public class UserValidator {
 
+	private DbService dbService = DbService.getInstance();
+
 	public boolean validateUser(User user) {
 		return false;
 
+	}
+
+	public boolean validatUsername(String userName) {
+		if (dbService.loadUser(userName) == null) {
+			return false;
+		} else
+			return true;
 	}
 
 	public boolean validatePassword(String password) {
