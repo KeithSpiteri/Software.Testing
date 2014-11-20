@@ -94,10 +94,11 @@ public class UserValidatorTests {
 	}
 
 	@Test
-	public void testDob17YearsOld() {
+	public void testDob18YearsOldMinusOneDay() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(today);
-		calendar.add(Calendar.YEAR, -17);
+		calendar.add(Calendar.YEAR, -18);
+		calendar.add(Calendar.DATE, 1);
 		Date dob = calendar.getTime();
 
 		assertFalse(validator.validateDob(dob));
