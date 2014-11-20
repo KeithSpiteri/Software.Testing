@@ -32,6 +32,12 @@ public class UserValidatorTests {
 		assertFalse(validator.validatePassword("abcdefg"));
 	}
 
+	 @Test 
+	 public void test3CharPassword()
+	 {
+		 assertFalse(validator.validatePassword("abc"));
+	 }
+	
 	@Test
 	public void test12CharPassword() {
 		assertTrue(validator.validatePassword("abcdefgh1234"));
