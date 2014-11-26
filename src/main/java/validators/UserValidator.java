@@ -18,7 +18,7 @@ public class UserValidator {
 
 	}
 
-	public boolean validatUsername(String userName) {
+	public boolean validateUsername(String userName) {
 		if (dbService.loadUser(userName) == null) {
 			return false;
 		} else

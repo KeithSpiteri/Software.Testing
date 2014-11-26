@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -8,7 +9,11 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
+import persistant.User;
+import db.services.DbService;
 import validators.UserValidator;
 
 public class UserValidatorTests {
@@ -22,6 +27,21 @@ public class UserValidatorTests {
 		today = new Date();
 	}
 
+//	@Test
+//	public void testValidUsername() {
+//		DbService dbService = Mockito.mock(DbService.class);
+//		String name = "testUser";
+//		Mockito.when(dbService.loadUser(name)).thenReturn(null);
+//		assertTrue(validator.validateUsername(name));
+//	}
+//
+//	@Test
+//	public void testInvalidUsername() {
+//		DbService dbService = Mockito.mock(DbService.class);
+//		Mockito.when(dbService.loadUser("testUser")).thenReturn(new User());
+//		assertFalse(validator.validateUsername("testUser"));
+//	}
+
 	@Test
 	public void test8CharPassword() {
 		assertTrue(validator.validatePassword("abcdefgh"));
@@ -32,12 +52,11 @@ public class UserValidatorTests {
 		assertFalse(validator.validatePassword("abcdefg"));
 	}
 
-	 @Test 
-	 public void test3CharPassword()
-	 {
-		 assertFalse(validator.validatePassword("abc"));
-	 }
-	
+	@Test
+	public void test3CharPassword() {
+		assertFalse(validator.validatePassword("abc"));
+	}
+
 	@Test
 	public void test12CharPassword() {
 		assertTrue(validator.validatePassword("abcdefgh1234"));
