@@ -17,12 +17,14 @@ import org.slf4j.LoggerFactory;
 
 import db.services.DbService;
 import persistant.User;
+import validators.UserValidator;
 
 public class RegisterServlet extends HttpServlet {
 
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(RegisterServlet.class);
 
+	private UserValidator userValidator = new UserValidator();
 	private String message;
 
 	@Override
@@ -39,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
 		String expiry = request.getParameter("expiry");
 		String cvv = request.getParameter("CVV");
 		String subscription = request.getParameter("subscription");
-		
+
 		LOGGER.info("############################################################################################");
 		LOGGER.info("EXPIRY DATE IS: " + expiry);
 		LOGGER.info("SUBSCRIPTION IS: " + subscription);
@@ -78,29 +80,32 @@ public class RegisterServlet extends HttpServlet {
 			free = false;
 			premium = true;
 		}
-		
+
 		Calendar calendar = Calendar.getInstance();
-		
+
 		calendar.setTime(expiryDate);
 		calendar.add(Calendar.MONTH, 1);
-		calendar.set(Calendar.DATE,1);
+		calendar.set(Calendar.DATE, 1);
 		calendar.add(Calendar.DATE, -1);
-		
+
 		expiryDate.setDate(calendar.get(Calendar.DATE));
-		
+
 		User user = new User(username, password, name, surname, dateOfBirth,
 				creditCardNumber, expiryDate, cvv, premium, free);
 
-		DbService service = DbService.getInstance();
+		if (userValidator.validate(user)) {
+			DbService service = DbService.getInstance();
 
-		if (service.addUser(user)) {
-			out.write("user - " + username + "\n");
-			out.write("password - " + password + "\n");
-			out.write("name - " + name + "\n");
-			out.write("surname - " + surname + "\n");
-			out.write("dob - " + dob + "\n");
-			response.sendRedirect("index.jsp");
+			if (service.addUser(user)) {
+				out.write("user - " + username + "\n");
+				out.write("password - " + password + "\n");
+				out.write("name - " + name + "\n");
+				out.write("surname - " + surname + "\n");
+				out.write("dob - " + dob + "\n");
+				response.sendRedirect("index.jsp");
+			} else
+				out.write("Not inserted");
 		} else
-			out.write("Not inserted");
+			out.write("Invalid user details encountered");
 	}
 }

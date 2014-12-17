@@ -13,16 +13,24 @@ public class UserValidator {
 
 	private DbService dbService = DbService.getInstance();
 
-	public boolean validateUser(User user) {
-		return false;
+	public boolean validate(User user) {
+		return validateUsername(user.getUsername())
+				&& validatePassword(user.getPassword())
+				&& validateNameOrSurname(user.getName())
+				&& validateNameOrSurname(user.getSurname())
+				&& validateDob(user.getDob())
+				&& validateCvv(user.getCvv())
+				&& validateFreeOrPremium(user.isFree(), user.isPremium())
+				&& validateCCExpiry(user.getExpiry())
+				&& validateCCNumber(user.getCreditCardNumber());
 
 	}
 
 	public boolean validateUsername(String userName) {
 		if (dbService.loadUser(userName) == null) {
-			return false;
-		} else
 			return true;
+		} else
+			return false;
 	}
 
 	public boolean validatePassword(String password) {
