@@ -1,8 +1,21 @@
 package persistant;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import db.services.DbService;
+
 public class User {
+
+	private static Logger LOGGER = LoggerFactory.getLogger(User.class);
 
 	private String username;
 	private String password;
@@ -14,6 +27,9 @@ public class User {
 	private String cvv;
 	private boolean premium;
 	private boolean free;
+	private int failedLogins;
+
+	private Timestamp lockedTill = null;
 
 	public User() {
 
@@ -116,4 +132,35 @@ public class User {
 		this.premium = !free;
 	}
 
+	public int getFailedLogins() {
+		return failedLogins;
+	}
+
+	public void setFailedLogins(int failedLogins) {
+		if (failedLogins > 3) {
+			Date now = new Date();
+			LOGGER.info("Now - " + now);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(now);
+			cal.add(Calendar.MINUTE, 5);
+			LOGGER.info("Now + 5 mins - " + cal.getTime());
+
+			this.setLockedTill(cal.getTime());
+			this.setFailedLogins(0);
+		} else {
+			this.failedLogins = failedLogins;
+			DbService.getInstance().update(this);
+		}
+	}
+
+	public Date getLockedTill() {
+		return lockedTill;
+	}
+
+	public void setLockedTill(Date locked) {
+		if (locked != null) {
+			this.lockedTill = new Timestamp(locked.getTime());
+			DbService.getInstance().update(this);
+		}
+	}
 }

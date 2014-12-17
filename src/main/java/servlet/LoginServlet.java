@@ -2,12 +2,14 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +36,19 @@ public class LoginServlet extends HttpServlet {
 
 		User user = dbService.loadUser(username);
 
-		if (user != null && password.equals(user.getPassword()))
-			response.sendRedirect("bet.jsp");
-		else
-			out.write("Invalid username or password");
+		if (user.getLockedTill() == null
+				|| user.getLockedTill().before(new Date())) {
+			if (user != null && password.equals(user.getPassword())) {
+				response.sendRedirect("bet.jsp");
+				user.setFailedLogins(0);
+			} else {
+				out.write("Invalid username or password");
+				response.sendRedirect(request.getHeader("Referer"));
+				if (user != null) {
+					user.setFailedLogins(user.getFailedLogins() + 1);
+				}
+			}
+		} else
+			out.write("Account is locked until "+ user.getLockedTill());
 	}
 }

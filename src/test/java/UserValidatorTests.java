@@ -25,22 +25,23 @@ public class UserValidatorTests {
 	public void init() {
 		validator = new UserValidator();
 		today = new Date();
+		//DbService.dbService = Mockito.mock(DbService.class);
 	}
 
-//	@Test
-//	public void testValidUsername() {
-//		DbService dbService = Mockito.mock(DbService.class);
-//		String name = "testUser";
-//		Mockito.when(dbService.loadUser(name)).thenReturn(null);
-//		assertTrue(validator.validateUsername(name));
-//	}
-//
-//	@Test
-//	public void testInvalidUsername() {
-//		DbService dbService = Mockito.mock(DbService.class);
-//		Mockito.when(dbService.loadUser("testUser")).thenReturn(new User());
-//		assertFalse(validator.validateUsername("testUser"));
-//	}
+/*	@Test
+	public void testValidUsername() {
+		//DbService dbService = Mockito.mock(DbService.class);
+		String name = "testUser";
+		Mockito.when(validator.dbService.loadUser(name)).thenReturn(null);
+		assertTrue(validator.validateUsername(name));
+	}*/
+/*
+	@Test
+	public void testInvalidUsername() {
+		//DbService dbService = Mockito.mock(DbService.class);
+		Mockito.when(validator.dbService.loadUser("testUser")).thenReturn(new User());
+		assertFalse(validator.validateUsername("testUser"));
+	}*/
 
 	@Test
 	public void test8CharPassword() {

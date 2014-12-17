@@ -18,5 +18,7 @@
 		<property name="cvv" column="cvv" type="string" />
 		<property name="premium" column="premium" type="boolean" />
 		<property name="free" column="free" type="boolean" />
+		<property name="failedLogins" column="failed_login" type="int" />
+		<property name="lockedTill" column="locked_till" type="timestamp" />
 	</class>
 </hibernate-mapping>
