@@ -23,6 +23,14 @@
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>bettingServlet</servlet-name>
+		<servlet-class>servlet.BettingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>bettingServlet</servlet-name>
+		<url-pattern>/placeBet</url-pattern>
+	</servlet-mapping>
 
 
 
