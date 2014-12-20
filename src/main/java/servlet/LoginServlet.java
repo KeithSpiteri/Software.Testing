@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,8 +40,15 @@ public class LoginServlet extends HttpServlet {
 		if (user.getLockedTill() == null
 				|| user.getLockedTill().before(new Date())) {
 			if (user != null && password.equals(user.getPassword())) {
-				response.sendRedirect("bet.jsp");
+				// Create a cookie for this new session
+
+				Cookie loginCookie = new Cookie("user", user.getName());
+				// setting cookie to expiry in 15 mins
+				loginCookie.setMaxAge(15 * 60);
+				response.addCookie(loginCookie);
+
 				user.setFailedLogins(0);
+				response.sendRedirect("bet.jsp");			
 			} else {
 				out.write("Invalid username or password");
 				response.sendRedirect(request.getHeader("Referer"));
@@ -49,6 +57,6 @@ public class LoginServlet extends HttpServlet {
 				}
 			}
 		} else
-			out.write("Account is locked until "+ user.getLockedTill());
+			out.write("Account is locked until " + user.getLockedTill());
 	}
 }

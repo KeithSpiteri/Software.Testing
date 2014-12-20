@@ -27,8 +27,21 @@
 </head>
 <body>
 
+	<%
+		String userName = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("user"))
+					userName = cookie.getValue();
+			}
+		}
+		if (userName == null)
+			response.sendRedirect("index.jsp");
+	%>
+
 	<div class="container">
-		<div style="height:400px" class="flat-form">
+		<div style="height: 400px" class="flat-form">
 			<header class="tabs" style="margin-bottom: 0px; background: #c0392b;">
 				<a
 					style="background: #c0392b; font-size: 25px; padding-bottom: 0px; padding-top: 5px; padding-right: 100px">BetTest</a>
@@ -36,7 +49,7 @@
 			<ul class="tabs">
 				<li><h class="xihaga">Place Bet</h></li>
 			</ul>
-			
+
 			<!--/#login.form-action-->
 			<div id="place_bet" class="form-action show">
 				<h1 style="padding-left: 10px">Bet Details</h1>
@@ -44,16 +57,16 @@
 				<br>
 				<form>
 					<ul>
-						<li style="padding:10px">
-							<select>						
+						<li style="padding: 10px"><select>
 								<option value="" selected disabled>Risk Level</option>
 								<option value="low">Low</option>
 								<option value="medium">Medium</option>
 								<option value="high">High</option>
-							</select>
-						</li>
-						<li style="padding:10px"><input type="number" placeholder="Amount" /></li>
-						<li style="padding:10px"><input type="submit" value="Place Bet" class="button" /></li>
+						</select></li>
+						<li style="padding: 10px"><input type="number"
+							placeholder="Amount" /></li>
+						<li style="padding: 10px"><input type="submit"
+							value="Place Bet" class="button" /></li>
 					</ul>
 				</form>
 			</div>
