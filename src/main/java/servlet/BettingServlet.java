@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +54,6 @@ public class BettingServlet extends HttpServlet {
 				}
 			}
 		} else
-			out.write("Account is locked until " + user.getLockedTill());*/
+			out.write("Account is locked until " + user.getLockedTill());
 	}
 }
