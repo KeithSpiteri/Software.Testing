@@ -27,7 +27,7 @@ public class BettingServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 
-		String username = request.getParameter("user");
+		/*String username = request.getParameter("user");
 		String password = request.getParameter("pass");
 
 		DbService dbService = DbService.getInstance();
@@ -54,6 +54,6 @@ public class BettingServlet extends HttpServlet {
 				}
 			}
 		} else
-			out.write("Account is locked until " + user.getLockedTill());
+			out.write("Account is locked until " + user.getLockedTill());*/
 	}
 }
