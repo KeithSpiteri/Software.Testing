@@ -31,15 +31,4 @@
 		<servlet-name>bettingServlet</servlet-name>
 		<url-pattern>/placeBet</url-pattern>
 	</servlet-mapping>
-
-
-
-	<!-- <security-constraint> <web-resource-collection> <web-resource-name>Wildcard 
-		means whole app requires authentication</web-resource-name> <url-pattern>/bet.jsp</url-pattern> 
-		<http-method>POST</http-method> </web-resource-collection> <auth-constraint> 
-		<role-name>tomcat</role-name> </auth-constraint> </security-constraint> <login-config> 
-		<auth-method>FORM</auth-method> <form-login-config> <form-login-page>/login</form-login-page> 
-		<form-error-page>/index.html</form-error-page> </form-login-config> </login-config> 
-		<security-role> <role-name>tomcat</role-name> </security-role> -->
-
 </web-app>

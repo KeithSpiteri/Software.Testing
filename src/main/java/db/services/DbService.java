@@ -8,6 +8,7 @@ import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import persistant.Bet;
 import persistant.User;
 
 public class DbService {
@@ -47,6 +48,22 @@ public class DbService {
 			if (tx != null)
 				tx.rollback();
 			LOGGER.error("Hibernate Exception in adding new User", e);
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean addBet(Bet bet) {
+
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.save(bet);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			LOGGER.error("Hibernate Exception in placing new bet", e);
 			return false;
 		}
 		return true;

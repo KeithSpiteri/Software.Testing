@@ -5,7 +5,7 @@ public class Bet {
 	private int id;
 	private int riskLevel;
 	private float amount;
-	private String username;
+	private String userName;
 	
 	public void setId(int id) {
 		this.id = id;
@@ -16,8 +16,8 @@ public class Bet {
 	public void setAmount(float amount) {
 		this.amount = amount;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String username) {
+		this.userName = username;
 	}
 	
 	public int getId()
@@ -35,9 +35,9 @@ public class Bet {
 		return this.amount;
 	}
 	
-	public String getUsername()
+	public String getUserName()
 	{
-		return this.username;
+		return this.userName;
 	}
 
 	

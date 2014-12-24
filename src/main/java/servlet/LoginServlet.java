@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import persistant.User;
 import db.services.DbService;
 
-@WebServlet(name = "helloServlet", urlPatterns = { "/hello" })
 public class LoginServlet extends HttpServlet {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);

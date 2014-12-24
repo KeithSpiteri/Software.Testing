@@ -55,7 +55,7 @@
 				<h1 style="padding-left: 10px">Bet Details</h1>
 				<p style="padding-left: 10px">Enter your Bet Details.</p>
 				<br>
-				<form>
+				<form id="place_bet" method="post" action="placeBet">
 					<ul>
 						<li style="padding: 10px"><select>
 								<option value="" selected disabled>Risk Level</option>
@@ -65,8 +65,7 @@
 						</select></li>
 						<li style="padding: 10px"><input type="number"
 							placeholder="Amount" /></li>
-						<li style="padding: 10px"><input type="submit"
-							value="Place Bet" class="button" /></li>
+						<li style="padding: 10px"><input type="submit" id="place_bet_submit" value="Place Bet" class="button" /></li>
 					</ul>
 				</form>
 			</div>
