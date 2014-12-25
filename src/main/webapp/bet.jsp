@@ -100,8 +100,7 @@
 						</li>
 						<li>
 							<div style=" border: 2px solid; border-color: lightgray; background-color: white">
-								<h style="background: #136899; width: 93.5%">Betting History</h>
-								<table id="example" class="display" style="padding: 10px">
+								<table id="example" class="display">
 							        <thead>
 							            <tr>
 							            	<th>Date ???</th>
