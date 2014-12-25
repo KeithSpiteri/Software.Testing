@@ -214,6 +214,7 @@
 						    </div>
 						</li>
 						<li style="padding: 10px"><input type="submit" id="place_bet_submit" value="Place Bet" class="button" /></li>
+						<li style="padding: 10px; position: absolute; top: 610; left: 610"><input type="submit" id="logout" value="Log Out" class="button" /></li>
 					</ul>
 				</form>
 			</div>
