@@ -98,119 +98,6 @@
 						<li style="padding: 10px"><input type="number"
 							placeholder="Amount" />
 						</li>
-						<li>
-								<table id="example" class="display">
-							        <thead>
-							            <tr>
-							            	<th>Date ???</th>
-							                <th>Risk Level</th>
-							                <th>Amount</th>
-							            </tr>
-							        </thead>
-							        <tfoot>
-						            <tr>
-						                <th>Date ???</th>
-							            <th>Risk Level</th>
-							            <th>Amount</th>
-						            </tr>
-						        	</tfoot>				 
-							        <tbody>
-							            <tr>
-							                <td>Tiger Nixon</td>
-							                <td>System Architect</td>
-							                <td>Edinburgh</td>
-							            </tr>
-							            <tr>
-							                <td>Garrett Winters</td>
-							                <td>Accountant</td>
-							                <td>Tokyo</td>
-							            </tr>
-										<tr>
-							                <td>Tiger Nixon</td>
-							                <td>System Architect</td>
-							                <td>Edinburgh</td>
-							            </tr>
-							            <tr>
-							                <td>Garrett Winters</td>
-							                <td>Accountant</td>
-							                <td>Tokyo</td>
-							            </tr><tr>
-							                <td>Tiger Nixon</td>
-							                <td>System Architect</td>
-							                <td>Edinburgh</td>
-							            </tr>
-							            <tr>
-							                <td>Garrett Winters</td>
-							                <td>Accountant</td>
-							                <td>Tokyo</td>
-							            </tr><tr>
-							                <td>Tiger Nixon</td>
-							                <td>System Architect</td>
-							                <td>Edinburgh</td>
-							            </tr>
-							            <tr>
-							                <td>Garrett Winters</td>
-							                <td>Accountant</td>
-							                <td>Tokyo</td>
-							            </tr><tr>
-							                <td>Tiger Nixon</td>
-							                <td>System Architect</td>
-							                <td>Edinburgh</td>
-							            </tr>
-							            <tr>
-							                <td>Garrett Winters</td>
-							                <td>Accountant</td>
-							                <td>Tokyo</td>
-							            </tr><tr>
-							                <td>Tiger Nixon</td>
-							                <td>System Architect</td>
-							                <td>Edinburgh</td>
-							            </tr>
-							            <tr>
-							                <td>Garrett Winters</td>
-							                <td>Accountant</td>
-							                <td>Tokyo</td>
-							            </tr><tr>
-							                <td>Tiger Nixon</td>
-							                <td>System Architect</td>
-							                <td>Edinburgh</td>
-							            </tr>
-							            <tr>
-							                <td>Garrett Winters</td>
-							                <td>Accountant</td>
-							                <td>Tokyo</td>
-							            </tr><tr>
-							                <td>Tiger Nixon</td>
-							                <td>System Architect</td>
-							                <td>Edinburgh</td>
-							            </tr>
-							            <tr>
-							                <td>Garrett Winters</td>
-							                <td>Accountant</td>
-							                <td>Tokyo</td>
-							            </tr><tr>
-							                <td>Tiger Nixon</td>
-							                <td>System Architect</td>
-							                <td>Edinburgh</td>
-							            </tr>
-							            <tr>
-							                <td>Garrett Winters</td>
-							                <td>Accountant</td>
-							                <td>Tokyo</td>
-							            </tr><tr>
-							                <td>Tiger Nixon</td>
-							                <td>System Architect</td>
-							                <td>Edinburgh</td>
-							            </tr>
-							            <tr>
-							                <td>Garrett Winters</td>
-							                <td>Accountant</td>
-							                <td>Tokyo</td>
-							            </tr>
-							        </tbody>
-							    </table>
-						</li>
-
 						<li style="padding: 10px">
 							<input style= "display: inline-block" type="submit" id="place_bet_submit" value="Place Bet" class="button" />
 							<span style="font-size:30px; padding-left:490px; ">&nbsp;</span>
@@ -218,7 +105,43 @@
 						</li>
 					</ul>
 				</form>
+				
+				<div style="border: 2px solid; border-color: lightgray; background-color: white">
+					<h style="background: #136899; width: 93.5%">Betting History</h>
+					<table id="example" class="display" style="padding: 10px">
+				        <thead>
+				            <tr>
+				            	<th>Date ???</th>
+				                <th>Risk Level</th>
+				                <th>Amount</th>
+				            </tr>
+				        </thead>
+				        <tfoot>
+			            <tr>
+			                <th>Date ???</th>
+				            <th>Risk Level</th>
+				            <th>Amount</th>
+			            </tr>
+			        	</tfoot>				 
+				        <tbody>
+				            <tr>
+				                <td>Tiger Nixon</td>
+				                <td>System Architect</td>
+				                <td>Edinburgh</td>
+				            </tr>
+				            <tr>
+				                <td>Garrett Winters</td>
+				                <td>Accountant</td>
+				                <td>Tokyo</td>
+				            </tr>
+				        </tbody>
+				    </table>
+			    </div>
+				
 			</div>
+			
+			
+			
 			<!--/#place_bet.form-action-->
 		</div>
 	</div>

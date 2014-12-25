@@ -253,11 +253,9 @@ $(function() {
 					});
 	
 	$(document).ready(function() {
-	    $('#example').dataTable({
-	    	 "lengthMenu": [[5], [5]]
-	    });
-	    $('.dataTables_length').hide();
-	    $('#example_filter').hide();
+	    $("#example").dataTable();
+	    $(".dataTables_length").hide();
+	    $("#example_filter").hide();
 	} );
 
 });
