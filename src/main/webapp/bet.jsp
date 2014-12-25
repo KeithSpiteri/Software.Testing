@@ -98,8 +98,8 @@
 						<li style="padding: 10px"><input type="number"
 							placeholder="Amount" />
 						</li>
-						<li style="padding: 10px">
-							<div style=" border: 2px solid; border-color: lightgray; background-color: white; ">
+						<li>
+							<div style=" border: 2px solid; border-color: lightgray; background-color: white">
 								<h style="background: #136899; width: 93.5%">Betting History</h>
 								<table id="example" class="display" style="padding: 10px">
 							        <thead>
@@ -213,8 +213,12 @@
 							    </table>
 						    </div>
 						</li>
-						<li style="padding: 10px"><input type="submit" id="place_bet_submit" value="Place Bet" class="button" /></li>
-						<li style="padding: 10px; position: absolute; top: 610; left: 610"><input type="submit" id="logout" value="Log Out" class="button" /></li>
+
+						<li style="padding: 10px">
+							<input style= "display: inline-block" type="submit" id="place_bet_submit" value="Place Bet" class="button" />
+							<span style="font-size:30px; padding-left:490px; ">&nbsp;</span>
+							<input style= "display: inline-block" type="submit" id="logout" value="Log Out" class="button" />
+						</li>
 					</ul>
 				</form>
 			</div>
