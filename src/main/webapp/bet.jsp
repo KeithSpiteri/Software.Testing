@@ -99,7 +99,6 @@
 							placeholder="Amount" />
 						</li>
 						<li>
-							<div style=" border: 2px solid; border-color: lightgray; background-color: white">
 								<table id="example" class="display">
 							        <thead>
 							            <tr>
@@ -210,7 +209,6 @@
 							            </tr>
 							        </tbody>
 							    </table>
-						    </div>
 						</li>
 
 						<li style="padding: 10px">
