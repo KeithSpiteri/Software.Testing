@@ -1,11 +1,34 @@
 <html lang="en">
+
 <link href="css/main_style.css" rel="stylesheet">
 
+<!-- DataTables CSS -->
+<link rel="stylesheet"  href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css">
+  
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+  
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
+
+
+
 <head>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+
+
+
+
 <script language="javascript" type="text/javascript">
 	
 </script>
+
+<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.js" type="text/javascript"></script>
+<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js" type="text/javascript"></script>
+
+
+
 <!-- Basic Page Needs
   ================================================== -->
 <meta charset="utf-8">
@@ -41,7 +64,12 @@
 	%>
 
 	<div class="container">
-		<div style="height: 400px" class="flat-form">
+		
+		
+		<div style="height:775px; width: 750px" class="flat-form">
+		
+		
+		
 			<header class="tabs" style="margin-bottom: 0px; background: #c0392b;">
 				<a
 					style="background: #c0392b; font-size: 25px; padding-bottom: 0px; padding-top: 5px; padding-right: 100px">BetTest</a>
@@ -51,7 +79,11 @@
 			</ul>
 
 			<!--/#login.form-action-->
+			
+			
 			<div id="place_bet" class="form-action show">
+			
+			
 				<h1 style="padding-left: 10px">Bet Details</h1>
 				<p style="padding-left: 10px">Enter your Bet Details.</p>
 				<br>
@@ -64,7 +96,123 @@
 								<option value="high">High</option>
 						</select></li>
 						<li style="padding: 10px"><input type="number"
-							placeholder="Amount" /></li>
+							placeholder="Amount" />
+						</li>
+						<li style="padding: 10px">
+							<div style=" border: 2px solid; border-color: lightgray; background-color: white; ">
+								<h style="background: #136899; width: 93.5%">Betting History</h>
+								<table id="example" class="display" style="padding: 10px">
+							        <thead>
+							            <tr>
+							            	<th>Date ???</th>
+							                <th>Risk Level</th>
+							                <th>Amount</th>
+							            </tr>
+							        </thead>
+							        <tfoot>
+						            <tr>
+						                <th>Date ???</th>
+							            <th>Risk Level</th>
+							            <th>Amount</th>
+						            </tr>
+						        	</tfoot>				 
+							        <tbody>
+							            <tr>
+							                <td>Tiger Nixon</td>
+							                <td>System Architect</td>
+							                <td>Edinburgh</td>
+							            </tr>
+							            <tr>
+							                <td>Garrett Winters</td>
+							                <td>Accountant</td>
+							                <td>Tokyo</td>
+							            </tr>
+										<tr>
+							                <td>Tiger Nixon</td>
+							                <td>System Architect</td>
+							                <td>Edinburgh</td>
+							            </tr>
+							            <tr>
+							                <td>Garrett Winters</td>
+							                <td>Accountant</td>
+							                <td>Tokyo</td>
+							            </tr><tr>
+							                <td>Tiger Nixon</td>
+							                <td>System Architect</td>
+							                <td>Edinburgh</td>
+							            </tr>
+							            <tr>
+							                <td>Garrett Winters</td>
+							                <td>Accountant</td>
+							                <td>Tokyo</td>
+							            </tr><tr>
+							                <td>Tiger Nixon</td>
+							                <td>System Architect</td>
+							                <td>Edinburgh</td>
+							            </tr>
+							            <tr>
+							                <td>Garrett Winters</td>
+							                <td>Accountant</td>
+							                <td>Tokyo</td>
+							            </tr><tr>
+							                <td>Tiger Nixon</td>
+							                <td>System Architect</td>
+							                <td>Edinburgh</td>
+							            </tr>
+							            <tr>
+							                <td>Garrett Winters</td>
+							                <td>Accountant</td>
+							                <td>Tokyo</td>
+							            </tr><tr>
+							                <td>Tiger Nixon</td>
+							                <td>System Architect</td>
+							                <td>Edinburgh</td>
+							            </tr>
+							            <tr>
+							                <td>Garrett Winters</td>
+							                <td>Accountant</td>
+							                <td>Tokyo</td>
+							            </tr><tr>
+							                <td>Tiger Nixon</td>
+							                <td>System Architect</td>
+							                <td>Edinburgh</td>
+							            </tr>
+							            <tr>
+							                <td>Garrett Winters</td>
+							                <td>Accountant</td>
+							                <td>Tokyo</td>
+							            </tr><tr>
+							                <td>Tiger Nixon</td>
+							                <td>System Architect</td>
+							                <td>Edinburgh</td>
+							            </tr>
+							            <tr>
+							                <td>Garrett Winters</td>
+							                <td>Accountant</td>
+							                <td>Tokyo</td>
+							            </tr><tr>
+							                <td>Tiger Nixon</td>
+							                <td>System Architect</td>
+							                <td>Edinburgh</td>
+							            </tr>
+							            <tr>
+							                <td>Garrett Winters</td>
+							                <td>Accountant</td>
+							                <td>Tokyo</td>
+							            </tr><tr>
+							                <td>Tiger Nixon</td>
+							                <td>System Architect</td>
+							                <td>Edinburgh</td>
+							            </tr>
+							            <tr>
+							                <td>Garrett Winters</td>
+							                <td>Accountant</td>
+							                <td>Tokyo</td>
+							            </tr>
+							        </tbody>
+							    </table>
+						    </div>
+						</li>
 						<li style="padding: 10px"><input type="submit" id="place_bet_submit" value="Place Bet" class="button" /></li>
 					</ul>
 				</form>
@@ -72,8 +220,8 @@
 			<!--/#place_bet.form-action-->
 		</div>
 	</div>
-	<script class="cssdeck"
-		src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+	
+
 </body>
 
 <script src="js/index.js"></script>

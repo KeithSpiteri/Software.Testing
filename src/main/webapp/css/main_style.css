@@ -2,6 +2,7 @@
 
 @import
 	url(http://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css);
+	
 
 body {
 	background: url(http://jsrun.it/assets/p/r/8/X/pr8Xi.png);
@@ -10,11 +11,9 @@ body {
 	font-family: 'Roboto';
 }
 
-p {
-	color:;
+table{
+	color: black;
 }
-
-
 
 .flat-form {
 	background: #34495e; /*tablebg e74c3c #34495e  #88565b ed7271*/
@@ -408,3 +407,5 @@ textarea {
 	border-top-color: transparent;
 	border-bottom-color: transparent;
 }
+
+
