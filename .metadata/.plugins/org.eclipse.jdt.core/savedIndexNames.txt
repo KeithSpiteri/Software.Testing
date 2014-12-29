@@ -1,1 +1,0 @@
-INDEX VERSION 1.127+C:\Users\User\Desktop\University\Software.Testing\.metadata\.plugins\org.eclipse.jdt.core
