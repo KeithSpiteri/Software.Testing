@@ -1,3 +1,5 @@
+
+
 <html lang="en">
 
 <link href="css/main_style.css" rel="stylesheet">
@@ -11,7 +13,10 @@
 <!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
 
-
+<%@ page import="java.sql.*" %>
+<% Class.forName("com.mysql.jdbc.Driver"); %>
+<%@ page import="java.util.*" %>
+<%@ page import="javax.sql.*;" %>
 
 <head>
 
@@ -79,7 +84,7 @@
 			</ul>
 
 			<!--/#login.form-action-->
-			
+
 			
 			<div id="place_bet" class="form-action show">
 			
@@ -106,34 +111,43 @@
 					</ul>
 				</form>
 				
+				 <% 
+		            Connection connection = DriverManager.getConnection(
+		                "jdbc:mysql://sql4.freesqldatabase.com/sql457634", "sql457634", "qJ4*nP7*");
+		
+		            Statement statement = connection.createStatement() ;
+		            ResultSet resultset = statement.executeQuery("select * from bet") ; 
+		        %>
+				
 				<div style="border: 2px solid; border-color: lightgray; background-color: white">
 					<h style="background: #136899; width: 93.5%">Betting History</h>
 					<table id="example" class="display" style="padding: 10px">
 				        <thead>
 				            <tr>
-				            	<th>Date ???</th>
+				            	<th>Bet ID</th>
 				                <th>Risk Level</th>
 				                <th>Amount</th>
 				            </tr>
 				        </thead>
 				        <tfoot>
+				      
+				        
+				        
 			            <tr>
-			                <th>Date ???</th>
+			                <th>Bet ID</th>
 				            <th>Risk Level</th>
 				            <th>Amount</th>
 			            </tr>
 			        	</tfoot>				 
 				        <tbody>
-				            <tr>
-				                <td>Tiger Nixon</td>
-				                <td>System Architect</td>
-				                <td>Edinburgh</td>
-				            </tr>
-				            <tr>
-				                <td>Garrett Winters</td>
-				                <td>Accountant</td>
-				                <td>Tokyo</td>
-				            </tr>
+				            <% while(resultset.next()){ %>
+					            <TR>
+					                <TD> <%= resultset.getString(3) %></td>
+					                <TD> <%= resultset.getString(1) %></TD>
+					                <TD> <%= resultset.getString(2) %></TD>
+					            </TR>
+					            <% } 
+					        %>
 				        </tbody>
 				    </table>
 			    </div>

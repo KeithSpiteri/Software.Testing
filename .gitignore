@@ -1,1 +1,9 @@
 /target
+*.log
+RemoteSystemsTempFiles/.project
+.metadata/version.ini
+.metadata/.plugins/org.eclipse.wst.xml.core/system_catalog.xml
+*.properties
+*.mark
+*.dat
+*.xml
