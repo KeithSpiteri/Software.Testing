@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import persistant.Bet;
 import persistant.User;
 import db.services.DbService;
 
@@ -27,33 +28,20 @@ public class BettingServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 
-		/*String username = request.getParameter("user");
-		String password = request.getParameter("pass");
+		String riskLevel = request.getParameter("risk");
+		String amount = request.getParameter("amount");
 
+		
+		out.println(riskLevel);
+		out.println(amount);
+		
+		Bet bet = new Bet();
+		bet.setRiskLevel(riskLevel);
+		bet.setAmount(Float.parseFloat(amount));
 		DbService dbService = DbService.getInstance();
-
-		User user = dbService.loadUser(username);
-
-		if (user.getLockedTill() == null
-				|| user.getLockedTill().before(new Date())) {
-			if (user != null && password.equals(user.getPassword())) {
-				// Create a cookie for this new session
-
-				Cookie loginCookie = new Cookie("user", user.getName());
-				// setting cookie to expiry in 15 mins
-				loginCookie.setMaxAge(15 * 60);
-				response.addCookie(loginCookie);
-
-				user.setFailedLogins(0);
-				response.sendRedirect("bet.jsp");			
-			} else {
-				out.write("Invalid username or password");
-				response.sendRedirect(request.getHeader("Referer"));
-				if (user != null) {
-					user.setFailedLogins(user.getFailedLogins() + 1);
-				}
-			}
-		} else
-			out.write("Account is locked until " + user.getLockedTill());*/
+		dbService.addBet(bet);
+		
+		//TODO ADD USERNAME TO BET		
+	
 	}
 }

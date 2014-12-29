@@ -89,14 +89,14 @@
 				<br>
 				<form id="place_bet" method="post" action="placeBet">
 					<ul>
-						<li style="padding: 10px"><select>
+						<li style="padding: 10px"><select name="risk">
 								<option value="" selected disabled>Risk Level</option>
 								<option value="low">Low</option>
 								<option value="medium">Medium</option>
 								<option value="high">High</option>
 						</select></li>
 						<li style="padding: 10px"><input type="number"
-							placeholder="Amount" />
+							name="amount" placeholder="Amount" />
 						</li>
 						<li style="padding: 10px">
 							<input style= "display: inline-block" type="submit" id="place_bet_submit" value="Place Bet" class="button" />

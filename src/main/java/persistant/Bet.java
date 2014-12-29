@@ -3,14 +3,14 @@ package persistant;
 public class Bet {
 
 	private int id;
-	private int riskLevel;
+	private String riskLevel;
 	private float amount;
 	private String userName;
 	
 	public void setId(int id) {
 		this.id = id;
 	}
-	public void setRiskLevel(int riskLevel) {
+	public void setRiskLevel(String riskLevel) {
 		this.riskLevel = riskLevel;
 	}
 	public void setAmount(float amount) {
@@ -25,7 +25,7 @@ public class Bet {
 		return this.id;
 	}
 	
-	public int getRiskLevel()
+	public String getRiskLevel()
 	{
 		return this.riskLevel;
 	}

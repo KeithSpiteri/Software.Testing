@@ -13,7 +13,7 @@
 			<generator class="native"/>
 		</id>
 		
-		 <property name="riskLevel" column="risk_level" type="int"/>
+		 <property name="riskLevel" column="risk_level" type="string"/>
 		 <property name="amount" column="amount" type="float"/>
 		 <property name="userName" column="user_id" type="string"></property>
 		 
