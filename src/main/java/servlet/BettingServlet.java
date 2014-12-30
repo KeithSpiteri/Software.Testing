@@ -30,18 +30,15 @@ public class BettingServlet extends HttpServlet {
 
 		String riskLevel = request.getParameter("risk");
 		String amount = request.getParameter("amount");
+		String userName = request.getParameter("userName");
 
-		
-		out.println(riskLevel);
-		out.println(amount);
-		
 		Bet bet = new Bet();
 		bet.setRiskLevel(riskLevel);
 		bet.setAmount(Float.parseFloat(amount));
+		bet.setUserName(userName);
 		DbService dbService = DbService.getInstance();
 		dbService.addBet(bet);
 		
-		//TODO ADD USERNAME TO BET		
-	
+		response.sendRedirect("bet.jsp");
 	}
 }

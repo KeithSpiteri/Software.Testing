@@ -79,7 +79,13 @@ public class DbService {
 	public User loadUser(String username) {
 		session = factory.openSession();
 		User user = (User) session.get(User.class, username);
+		try{
 		session.close();
+		}
+		catch(Exception e)
+		{
+			
+		}
 		return user;
 	}
 	
