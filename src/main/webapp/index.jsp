@@ -54,60 +54,48 @@
 		    <!-- Username -->
 		    <div>
 		        <input type="text" name="user" id="user" placeholder="Username" />
-		        <span class="error"></span>
 		    </div>
 		    <!-- Password -->
 		    <div>
 		        <input type="password" name="pass" id="pass" placeholder="Password" />
-		        <span class="error"></span>               
 		    </div>             
 		    <!-- Name -->
 		    <div>
 		        <input type="text" name="name" id="name" placeholder="Name" />
-		        <span class="error"></span>
 		    </div> 
 		    <!-- Surname -->
 		    <div>
 		        <input type="text" name="surname" id="surname" placeholder="Surname" />
-		        <span class="error"></span>
 		    </div>   
 		    <!-- Date -->
 		    <div>
 		    	<label for="date" style="text-align: left;">Date of Birth: </label>
 		        <input type="date" name="date" id="date"
 							style="-webkit-inner-spin-button: none" placeholder="Date of Birth YYYY-MM-DD" />
-		        <span class="error"></span>
 		    </div>     
 		    <!-- CC Number -->
 		    <div>
 		        <input type="number" name="CCN" id="CCN" placeholder="Credit Card Number" />
-		        <span class="error"></span>
 		    </div> 
 		    <!-- CC Expiry -->
 		    <div>
 		    	<label for="expiry" style="text-align: left;">Expiry Date: </label>
 		        <input type="month" name="expiry" id="expiry" placeholder="Credit card expiry date YYYY-MM" />
-		        <span class="error"></span>
 		    </div> 
 		    <!-- CVV -->
 		    <div>
 		        <input type="text" id="CVV" name ="CVV"  placeholder="CVV" />
-		        <span class="error"></span>
 		    </div> 
 		    <!-- Free/Premium -->
 		    <div style= "margin-bottom:20px; margin-top:15px">
 		        <input type="radio" name="subscription" value="free" checked="checked" >Free
 				<input type="radio" name="subscription" value="premium">     Premium
-		        <span class="error"></span>
 		    </div> 
 		    <!-- Submit -->
 		    <div>
 				<input type="submit" id="register_submit" value="Sign Up" class="button" />
 		    </div> 
-
-		    
-		    
-		           
+           
 		</form>
 			</div>
 			<!--/#register.form-action-->

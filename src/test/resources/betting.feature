@@ -10,17 +10,20 @@ Scenario Outline: Incorrect registration data
 
 Given I am a user tyring to register
 When I fill in a form with correct data
-And I change the <fieldname> field to have incorrect input
-Then I should be told that the data in <fieldname> is incorrect
+And I change the "<fieldname>" field to have incorrect input
+Then I should be told that the data in "<fieldname>" is incorrect
 
 Examples:
 
 |fieldname|
+|pass|
 |name|
 |surname|
-|dob|
-|ccn|
+|date|
+|CCN|
 |expiry|
+|CVV|
+
 
 Scenario: Successful bet on free account
 

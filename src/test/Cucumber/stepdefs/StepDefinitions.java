@@ -1,8 +1,11 @@
 package Cucumber.stepdefs;
 
 import java.sql.DriverManager;
+import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.mysql.jdbc.Connection;
@@ -33,7 +36,6 @@ public class StepDefinitions {
 	
 	@Given("^I am a user tyring to register$")
 	public void i_am_a_user_tyring_to_register() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
 	    fill = new FillRegisterForm(driver);
 	    fill.visitRegister();
 	}
@@ -41,82 +43,43 @@ public class StepDefinitions {
 	
 	@When("^I register providing correct information$")
 	public void i_register_providing_correct_information() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
 	    fill.fillForm();
 	    fill.submit();
 	}
 
 	@Then("^I should be told that the registration was successful$")
 	public void i_should_be_told_that_the_registration_was_successful() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
 		Boolean result = driver.getPageSource().contains("Invalid user details encountered");
 	    assertFalse(result);
 	}
 
 	@When("^I fill in a form with correct data$")
 	public void i_fill_in_a_form_with_correct_data() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		fill.fillForm();
 	}
 
-	@When("^I change the name field to have incorrect input$")
-	public void i_change_the_name_field_to_have_incorrect_input() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	@When("^I change the \"(.*?)\" field to have incorrect input$")
+	public void i_change_the_name_field_to_have_incorrect_input(String fieldname) throws Throwable {		
+		if(fieldname.equals("pass"))
+			fill.fillPassword("1234");
+		else if(fieldname.equals("name"))
+			fill.fillName("123");
+		else if(fieldname.equals("surname"))
+			fill.fillSurname("123");
+		else if(fieldname.equals("date"))
+			fill.fillDate("2010-10-5");
+		else if(fieldname.equals("CCN"))
+			fill.fillCCN("12345");
+		else if(fieldname.equals("expiry"))
+			fill.fillExpiry("2010-10");
+		else if(fieldname.equals("CVV"))
+			fill.fillCVV("1234");
 	}
 
-	@Then("^I should be told that the data in name is incorrect$")
-	public void i_should_be_told_that_the_data_in_name_is_incorrect() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@When("^I change the surname field to have incorrect input$")
-	public void i_change_the_surname_field_to_have_incorrect_input() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@Then("^I should be told that the data in surname is incorrect$")
-	public void i_should_be_told_that_the_data_in_surname_is_incorrect() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@When("^I change the dob field to have incorrect input$")
-	public void i_change_the_dob_field_to_have_incorrect_input() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@Then("^I should be told that the data in dob is incorrect$")
-	public void i_should_be_told_that_the_data_in_dob_is_incorrect() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@When("^I change the ccn field to have incorrect input$")
-	public void i_change_the_ccn_field_to_have_incorrect_input() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@Then("^I should be told that the data in ccn is incorrect$")
-	public void i_should_be_told_that_the_data_in_ccn_is_incorrect() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@When("^I change the expiry field to have incorrect input$")
-	public void i_change_the_expiry_field_to_have_incorrect_input() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@Then("^I should be told that the data in expiry is incorrect$")
-	public void i_should_be_told_that_the_data_in_expiry_is_incorrect() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	@Then("^I should be told that the data in \"(.*?)\" is incorrect$")
+	public void i_should_be_told_that_the_data_in_name_is_incorrect(String fieldname) throws Throwable {
+		List<WebElement> paragraph = driver.findElements(By.className("invalid"));
+		assertEquals(paragraph.size(), 1);
 	}
 
 	@Given("^I am a user with a free account$")

@@ -2,11 +2,7 @@ package Selenium;
 
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-
 
 public class FillRegisterForm {
 	
@@ -21,7 +17,6 @@ public class FillRegisterForm {
 	{
 		driver.get("http://localhost:8080/Software.Testing/");
 		driver.findElement(By.xpath("/html/body/div/div/ul/li[2]/a")).click();
-		//driver.findElement(By.cssSelector("a[href='register']")).click();
 	}
 	
 	public void fillForm()
@@ -34,46 +29,63 @@ public class FillRegisterForm {
 		driver.findElement(By.id("CCN")).sendKeys("5500005555555559");
 		driver.findElement(By.id("expiry")).sendKeys("2017-12");
 		driver.findElement(By.id("CVV")).sendKeys("123");
+		driver.findElement(By.id("register")).click();
 	}
 	
 	public void fillUser(String user)
 	{
+		driver.findElement(By.id("user")).clear();
 		driver.findElement(By.id("user")).sendKeys(user);
+		driver.findElement(By.id("register")).click();
 	}
 	
 	public void fillPassword(String pass)
 	{
+		driver.findElement(By.id("pass")).clear();
 		driver.findElement(By.id("pass")).sendKeys(pass);
+		driver.findElement(By.id("register")).click();
 	}
 	
 	public void fillName(String name)
 	{
+		driver.findElement(By.id("name")).clear();
 		driver.findElement(By.id("name")).sendKeys(name);
+		driver.findElement(By.id("register")).click();
 	}
 	
 	public void fillSurname(String surname)
 	{
+		driver.findElement(By.id("surname")).clear();
 		driver.findElement(By.id("surname")).sendKeys(surname);
+		driver.findElement(By.id("register")).click();
 	}
 	
 	public void fillDate(String date)
 	{
+		driver.findElement(By.id("date")).clear();
 		driver.findElement(By.id("date")).sendKeys(date);
+		driver.findElement(By.id("register")).click();
 	}
 	
 	public void fillCCN(String ccn)
 	{
+		driver.findElement(By.id("CCN")).clear();
 		driver.findElement(By.id("CCN")).sendKeys(ccn);
+		driver.findElement(By.id("register")).click();
 	}
 	
 	public void fillExpiry(String expiry)
 	{
+		driver.findElement(By.id("expiry")).clear();
 		driver.findElement(By.id("expiry")).sendKeys(expiry);
+		driver.findElement(By.id("register")).click();
 	}
 	
 	public void fillCVV(String cvv)
 	{
+		driver.findElement(By.id("CVV")).clear();
 		driver.findElement(By.id("CVV")).sendKeys(cvv);
+		driver.findElement(By.id("register")).click();
 	}
 	
 	public void submit()
