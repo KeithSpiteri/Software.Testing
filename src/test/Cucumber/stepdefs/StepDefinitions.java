@@ -20,7 +20,9 @@ import cucumber.api.java.en.When;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+
 import Selenium.FillRegisterForm;
+import Selenium.FillLoginForm;
 
 public class StepDefinitions {
 	
@@ -88,7 +90,7 @@ public class StepDefinitions {
 	    throw new PendingException();
 	}
 
-	@When("^I try to place a bet of (\\d+) euros$")
+	@When("^I try to place a bet of 5 euros$")
 	public void i_try_to_place_a_bet_of_euros(int arg1) throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();

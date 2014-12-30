@@ -107,7 +107,7 @@ $(function() {
 	$('#CCN').blur(function(event) {
 		var input = $(this);
 		var ccn = input.val();
-		if (ccn && luhnValidation(ccn)) {
+		if (ccn != 0 && ccn && luhnValidation(ccn)) {
 			input.tipsy({
 				opacity : 0
 			});

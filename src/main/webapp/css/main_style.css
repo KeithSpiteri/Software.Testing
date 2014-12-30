@@ -43,6 +43,8 @@ table{
 	padding: 0;
 }
 
+
+
 .tabs a,h {
 	background: #ed7271; /*topbar c0392b  #88565b */
 	display: block;
@@ -171,9 +173,7 @@ input[type="date"]::-webkit-inner-spin-button {
 	display: none;
 }
 
-input[type="number"]::-webkit-inner-spin-button {
-	display: none;
-}
+
 
 .dark-box {
 	background: #5e0400;
@@ -408,4 +408,12 @@ textarea {
 	border-bottom-color: transparent;
 }
 
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+input[type=number] {
+    -moz-appearance:textfield;
+}

@@ -39,8 +39,8 @@
 				<h1 style="padding-bottom: 50px">Login</h1>
 				<form id="user_login" method="post" action="login">
 					<ul>
-						<li><input type="text" placeholder="Username" name="user"/></li>
-						<li><input type="password" placeholder="Password" name="pass"/></li>
+						<li><input type="text" id ="login_user" placeholder="Username" name="user"/></li>
+						<li><input type="password" id = "login_pass" placeholder="Password" name="pass"/></li>
 						<li><input type="submit" id="login_submit" value="Login" class="button" /></li>
 					</ul>
 				</form>
