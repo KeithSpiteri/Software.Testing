@@ -109,6 +109,7 @@
 							<input style= "display: inline-block" type="submit" id="logout" value="Log Out" class="button" />
 						</li>
 					</ul>
+					<input type="hidden" name="userName" value="<%=userName%>"/>
 				</form>
 				
 				 <% 
