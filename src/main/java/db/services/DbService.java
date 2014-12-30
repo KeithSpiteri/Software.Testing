@@ -21,8 +21,7 @@ public class DbService {
 
 	private DbService() {
 		try {
-			factory = new Configuration().configure().buildSessionFactory();
-			session = factory.openSession();
+			factory = new Configuration().configure().buildSessionFactory();			
 		} catch (Throwable ex) {
 			LOGGER.error("Failed to create sessionFactory object.", ex);
 			throw new ExceptionInInitializerError(ex);
@@ -41,6 +40,7 @@ public class DbService {
 
 		Transaction tx = null;
 		try {
+			session = factory.openSession();
 			tx = session.beginTransaction();
 			session.save(user);
 			tx.commit();
@@ -49,6 +49,9 @@ public class DbService {
 				tx.rollback();
 			LOGGER.error("Hibernate Exception in adding new User", e);
 			return false;
+		} finally
+		{
+			session.close();
 		}
 		return true;
 	}
@@ -57,6 +60,7 @@ public class DbService {
 
 		Transaction tx = null;
 		try {
+			session = factory.openSession();
 			tx = session.beginTransaction();
 			session.save(bet);
 			tx.commit();
@@ -65,20 +69,25 @@ public class DbService {
 				tx.rollback();
 			LOGGER.error("Hibernate Exception in placing new bet", e);
 			return false;
+		}finally
+		{
+			session.close();
 		}
 		return true;
 	}
 
 	public User loadUser(String username) {
+		session = factory.openSession();
 		User user = (User) session.get(User.class, username);
+		session.close();
 		return user;
 	}
 	
 	public boolean update(Object toSave)
 	{
-
 		Transaction tx = null;
 		try {
+			session = factory.openSession();
 			tx = session.beginTransaction();
 			session.update(toSave);
 			tx.commit();
@@ -87,6 +96,9 @@ public class DbService {
 				tx.rollback();
 			LOGGER.error("Hibernate Exception in updating user info", e);
 			return false;
+		}finally
+		{
+			session.close();
 		}
 		return true;
 	}
@@ -96,6 +108,7 @@ public class DbService {
 
 		Transaction tx = null;
 		try {
+			session = factory.openSession();
 			tx = session.beginTransaction();
 			session.delete(user);
 			tx.commit();
@@ -104,6 +117,9 @@ public class DbService {
 				tx.rollback();
 			LOGGER.error("Hibernate Exception in deleting User", e);
 			return false;
+		}finally
+		{
+			session.close();
 		}
 		return true;
 	}
