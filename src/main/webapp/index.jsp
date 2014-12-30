@@ -75,7 +75,7 @@
 		    <div>
 		    	<label for="date" style="text-align: left;">Date of Birth: </label>
 		        <input type="date" name="date" id="date"
-							style="-webkit-inner-spin-button: none" placeholder="Date of Birth DD/MM/YYYY" />
+							style="-webkit-inner-spin-button: none" placeholder="Date of Birth YYYY-MM-DD" />
 		        <span class="error"></span>
 		    </div>     
 		    <!-- CC Number -->
@@ -86,7 +86,7 @@
 		    <!-- CC Expiry -->
 		    <div>
 		    	<label for="expiry" style="text-align: left;">Expiry Date: </label>
-		        <input type="month" name="expiry" id="expiry" placeholder="Credit card expiry date" />
+		        <input type="month" name="expiry" id="expiry" placeholder="Credit card expiry date YYYY-MM" />
 		        <span class="error"></span>
 		    </div> 
 		    <!-- CVV -->

@@ -1,19 +1,12 @@
 import static org.junit.Assert.*;
 
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 
-import persistant.User;
-import db.services.DbService;
 import validators.UserValidator;
 
 public class UserValidatorTests {
