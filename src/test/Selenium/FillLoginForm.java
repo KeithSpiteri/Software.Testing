@@ -12,7 +12,7 @@ public class FillLoginForm {
 		this.driver = driver;
 	}
 	
-	public void visitRegister()
+	public void visitLogin()
 	{
 		driver.get("http://localhost:8080/Software.Testing/");
 	}

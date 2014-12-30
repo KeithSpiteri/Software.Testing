@@ -140,13 +140,19 @@
 			            </tr>
 			        	</tfoot>				 
 				        <tbody>
-				            <% while(resultset.next()){ %>
+				            <% 
+				            if (!resultset.isBeforeFirst() ) {    
+				            	 System.out.println("No data"); 
+				           	} else {
+				            while(resultset.next()){ %>
 					            <TR>
 					                <TD> <%= resultset.getString(3) %></td>
 					                <TD> <%= resultset.getString(1) %></TD>
 					                <TD> <%= resultset.getString(2) %></TD>
 					            </TR>
 					            <% } 
+				           	}
+				            
 					        %>
 				        </tbody>
 				    </table>

@@ -90,6 +90,7 @@ public class StepDefinitions {
 	@Given("^I am a user with a free account$")
 	public void i_am_a_user_with_a_free_account() throws Throwable {
 	    fillLogin = new FillLoginForm(driver);
+	    fillLogin.visitLogin();
 	    fillLogin.fillForm();
 	    fillLogin.submitForm();
 	}
@@ -173,21 +174,8 @@ public class StepDefinitions {
 	}
 	
 	public void clearTestUser() {
-		/*String url = "jdbc:mysql://sql4.freesqldatabase.com/"; 
-		String dbName = "sql457634"; 
-		String driver = "com.mysql.jdbc.Driver"; 
-		String userName = "sql457634"; 
-		String password = "qJ4*nP7*"; */
-		try { 
-			Class.forName(driver).newInstance(); 
-			//Connection conn = (Connection) DriverManager.getConnection(url+dbName,userName,password); 
-			//Statement stmt = (Statement) conn.createStatement();
 
-			//String rem = "DELETE FROM sql457634.user WHERE username = \"TestDroid\";" ;
-			//stmt.executeUpdate(rem);
-			
-			//conn.close(); 
-			
+		try { 		
 			User user = new User();
 			user.setUsername("TestDroid");
 			
