@@ -130,44 +130,6 @@
 					style="border: 2px solid; border-color: lightgray; background-color: white">
 					<h style="background: #136899; width: 93.5%">Betting History</h>
 					<table id="example" class="display" style="padding: 10px">
-<<<<<<< HEAD
-				        <thead>
-				            <tr>
-				            	<th>Bet ID</th>
-				                <th>Risk Level</th>
-				                <th>Amount</th>
-				            </tr>
-				        </thead>
-				        <tfoot>
-				      
-				        
-				        
-			            <tr>
-			                <th>Bet ID</th>
-				            <th>Risk Level</th>
-				            <th>Amount</th>
-			            </tr>
-			        	</tfoot>				 
-				        <tbody>
-				            <% 
-				            if (!resultset.isBeforeFirst() ) {    
-				            	 System.out.println("No data"); 
-				           	} else {
-				            while(resultset.next()){ %>
-					            <TR>
-					                <TD> <%= resultset.getString(3) %></td>
-					                <TD> <%= resultset.getString(1) %></TD>
-					                <TD> <%= resultset.getString(2) %></TD>
-					            </TR>
-					            <% } 
-				           	}
-				            
-					        %>
-				        </tbody>
-				    </table>
-			    </div>
-				
-=======
 						<thead>
 							<tr>
 								<th>Bet ID</th>
@@ -201,7 +163,6 @@
 					</table>
 				</div>
 
->>>>>>> 17028066745b7247def6c77709e488f419fe15a8
 			</div>
 
 
