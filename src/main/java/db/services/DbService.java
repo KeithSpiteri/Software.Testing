@@ -90,4 +90,21 @@ public class DbService {
 		}
 		return true;
 	}
+	
+	public boolean deleteUser(User user)
+	{
+
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.delete(user);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			LOGGER.error("Hibernate Exception in deleting User", e);
+			return false;
+		}
+		return true;
+	}
 }

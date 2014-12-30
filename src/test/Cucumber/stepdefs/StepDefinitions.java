@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import persistant.User;
+
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
@@ -17,10 +19,10 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import db.services.DbService;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
-
 import Selenium.FillRegisterForm;
 import Selenium.FillLoginForm;
 
@@ -169,20 +171,26 @@ public class StepDefinitions {
 	}
 	
 	public void clearTestUser() {
-		String url = "jdbc:mysql://sql4.freesqldatabase.com/"; 
+		/*String url = "jdbc:mysql://sql4.freesqldatabase.com/"; 
 		String dbName = "sql457634"; 
 		String driver = "com.mysql.jdbc.Driver"; 
 		String userName = "sql457634"; 
-		String password = "qJ4*nP7*"; 
+		String password = "qJ4*nP7*"; */
 		try { 
 			Class.forName(driver).newInstance(); 
-			Connection conn = (Connection) DriverManager.getConnection(url+dbName,userName,password); 
-			Statement stmt = (Statement) conn.createStatement();
+			//Connection conn = (Connection) DriverManager.getConnection(url+dbName,userName,password); 
+			//Statement stmt = (Statement) conn.createStatement();
 
-			String rem = "DELETE FROM sql457634.user WHERE username = \"TestDroid\";" ;
-			stmt.executeUpdate(rem);
+			//String rem = "DELETE FROM sql457634.user WHERE username = \"TestDroid\";" ;
+			//stmt.executeUpdate(rem);
 			
-			conn.close(); 
+			//conn.close(); 
+			
+			User user = new User();
+			user.setUsername("TestDroid");
+			
+			DbService dbService = DbService.getInstance();
+			dbService.deleteUser(user);
 			
 		} catch (Exception e) {
 			e.printStackTrace(); } 
