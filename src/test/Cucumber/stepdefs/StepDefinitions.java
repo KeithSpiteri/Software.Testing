@@ -30,7 +30,8 @@ public class StepDefinitions {
 	
 	WebDriver driver;
 	
-	FillRegisterForm fill;
+	FillRegisterForm fillRegister;
+	FillLoginForm fillLogin;
 	
 	@Before
 	public void init()
@@ -40,15 +41,15 @@ public class StepDefinitions {
 	
 	@Given("^I am a user tyring to register$")
 	public void i_am_a_user_tyring_to_register() throws Throwable {
-	    fill = new FillRegisterForm(driver);
-	    fill.visitRegister();
+	    fillRegister = new FillRegisterForm(driver);
+	    fillRegister.visitRegister();
 	}
 
 	
 	@When("^I register providing correct information$")
 	public void i_register_providing_correct_information() throws Throwable {
-	    fill.fillForm();
-	    fill.submit();
+	    fillRegister.fillForm();
+	    fillRegister.submit();
 	}
 
 	@Then("^I should be told that the registration was successful$")
@@ -59,25 +60,25 @@ public class StepDefinitions {
 
 	@When("^I fill in a form with correct data$")
 	public void i_fill_in_a_form_with_correct_data() throws Throwable {
-		fill.fillForm();
+		fillRegister.fillForm();
 	}
 
 	@When("^I change the \"(.*?)\" field to have incorrect input$")
 	public void i_change_the_name_field_to_have_incorrect_input(String fieldname) throws Throwable {		
 		if(fieldname.equals("pass"))
-			fill.fillPassword("1234");
+			fillRegister.fillPassword("1234");
 		else if(fieldname.equals("name"))
-			fill.fillName("123");
+			fillRegister.fillName("123");
 		else if(fieldname.equals("surname"))
-			fill.fillSurname("123");
+			fillRegister.fillSurname("123");
 		else if(fieldname.equals("date"))
-			fill.fillDate("2010-10-5");
+			fillRegister.fillDate("2010-10-5");
 		else if(fieldname.equals("CCN"))
-			fill.fillCCN("12345");
+			fillRegister.fillCCN("12345");
 		else if(fieldname.equals("expiry"))
-			fill.fillExpiry("2010-10");
+			fillRegister.fillExpiry("2010-10");
 		else if(fieldname.equals("CVV"))
-			fill.fillCVV("1234");
+			fillRegister.fillCVV("1234");
 	}
 
 	@Then("^I should be told that the data in \"(.*?)\" is incorrect$")
@@ -88,8 +89,9 @@ public class StepDefinitions {
 
 	@Given("^I am a user with a free account$")
 	public void i_am_a_user_with_a_free_account() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    fillLogin = new FillLoginForm(driver);
+	    fillLogin.fillForm();
+	    fillLogin.submitForm();
 	}
 
 	@When("^I try to place a bet of 5 euros$")
