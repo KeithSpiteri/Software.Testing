@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
 			if (user != null && password.equals(user.getPassword())) {
 				// Create a cookie for this new session
 
-				Cookie loginCookie = new Cookie("user", user.getName());
+				Cookie loginCookie = new Cookie("user", user.getUsername());
 				// setting cookie to expiry in 15 mins
 				loginCookie.setMaxAge(15 * 60);
 				response.addCookie(loginCookie);
