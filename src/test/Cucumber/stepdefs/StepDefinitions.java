@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import Selenium.FillRegisterForm;
 import Selenium.FillLoginForm;
+import Selenium.FillBetForm;
 
 public class StepDefinitions {
 	
@@ -32,6 +33,7 @@ public class StepDefinitions {
 	
 	FillRegisterForm fillRegister;
 	FillLoginForm fillLogin;
+	FillBetForm fillBet;
 	
 	@Before
 	public void init()
@@ -96,25 +98,27 @@ public class StepDefinitions {
 	}
 
 	@When("^I try to place a bet of 5 euros$")
-	public void i_try_to_place_a_bet_of_euros(int arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	public void i_try_to_place_a_bet_of_euros() throws Throwable {
+	    fillBet = new FillBetForm(driver);
+	    fillBet.chooseRisk("Low");
+	    fillBet.setAmount("5");
+	    fillBet.submitBet();
 	}
 
 	@Then("^I should be told the bet was successfully placed$")
 	public void i_should_be_told_the_bet_was_successfully_placed() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		Boolean result = driver.getPageSource().contains("Invalid user details encountered");
+	    assertFalse(result);
 	}
 
 	@Then("^I should be told that I have reached the maximum number of bets$")
 	public void i_should_be_told_that_I_have_reached_the_maximum_number_of_bets() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		Boolean result = driver.getPageSource().contains("Invalid user details encountered");
+	    assertTrue(result);
 	}
 
-	@Given("^I am a suer with a premium account$")
-	public void i_am_a_suer_with_a_premium_account() throws Throwable {
+	@Given("^I am a user with a premium account$")
+	public void i_am_a_user_with_a_premium_account() throws Throwable {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}

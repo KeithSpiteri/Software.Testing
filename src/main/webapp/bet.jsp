@@ -99,23 +99,26 @@
 				<h1 style="padding-left: 10px">Bet Details</h1>
 				<p style="padding-left: 10px">Enter your Bet Details.</p>
 				<br>
-				<form id="place_bet" method="post" action="placeBet">
-					<ul>
-						<li style="padding: 10px"><select name="risk">
-								<option value="" selected disabled>Risk Level</option>
-								<option value="low">Low</option>
-								<option value="medium">Medium</option>
-								<option value="high">High</option>
-						</select></li>
-						<li style="padding: 10px"><input type="number" name="amount"
-							placeholder="Amount" /></li>
-						<li style="padding: 10px"><input
+				<form id="place_bet_form" method="post" action="placeBet">
+					
+						<div style="padding: 10px">
+							<select id="risk" name="risk">
+									<option value="" selected disabled>Risk Level</option>
+									<option value="low" selected="selected">Low</option>
+									<option value="medium">Medium</option>
+									<option value="high">High</option>
+							</select>
+						</div>
+						<div style="padding: 10px">
+							<input id="amount" type="number" name="amount" placeholder="Amount" />
+						</div>
+						<div style="padding: 10px"><input
 							style="display: inline-block" type="submit" id="place_bet_submit"
 							value="Place Bet" class="button" /> <span
 							style="font-size: 30px; padding-left: 490px;">&nbsp;</span> <input
 							style="display: inline-block" type="submit" id="logout"
-							value="Log Out" class="button" /></li>
-					</ul>
+							value="Log Out" class="button" /></div>
+					
 					<input type="hidden" name="userName" value="<%=userName%>" />
 				</form>
 
@@ -182,4 +185,6 @@
 </body>
 
 <script src="js/index.js"></script>
+<script type="text/javascript" src="js/jquery.tipsy.js"></script>
+
 </html>
