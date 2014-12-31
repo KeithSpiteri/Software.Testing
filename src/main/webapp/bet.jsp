@@ -119,6 +119,8 @@
 		            Statement statement = connection.createStatement() ;
 		          	
 		            ResultSet resultset = statement.executeQuery("select * from sql457634.bet where user_id = \""+ userName+"\"") ; 
+		            
+		            connection.close();
 		        %>
 				
 				<div style="border: 2px solid; border-color: lightgray; background-color: white">
