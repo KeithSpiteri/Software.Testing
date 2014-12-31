@@ -117,7 +117,8 @@
 		                "jdbc:mysql://sql4.freesqldatabase.com/sql457634", "sql457634", "qJ4*nP7*");
 		
 		            Statement statement = connection.createStatement() ;
-		            ResultSet resultset = statement.executeQuery("select * from bet where user_id = \""+ userName+"\"") ; 
+		          	
+		            ResultSet resultset = statement.executeQuery("select * from sql457634.bet where user_id = \""+ userName+"\"") ; 
 		        %>
 				
 				<div style="border: 2px solid; border-color: lightgray; background-color: white">
