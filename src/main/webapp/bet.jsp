@@ -103,10 +103,29 @@
 					
 						<div style="padding: 10px">
 							<select id="risk" name="risk">
+							<%
+								Connection connection = DriverManager.getConnection(
+										"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
+										"sql457634", "qJ4*nP7*");
+			
+								Statement statement = connection.createStatement();
+								String free = "";
+								ResultSet resultset = statement
+										.executeQuery("select * from sql457634.user where username = \""
+												+ userName + "\"");
+								while (resultset.next()) {
+									free = resultset.getString(10);
+									if(free.equals("1"))
+										free = "disabled";
+									else 
+										free = "";
+								}
+							%>	
 									<option value="" selected disabled>Risk Level</option>
 									<option value="low" selected="selected">Low</option>
-									<option value="medium">Medium</option>
-									<option value="high">High</option>
+
+									<option value="medium" <%=free%>>Medium</option>
+									<option value="high" <%=free%>>High</option>
 							</select>
 						</div>
 						<div style="padding: 10px">
@@ -123,13 +142,7 @@
 				</form>
 
 				<%
-					Connection connection = DriverManager.getConnection(
-							"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
-							"sql457634", "qJ4*nP7*");
-
-					Statement statement = connection.createStatement();
-
-					ResultSet resultset = statement
+							resultset = statement
 							.executeQuery("select * from sql457634.bet where user_id = \""
 									+ userName + "\"");
 				%>
