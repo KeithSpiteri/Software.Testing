@@ -15,12 +15,15 @@ import org.slf4j.LoggerFactory;
 
 import persistant.Bet;
 import persistant.User;
+import validators.BetValidator;
 import db.services.DbService;
 
 public class BettingServlet extends HttpServlet {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(BettingServlet.class);
 
+	private BetValidator betValidator = new BetValidator();
+	
 	private String message;
 
 	@Override
@@ -36,9 +39,18 @@ public class BettingServlet extends HttpServlet {
 		bet.setRiskLevel(riskLevel);
 		bet.setAmount(Float.parseFloat(amount));
 		bet.setUserName(userName);
-		DbService dbService = DbService.getInstance();
-		dbService.addBet(bet);
 		
-		response.sendRedirect("bet.jsp");
+		DbService dbService = DbService.getInstance();
+		
+		User user = dbService.loadUser(userName);
+		
+		if(betValidator.validateBet(user, bet))
+		{
+				dbService.addBet(bet);
+				response.sendRedirect("bet.jsp");
+		} else
+		{
+			out.write("Unable to place bet");			
+		}
 	}
 }

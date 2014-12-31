@@ -1,6 +1,9 @@
 package db.services;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -21,7 +24,7 @@ public class DbService {
 
 	private DbService() {
 		try {
-			factory = new Configuration().configure().buildSessionFactory();			
+			factory = new Configuration().configure().buildSessionFactory();
 		} catch (Throwable ex) {
 			LOGGER.error("Failed to create sessionFactory object.", ex);
 			throw new ExceptionInInitializerError(ex);
@@ -49,13 +52,12 @@ public class DbService {
 				tx.rollback();
 			LOGGER.error("Hibernate Exception in adding new User", e);
 			return false;
-		} finally
-		{
+		} finally {
 			session.close();
 		}
 		return true;
 	}
-	
+
 	public boolean addBet(Bet bet) {
 
 		Transaction tx = null;
@@ -69,8 +71,7 @@ public class DbService {
 				tx.rollback();
 			LOGGER.error("Hibernate Exception in placing new bet", e);
 			return false;
-		}finally
-		{
+		} finally {
 			session.close();
 		}
 		return true;
@@ -79,18 +80,14 @@ public class DbService {
 	public User loadUser(String username) {
 		session = factory.openSession();
 		User user = (User) session.get(User.class, username);
-		try{
-		session.close();
-		}
-		catch(Exception e)
-		{
-			
+		try {
+			session.close();
+		} catch (Exception e) {
 		}
 		return user;
 	}
-	
-	public boolean update(Object toSave)
-	{
+
+	public boolean update(Object toSave) {
 		Transaction tx = null;
 		try {
 			session = factory.openSession();
@@ -102,15 +99,13 @@ public class DbService {
 				tx.rollback();
 			LOGGER.error("Hibernate Exception in updating user info", e);
 			return false;
-		}finally
-		{
+		} finally {
 			session.close();
 		}
 		return true;
 	}
-	
-	public boolean deleteUser(User user)
-	{
+
+	public boolean deleteUser(User user) {
 
 		Transaction tx = null;
 		try {
@@ -123,10 +118,35 @@ public class DbService {
 				tx.rollback();
 			LOGGER.error("Hibernate Exception in deleting User", e);
 			return false;
-		}finally
-		{
+		} finally {
 			session.close();
 		}
 		return true;
+	}
+
+	public List<Bet> getUserBets(User user) {
+		session = factory.openSession();
+		Query query = session.createSQLQuery(
+				"select * from bet  where user_id = :user").setParameter(
+				"user", user.getUsername());
+		List<Bet> result = (List<Bet>) query.list();
+
+		try {
+			session.close();
+		} catch (Exception e) {
+		}
+
+		return result;
+	}
+
+	public int countBets(User user) {
+		session = factory.openSession();
+		int count = ((Integer) session.createQuery("select count(*) from bet where user_id='"+user.getUsername()+"'").iterate()
+				.next()).intValue();
+		try {
+			session.close();
+		} catch (Exception e) {
+		}
+		return count;
 	}
 }
