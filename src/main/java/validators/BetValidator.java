@@ -40,7 +40,8 @@ public class BetValidator {
 			List<Bet> userBets = dbService.getUserBets(user);
 
 			double total = bet.getAmount();
-			for (Bet prevBet : userBets) {
+			for (Object o : userBets) {
+				Bet prevBet = (Bet)o;
 				total += prevBet.getAmount();
 			}
 
@@ -48,6 +49,6 @@ public class BetValidator {
 				return false;
 		}
 
-		return false;
+		return true;
 	}
 }

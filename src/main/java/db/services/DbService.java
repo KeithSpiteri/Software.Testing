@@ -2,12 +2,15 @@ package db.services;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,14 +142,22 @@ public class DbService {
 		return result;
 	}
 
-	public int countBets(User user) {
+	public Long countBets(User user) {
 		session = factory.openSession();
-		int count = ((Integer) session.createQuery("select count(*) from bet where user_id='"+user.getUsername()+"'").iterate()
-				.next()).intValue();
+		Long count = (long) 0;
+		try {
+			Criteria crit = session.createCriteria(Bet.class);
+			crit.setProjection(Projections.rowCount());
+			crit.add( Restrictions.eq("userName", user.getUsername()));
+			count = (Long) crit.uniqueResult(); 
+		} catch (Exception e) {
+			LOGGER.error("Error occured################################",e);
+		}
 		try {
 			session.close();
 		} catch (Exception e) {
 		}
+		LOGGER.info("bets Count returning: "+count);
 		return count;
 	}
 }
