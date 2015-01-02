@@ -108,9 +108,9 @@ public class DbService {
 				boolean f = false;
 				String fString = resultset.getString("free");
 				if(fString.equals("1"))
-					user.isFree();
+					user.setFree(true);
 				else
-					user.isPremium();
+					user.setPremium(true);
 			}
 		} catch (Exception e) {
 
