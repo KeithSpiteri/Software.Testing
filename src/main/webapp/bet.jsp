@@ -100,14 +100,14 @@
 				<p style="padding-left: 10px">Enter your Bet Details.</p>
 				<br>
 				<form id="place_bet_form" method="post" action="placeBet">
-					
-						<div style="padding: 10px">
-							<select id="risk" name="risk">
+
+					<div style="padding: 10px">
+						<select id="risk" name="risk">
 							<%
 								Connection connection = DriverManager.getConnection(
 										"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
 										"sql457634", "qJ4*nP7*");
-			
+
 								Statement statement = connection.createStatement();
 								String free = "";
 								ResultSet resultset = statement
@@ -115,35 +115,41 @@
 												+ userName + "\"");
 								while (resultset.next()) {
 									free = resultset.getString(10);
-									if(free.equals("1"))
+									if (free.equals("1"))
 										free = "disabled";
-									else 
+									else
 										free = "";
 								}
-							%>	
-									<option value="" selected disabled>Risk Level</option>
-									<option value="low" selected="selected">Low</option>
+							%>
+							<option value="" selected disabled>Risk Level</option>
+							<option value="low" selected="selected">Low</option>
 
-									<option value="medium" <%=free%>>Medium</option>
-									<option value="high" <%=free%>>High</option>
-							</select>
-						</div>
-						<div style="padding: 10px">
-							<input id="amount" type="number" name="amount" placeholder="Amount"  step="any" />
-						</div>
-						<div style="padding: 10px"><input
-							style="display: inline-block" type="submit" id="place_bet_submit"
-							value="Place Bet" class="button" /> <span
-							style="font-size: 30px; padding-left: 490px;">&nbsp;</span> <input
-							style="display: inline-block" type="submit" id="logout"
-							value="Log Out" class="button" /></div>
-							<input type="hidden" name="userName" value="<%=userName%>" />
-					
+							<option value="medium" <%=free%>>Medium</option>
+							<option value="high" <%=free%>>High</option>
+						</select>
+					</div>
+					<div style="padding: 10px">
+						<input id="amount" type="number" name="amount"
+							placeholder="Amount" step="any" />
+					</div>
+					<div style="padding: 10px">
+						<input style="display: inline-block" type="submit"
+							id="place_bet_submit" value="Place Bet" class="button" /> <span
+							style="font-size: 30px; padding-left: 490px;">&nbsp;</span>
+					</div>
+					<input type="hidden" name="userName" value="<%=userName%>" />
+
 				</form>
+
+				<form id="logout" method="post" action="logout">
+					<input style="display: inline-block" type="submit" id="logout"
+						value="Log Out" class="button" />
+				</form>
+
 				<input type="hidden" id="isfree" name="isfree" value="<%=free%>" />
 
 				<%
-							resultset = statement
+					resultset = statement
 							.executeQuery("select * from sql457634.bet where user_id = \""
 									+ userName + "\"");
 				%>
