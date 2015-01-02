@@ -257,8 +257,10 @@ $(function() {
 			function(event) {
 				var input = $(this);
 				var amount = input.val();
+				var val =  $("#isfree").val();
+				var is_free = (val == "disabled");
 				
-				if(!isNaN(parseFloat(amount)) && amount > 0) {
+				if(!isNaN(parseFloat(amount)) && amount > 0 && (amount <= 5 || is_free == false)) {
 					input.tipsy({
 						opacity : 0
 					});
@@ -273,29 +275,30 @@ $(function() {
 			function(event) {
 				var form_data = $("#place_bet_form").serializeArray();
 				var error_free = true;
-					var element = $('#' + form_data[1]['name']);
-					var valid = element.hasClass("valid");
-					element.focus().blur();
-					var error_element = $("span", element.parent());
-					if (!valid ) {
-						error_element.removeClass("error").addClass(
-								"error_show");
-						var message = "Invalid Amount!";
+				var element = $('#' + form_data[1]['name']);
+				var valid = element.hasClass("valid");
+				element.focus().blur();
+				
+				var error_element = $("span", element.parent());
+				if (!valid ) {
+					error_element.removeClass("error").addClass(
+							"error_show");
+					var message = "Invalid Amount!";
 
 
-						element.tipsy({
-							fallback : message,
-							opacity : 0.8,
-							gravity : 'w'
-						});
-						error_free = false;
-						error_element.tipsy();
-						// element.tipsy({opacity:0});
-					} else {
-						error_free = true;
-						error_element.removeClass("error_show")
-								.addClass("error");
-					}
+					element.tipsy({
+						fallback : message,
+						opacity : 0.8,
+						gravity : 'w'
+					});
+					error_free = false;
+					error_element.tipsy();
+					// element.tipsy({opacity:0});
+				} else {
+					error_free = true;
+					error_element.removeClass("error_show")
+							.addClass("error");
+				}
 				
 				if (!error_free) {
 					event.preventDefault();

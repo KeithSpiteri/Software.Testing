@@ -129,7 +129,7 @@
 							</select>
 						</div>
 						<div style="padding: 10px">
-							<input id="amount" type="number" name="amount" placeholder="Amount" />
+							<input id="amount" type="number" name="amount" placeholder="Amount"  step="any" />
 						</div>
 						<div style="padding: 10px"><input
 							style="display: inline-block" type="submit" id="place_bet_submit"
@@ -138,8 +138,8 @@
 							style="display: inline-block" type="submit" id="logout"
 							value="Log Out" class="button" /></div>
 					
-					<input type="hidden" name="userName" value="<%=userName%>" />
 				</form>
+				<input type="hidden" id="isfree" name="isfree" value="<%=free%>" />
 
 				<%
 							resultset = statement

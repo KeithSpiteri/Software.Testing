@@ -131,51 +131,39 @@ public class StepDefinitions {
 
 	@Given("^I am a user who has not yet logged on$")
 	public void i_am_a_user_who_has_not_yet_logged_on() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		fillLogin = new FillLoginForm(driver);
+	    fillLogin.visitLogin();
 	}
 
 	@When("^I try to access the betting screen$")
 	public void i_try_to_access_the_betting_screen() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		driver.get("http://localhost:8080/Software.Testing/bet.jsp");
 	}
 
 	@Then("^I should be refused access$")
 	public void i_should_be_refused_access() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
 	}
 
-	@When("^I try to place a Low bet of (\\d+) euros$")
-	public void i_try_to_place_a_Low_bet_of_euros(int arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	@When("^I try to place a \"(.*?)\" bet of 5 euros$")
+	public void i_try_to_place_a_Low_bet_of_euros(String arg1) throws Throwable {
+		fillBet = new FillBetForm(driver);
+	    fillBet.chooseRisk(arg1);
+	    fillBet.setAmount("5");
+	    fillBet.submitBet();
 	}
 
 	@Then("^I should be Allowed to bet$")
 	public void i_should_be_Allowed_to_bet() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@When("^I try to place a Medium bet of (\\d+) euros$")
-	public void i_try_to_place_a_Medium_bet_of_euros(int arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+	    assertEquals("http://localhost:8080/Software.Testing/bet.jsp", driver.getCurrentUrl());
 	}
 
 	@Then("^I should be Not Allowed to bet$")
 	public void i_should_be_Not_Allowed_to_bet() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		
 	}
 
-	@When("^I try to place a High bet of (\\d+) euros$")
-	public void i_try_to_place_a_High_bet_of_euros(int arg1) throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
+
 	
 	public void clearTestUser() {
 
@@ -190,6 +178,29 @@ public class StepDefinitions {
 			e.printStackTrace(); } 
 	
 	}
+	
+	public void clearTestBets() {
+
+		try { 		
+	      Class.forName("com.mysql.jdbc.Driver");
+
+	      Connection connection = (Connection) DriverManager.getConnection(
+					"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
+					"sql457634", "qJ4*nP7*");
+	      
+	      Statement stmt = (Statement) connection.createStatement();
+	      String sql = "DELETE FROM sql457634.bet " +
+	                   "WHERE user_id = \"LoginFreeDroid\"";
+	      stmt.executeUpdate(sql);
+	      
+	      sql = "DELETE FROM sql457634.bet " +
+                  "WHERE user_id = \"LoginPremDroid\"";
+     stmt.executeUpdate(sql);
+			
+		} catch (Exception e) {
+			e.printStackTrace(); } 
+	
+	}
 
 	
 	
@@ -197,6 +208,7 @@ public class StepDefinitions {
 	@After
 	public void tearDown() {
 		clearTestUser();
+		clearTestBets();
 		driver.quit();
 	}
 	
