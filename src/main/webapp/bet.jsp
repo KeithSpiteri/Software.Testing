@@ -95,8 +95,13 @@
 
 			<div id="place_bet" class="form-action show">
 
-
-				<h1 style="padding-left: 10px">Bet Details</h1>
+				<div>
+					<h1 style="padding-left: 10px">Bet Details</h1>
+					<form id="logout" method="post" action="logout">
+						<input style="display: inline-block" type="submit" id="logout"
+							value="Log Out" class="button" />
+					</form>
+				</div>
 				<p style="padding-left: 10px">Enter your Bet Details.</p>
 				<br>
 				<form id="place_bet_form" method="post" action="placeBet">
@@ -139,11 +144,6 @@
 					</div>
 					<input type="hidden" name="userName" value="<%=userName%>" />
 
-				</form>
-
-				<form id="logout" method="post" action="logout">
-					<input style="display: inline-block" type="submit" id="logout"
-						value="Log Out" class="button" />
 				</form>
 
 				<input type="hidden" id="isfree" name="isfree" value="<%=free%>" />
