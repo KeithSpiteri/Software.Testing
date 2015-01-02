@@ -9,7 +9,7 @@
 		<meta attribute="class-description">
 			This class contains bet details
 		</meta>
-		<id name="id" column="betId" type="int">
+		<id name="id" column="bet_id" type="int">
 			<generator class="native"/>
 		</id>
 		
