@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -86,13 +87,49 @@ public class DbService {
 	}
 
 	public User loadUser(String username) {
-		session = factory.openSession();
-		User user = (User) session.get(User.class, username);
+		User user = null;
+		Connection connection = null;
 		try {
-			session.close();
+			 connection = DriverManager.getConnection(
+					"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
+					"sql457634", "qJ4*nP7*");
+
+			Statement statement = connection.createStatement();
+			String free = "";
+			ResultSet resultset = statement
+					.executeQuery("select * from sql457634.user where username = \""
+							+ username + "\"");
+			while (resultset.next()) {
+				user = new User();
+				user.setUsername(username);
+				user.setPassword(resultset.getString("password"));
+				user.setLockedTill(null);
+				user.setFailedLogins(Integer.parseInt(resultset.getString("failed_login")));
+				boolean f = false;
+				String fString = resultset.getString("free");
+				if(fString.equals("1"))
+					user.isFree();
+				else
+					user.isPremium();
+			}
 		} catch (Exception e) {
+
+		}
+		finally
+		{
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return user;
+
+		/*
+		 * session = factory.openSession(); User user = (User)
+		 * session.get(User.class, username); try { session.clear();
+		 * session.close(); } catch (Exception e) { } return user;
+		 */
 	}
 
 	public boolean update(Object toSave) {
@@ -133,29 +170,6 @@ public class DbService {
 	}
 
 	public List<Bet> getUserBets(User user) {
-		/*try {
-			Connection connection = DriverManager.getConnection(
-					"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
-					"sql457634", "qJ4*nP7*");
-
-			Statement statement = connection.createStatement();
-			String free = "";
-			ResultSet resultset = statement
-					.executeQuery("select * from sql457634.bet where user_id = \""
-							+ user.getUsername() + "\"");
-			while (resultset.next()) {
-				free = resultset.getString(10);
-				if(free.equals("1"))
-					free = "disabled";
-				else 
-					free = "";
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;*/
 		session = factory.openSession();
 
 		Criteria cr = session.createCriteria(Bet.class);
@@ -167,7 +181,7 @@ public class DbService {
 		} catch (Exception e) {
 		}
 
-		return (List<Bet>)result;
+		return (List<Bet>) result;
 	}
 
 	public Long countBets(User user) {
