@@ -1,8 +1,11 @@
 package Selenium;
 
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class FillRegisterForm {
 	
@@ -30,6 +33,20 @@ public class FillRegisterForm {
 		driver.findElement(By.id("expiry")).sendKeys("2017-12");
 		driver.findElement(By.id("CVV")).sendKeys("123");
 		driver.findElement(By.id("register")).click();
+	}
+	
+	public void fillModelForm(String username, int isFree)
+	{
+		driver.findElement(By.id("user")).sendKeys(username);
+		driver.findElement(By.id("pass")).sendKeys("password");
+		driver.findElement(By.id("name")).sendKeys("Brian");
+		driver.findElement(By.id("surname")).sendKeys("Spiteri");
+		driver.findElement(By.id("date")).sendKeys("1994-06-06");
+		driver.findElement(By.id("CCN")).sendKeys("5500005555555559");
+		driver.findElement(By.id("expiry")).sendKeys("2017-12");
+		driver.findElement(By.id("CVV")).sendKeys("123");
+		List<WebElement> radio = driver.findElements(By.name("subscription"));
+		radio.get(isFree).click();
 	}
 	
 	public void fillUser(String user)
