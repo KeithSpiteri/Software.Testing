@@ -87,7 +87,7 @@
 					style="background: #c0392b; font-size: 25px; padding-bottom: 0px; padding-top: 5px; padding-right: 100px">BetTest</a>
 			</header>
 			<ul class="tabs">
-				<li><h class="xihaga">Place Bet</h></li>
+				<li><h class="xihaga"><%=userName%>'s Betting Page</h></li>
 			</ul>
 
 			<!--/#login.form-action-->
