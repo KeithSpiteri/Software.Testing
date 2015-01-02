@@ -37,7 +37,7 @@ public class BetValidator {
 		}
 		// Test for Premium User bets
 		else {
-			List<Bet> userBets = dbService.getUserBets(user);
+			List<Bet> userBets = (List<Bet>)dbService.getUserBets(user);
 
 			double total = bet.getAmount();
 			for (Object o : userBets) {

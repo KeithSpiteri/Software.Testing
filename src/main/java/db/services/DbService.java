@@ -1,5 +1,10 @@
 package db.services;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -128,18 +133,41 @@ public class DbService {
 	}
 
 	public List<Bet> getUserBets(User user) {
+		/*try {
+			Connection connection = DriverManager.getConnection(
+					"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
+					"sql457634", "qJ4*nP7*");
+
+			Statement statement = connection.createStatement();
+			String free = "";
+			ResultSet resultset = statement
+					.executeQuery("select * from sql457634.bet where user_id = \""
+							+ user.getUsername() + "\"");
+			while (resultset.next()) {
+				free = resultset.getString(10);
+				if(free.equals("1"))
+					free = "disabled";
+				else 
+					free = "";
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;*/
 		session = factory.openSession();
-		Query query = session.createSQLQuery(
-				"select * from bet  where user_id = :user").setParameter(
-				"user", user.getUsername());
-		List<Bet> result = (List<Bet>) query.list();
+
+		Criteria cr = session.createCriteria(Bet.class);
+		cr.add(Restrictions.eq("userName", user.getUsername()));
+		List result = cr.list();
 
 		try {
 			session.close();
 		} catch (Exception e) {
 		}
 
-		return result;
+		return (List<Bet>)result;
 	}
 
 	public Long countBets(User user) {
@@ -148,16 +176,16 @@ public class DbService {
 		try {
 			Criteria crit = session.createCriteria(Bet.class);
 			crit.setProjection(Projections.rowCount());
-			crit.add( Restrictions.eq("userName", user.getUsername()));
-			count = (Long) crit.uniqueResult(); 
+			crit.add(Restrictions.eq("userName", user.getUsername()));
+			count = (Long) crit.uniqueResult();
 		} catch (Exception e) {
-			LOGGER.error("Error occured################################",e);
+			LOGGER.error("Error occured################################", e);
 		}
 		try {
 			session.close();
 		} catch (Exception e) {
 		}
-		LOGGER.info("bets Count returning: "+count);
+		LOGGER.info("bets Count returning: " + count);
 		return count;
 	}
 }
