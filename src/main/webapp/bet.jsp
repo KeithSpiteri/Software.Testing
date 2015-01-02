@@ -21,6 +21,7 @@
 	Class.forName("com.mysql.jdbc.Driver");
 %>
 <%@ page import="java.util.*"%>
+<%@ page import="javax.sql.*;"%>
 
 <head>
 
@@ -94,45 +95,63 @@
 
 			<div id="place_bet" class="form-action show">
 
-
-				<h1 style="padding-left: 10px">Bet Details</h1>
+				<div>
+					<h1 style="padding-left: 10px">Bet Details</h1>
+					<form id="logout" method="post" action="logout">
+						<input style="display: inline-block" type="submit" id="logout"
+							value="Log Out" class="button" />
+					</form>
+				</div>
 				<p style="padding-left: 10px">Enter your Bet Details.</p>
 				<br>
 				<form id="place_bet_form" method="post" action="placeBet">
-					
-						<div style="padding: 10px">
-							<select id="risk" name="risk">
-							<%
-							String free;
-								if(userName.equals("LoginFreeDroid"))
-									free = "disabled";
-								else
-									free = "";
-								
-							%>	
-									<option value="" selected disabled>Risk Level</option>
-									<option value="low" selected="selected">Low</option>
 
-									<option value="medium" <%=free%>>Medium</option>
-									<option value="high" <%=free%>>High</option>
-							</select>
-						</div>
-						<div style="padding: 10px">
-							<input id="amount" type="number" name="amount" placeholder="Amount"  step="any" />
-						</div>
-						<div style="padding: 10px"><input
-							style="display: inline-block" type="submit" id="place_bet_submit"
-							value="Place Bet" class="button" /> <span
-							style="font-size: 30px; padding-left: 490px;">&nbsp;</span> <input
-							style="display: inline-block" type="submit" id="logout"
-							value="Log Out" class="button" /></div>
-							<input type="hidden" name="userName" value="<%=userName%>" />
-					
+					<div style="padding: 10px">
+						<select id="risk" name="risk">
+							<%
+								Connection connection = DriverManager.getConnection(
+										"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
+										"sql457634", "qJ4*nP7*");
+
+								Statement statement = connection.createStatement();
+								String free = "";
+								ResultSet resultset = statement
+										.executeQuery("select * from sql457634.user where username = \""
+												+ userName + "\"");
+								while (resultset.next()) {
+									free = resultset.getString(10);
+									if (free.equals("1"))
+										free = "disabled";
+									else
+										free = "";
+								}
+							%>
+							<option value="" selected disabled>Risk Level</option>
+							<option value="low" selected="selected">Low</option>
+
+							<option value="medium" <%=free%>>Medium</option>
+							<option value="high" <%=free%>>High</option>
+						</select>
+					</div>
+					<div style="padding: 10px">
+						<input id="amount" type="number" name="amount"
+							placeholder="Amount" step="any" />
+					</div>
+					<div style="padding: 10px">
+						<input style="display: inline-block" type="submit"
+							id="place_bet_submit" value="Place Bet" class="button" /> <span
+							style="font-size: 30px; padding-left: 490px;">&nbsp;</span>
+					</div>
+					<input type="hidden" name="userName" value="<%=userName%>" />
+
 				</form>
+
 				<input type="hidden" id="isfree" name="isfree" value="<%=free%>" />
 
 				<%
-
+					resultset = statement
+							.executeQuery("select * from sql457634.bet where user_id = \""
+									+ userName + "\"");
 				%>
 
 				<div
@@ -158,7 +177,18 @@
 							</tr>
 						</tfoot>
 						<tbody>
-
+							<%
+								while (resultset.next()) {
+							%>
+							<TR>
+								<TD><%=resultset.getString(3)%></td>
+								<TD><%=resultset.getString(1)%></TD>
+								<TD><%=resultset.getString(2)%></TD>
+							</TR>
+							<%
+								}
+								connection.close();
+							%>
 						</tbody>
 					</table>
 				</div>
