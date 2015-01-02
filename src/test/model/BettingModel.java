@@ -16,7 +16,12 @@ public class BettingModel implements FsmModel{
 	
 	public States getState()
 	{
-		if
+		if(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp"))
+		{
+			
+		}
+		
+		return null;
 	}
 	
 }
