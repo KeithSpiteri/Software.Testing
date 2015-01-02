@@ -216,7 +216,7 @@ public class StepDefinitions {
 	@After
 	public void tearDown() {
 		clearTestUser();
-		//clearTestBets();
+		clearTestBets();
 		driver.quit();
 	}
 	

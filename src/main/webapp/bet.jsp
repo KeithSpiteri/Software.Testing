@@ -187,6 +187,7 @@
 							</TR>
 							<%
 								}
+								resultset.close();
 								connection.close();
 							%>
 						</tbody>
