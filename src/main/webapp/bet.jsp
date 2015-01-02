@@ -137,6 +137,7 @@
 							style="font-size: 30px; padding-left: 490px;">&nbsp;</span> <input
 							style="display: inline-block" type="submit" id="logout"
 							value="Log Out" class="button" /></div>
+							<input type="hidden" name="userName" value="<%=userName%>" />
 					
 				</form>
 				<input type="hidden" id="isfree" name="isfree" value="<%=free%>" />
@@ -185,7 +186,6 @@
 						</tbody>
 					</table>
 				</div>
-
 			</div>
 
 
