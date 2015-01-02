@@ -3,6 +3,7 @@ package Cucumber.stepdefs;
 import java.sql.DriverManager;
 import java.util.List;
 
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -97,36 +98,39 @@ public class StepDefinitions {
 	    fillLogin.submitForm();
 	}
 
-	@When("^I try to place a bet of 5 euros$")
-	public void i_try_to_place_a_bet_of_euros() throws Throwable {
-	    fillBet = new FillBetForm(driver);
+	@When("^I try to place a bet of (\\d+) euros$")
+	public void i_try_to_place_a_bet_of_euros(int arg1) throws Throwable {
+		fillBet = new FillBetForm(driver);
 	    fillBet.chooseRisk("Low");
-	    fillBet.setAmount("5");
+	    fillBet.setAmount(arg1);
 	    fillBet.submitBet();
 	}
 
 	@Then("^I should be told the bet was successfully placed$")
 	public void i_should_be_told_the_bet_was_successfully_placed() throws Throwable {
-		Boolean result = driver.getPageSource().contains("Invalid user details encountered");
-	    assertFalse(result);
+		 assertEquals("http://localhost:8080/Software.Testing/bet.jsp", driver.getCurrentUrl());
 	}
 
 	@Then("^I should be told that I have reached the maximum number of bets$")
 	public void i_should_be_told_that_I_have_reached_the_maximum_number_of_bets() throws Throwable {
-		Boolean result = driver.getPageSource().contains("Invalid user details encountered");
+		Boolean result = driver.getPageSource().contains("Unable to place bet");
 	    assertTrue(result);
 	}
 
 	@Given("^I am a user with a premium account$")
 	public void i_am_a_user_with_a_premium_account() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		fillLogin = new FillLoginForm(driver);
+	    fillLogin.visitLogin();
+	    fillLogin.fillPremForm();
+	    fillLogin.submitForm();
 	}
+	
+
 
 	@Then("^I should be told that I have reached the maximum cumulative betting amount$")
 	public void i_should_be_told_that_I_have_reached_the_maximum_cumulative_betting_amount() throws Throwable {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		Boolean result = driver.getPageSource().contains("Unable to place bet");
+	    assertTrue(result);
 	}
 
 	@Given("^I am a user who has not yet logged on$")
@@ -149,18 +153,20 @@ public class StepDefinitions {
 	public void i_try_to_place_a_Low_bet_of_euros(String arg1) throws Throwable {
 		fillBet = new FillBetForm(driver);
 	    fillBet.chooseRisk(arg1);
-	    fillBet.setAmount("5");
+	    fillBet.setAmount(5);
 	    fillBet.submitBet();
 	}
 
-	@Then("^I should be Allowed to bet$")
+	@Then("^I should be \"Allowed\" to bet$")
 	public void i_should_be_Allowed_to_bet() throws Throwable {
 	    assertEquals("http://localhost:8080/Software.Testing/bet.jsp", driver.getCurrentUrl());
 	}
 
-	@Then("^I should be Not Allowed to bet$")
+	@Then("^I should be \"Not Allowed\" to bet$")
 	public void i_should_be_Not_Allowed_to_bet() throws Throwable {
-		
+		Select comboBox = new Select(driver.findElement(By.id("risk")));
+		String selectedComboValue = comboBox.getFirstSelectedOption().getText();		
+	    assertEquals("Low", selectedComboValue);
 	}
 
 
@@ -196,9 +202,11 @@ public class StepDefinitions {
 	      sql = "DELETE FROM sql457634.bet " +
                   "WHERE user_id = \"LoginPremDroid\"";
      stmt.executeUpdate(sql);
-			
+			connection.close();
 		} catch (Exception e) {
-			e.printStackTrace(); } 
+			e.printStackTrace(); 
+		}
+		
 	
 	}
 
@@ -208,7 +216,7 @@ public class StepDefinitions {
 	@After
 	public void tearDown() {
 		clearTestUser();
-		clearTestBets();
+		//clearTestBets();
 		driver.quit();
 	}
 	

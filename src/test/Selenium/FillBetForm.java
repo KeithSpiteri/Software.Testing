@@ -26,11 +26,11 @@ public class FillBetForm {
 		}
 	}
 	
-	public void setAmount(String amount)
+	public void setAmount(int amount)
 	{
 		WebElement am = driver.findElement(By.id("amount"));
 		am.clear();
-		am.sendKeys(amount);
+		am.sendKeys(Integer.toString(amount));
 	}
 	
 	public void submitBet()

@@ -21,7 +21,6 @@
 	Class.forName("com.mysql.jdbc.Driver");
 %>
 <%@ page import="java.util.*"%>
-<%@ page import="javax.sql.*;"%>
 
 <head>
 
@@ -104,22 +103,12 @@
 						<div style="padding: 10px">
 							<select id="risk" name="risk">
 							<%
-								Connection connection = DriverManager.getConnection(
-										"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
-										"sql457634", "qJ4*nP7*");
-			
-								Statement statement = connection.createStatement();
-								String free = "";
-								ResultSet resultset = statement
-										.executeQuery("select * from sql457634.user where username = \""
-												+ userName + "\"");
-								while (resultset.next()) {
-									free = resultset.getString(10);
-									if(free.equals("1"))
-										free = "disabled";
-									else 
-										free = "";
-								}
+							String free;
+								if(userName.equals("LoginFreeDroid"))
+									free = "disabled";
+								else
+									free = "";
+								
 							%>	
 									<option value="" selected disabled>Risk Level</option>
 									<option value="low" selected="selected">Low</option>
@@ -143,9 +132,7 @@
 				<input type="hidden" id="isfree" name="isfree" value="<%=free%>" />
 
 				<%
-							resultset = statement
-							.executeQuery("select * from sql457634.bet where user_id = \""
-									+ userName + "\"");
+
 				%>
 
 				<div
@@ -171,18 +158,7 @@
 							</tr>
 						</tfoot>
 						<tbody>
-							<%
-								while (resultset.next()) {
-							%>
-							<TR>
-								<TD><%=resultset.getString(3)%></td>
-								<TD><%=resultset.getString(1)%></TD>
-								<TD><%=resultset.getString(2)%></TD>
-							</TR>
-							<%
-								}
-								connection.close();
-							%>
+
 						</tbody>
 					</table>
 				</div>
