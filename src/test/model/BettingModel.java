@@ -31,7 +31,7 @@ public class BettingModel implements FsmModel, Runnable{
 	boolean isFree = true;
 	
 	public BettingModel(){
-		this.driver = new FirefoxDriver();
+		
 	}
 	
 	public States getState()
@@ -80,14 +80,13 @@ public class BettingModel implements FsmModel, Runnable{
 
 	public void reset(boolean arg0) {
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");		
-		driver.findElement(By.xpath("/html/body/div/div/ul/li[2]/a")).click();
 	}
 	
 	
 	public boolean toRegistrationGuard()
 	{
 		States st = this.getState();
-		return st == States.Login && username.equals("");
+		return (st == States.Login && username.equals(""));
 	}
 	
 	@Action
@@ -100,7 +99,7 @@ public class BettingModel implements FsmModel, Runnable{
 	public boolean registerUserGuard()
 	{
 		States st = this.getState();
-		return st == States.Register;
+		return st == States.Register && username.equals("");
 	}
 	
 	@Action
@@ -133,7 +132,7 @@ public class BettingModel implements FsmModel, Runnable{
 	public boolean toLoginGuard()
 	{
 		States st = this.getState();
-		return st == States.Register;
+		return (st == States.Register && !username.equals(""));
 	}
 	
 	@Action
@@ -147,7 +146,7 @@ public class BettingModel implements FsmModel, Runnable{
 		double probability = Math.random();
 		States st = this.getState();
 		
-		if(st.equals(States.Login) && probability >= 0.25 && (!username.equals("") || !(username == null)))
+		if(st.equals(States.Login) && probability >= 0.25 && !username.equals("") )
 			return true;
 		else
 			return false;
@@ -167,7 +166,7 @@ public class BettingModel implements FsmModel, Runnable{
 		double probability = Math.random();
 		States st = this.getState();
 		
-		if(st.equals(States.Login) && probability < 0.25 && (!username.equals("") || !(username == null)))
+		if(st.equals(States.Login) && probability < 0.25 && !username.equals(""))
 			return true;
 		else
 			return false;
@@ -237,7 +236,7 @@ public class BettingModel implements FsmModel, Runnable{
 		this.before();
 		Tester t = new AllRoundTester(this);
 		t.addListener(new VerboseListener());
-		t.generate(100);
+		t.generate(1);
 		t.buildGraph();
 		this.after();
 		
@@ -248,8 +247,7 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 
 	private void before() {
-		// TODO Auto-generated method stub
-		
+		this.driver = new FirefoxDriver();
 	}
 	
 }
