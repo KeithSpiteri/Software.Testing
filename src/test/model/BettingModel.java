@@ -8,14 +8,17 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import static org.junit.Assert.assertEquals;
 import nz.ac.waikato.modeljunit.Action;
+import nz.ac.waikato.modeljunit.AllRoundTester;
 import nz.ac.waikato.modeljunit.FsmModel;
+import nz.ac.waikato.modeljunit.Tester;
+import nz.ac.waikato.modeljunit.VerboseListener;
 import Selenium.FillRegisterForm;
 import Selenium.FillLoginForm;
 import Selenium.FillBetForm;
 
 
 
-public class BettingModel implements FsmModel{
+public class BettingModel implements FsmModel, Runnable{
 	WebDriver driver;
 	static int uuid;
 	
@@ -36,27 +39,38 @@ public class BettingModel implements FsmModel{
 		if(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp") 
 				&& driver.findElement(By.className("active")).getText().equals("Login") )
 		{
+			System.out.println("Login state");
+
 			return States.Login;
 		}
 		else if(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp") 
 				&& driver.findElement(By.className("active")).getText().equals("Register") )
 		{
+			System.out.println("Register state");
 			return States.Register;
 		}
 		else if(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/bet.jsp"))
 		{
+			System.out.println("Bet state");
+
 			return States.Bet;
 		}
 		else if(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/register"))
 		{
+			System.out.println("Register Error");
+
 			return States.RegistrationError;
 		}
 		else if(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/login"))
 		{
+			System.out.println("Locked Account");
+
 			return States.LockedAccount;
 		}
 		else if(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/placeBet"))
 		{
+			System.out.println("Bet Error");
+
 			return States.BetError;
 		}
 		else
@@ -65,14 +79,15 @@ public class BettingModel implements FsmModel{
 	
 
 	public void reset(boolean arg0) {
-		driver.get("http://localhost:8080/Software.Testing/index");		
+		driver.get("http://localhost:8080/Software.Testing/index.jsp");		
+		driver.findElement(By.xpath("/html/body/div/div/ul/li[2]/a")).click();
 	}
 	
 	
 	public boolean toRegistrationGuard()
 	{
 		States st = this.getState();
-		return st == States.Login;
+		return st == States.Login && username.equals("");
 	}
 	
 	@Action
@@ -132,7 +147,7 @@ public class BettingModel implements FsmModel{
 		double probability = Math.random();
 		States st = this.getState();
 		
-		if(st.equals(States.Login) && probability >= 0.25 )
+		if(st.equals(States.Login) && probability >= 0.25 && (!username.equals("") || !(username == null)))
 			return true;
 		else
 			return false;
@@ -152,7 +167,7 @@ public class BettingModel implements FsmModel{
 		double probability = Math.random();
 		States st = this.getState();
 		
-		if(st.equals(States.Login) && probability < 0.25 )
+		if(st.equals(States.Login) && probability < 0.25 && (!username.equals("") || !(username == null)))
 			return true;
 		else
 			return false;
@@ -188,10 +203,52 @@ public class BettingModel implements FsmModel{
 		
 		fillBet = new FillBetForm(driver);
 		fillBet.setAmount(bet_amount);
+		fillBet.submitBet();
 		
-		boolean bet_placed = 
+		String expected = "";
 		
+		if(bet_amount>5)
 		
+			expected = "http://localhost:8080/Software.Testing/placeBet";
+		else
+			expected = "http://localhost:8080/Software.Testing/bet.jsp";
+		
+		assertEquals(expected, driver.getCurrentUrl());		
+	}
+	
+	public boolean logoutGaurd()
+	{
+		States st = this.getState();
+		double probability = Math.random();
+		if(st.equals(States.Bet) && probability >= 0.5 )
+			return true;
+		else
+			return false;
+	}
+
+	public void logout()
+	{
+		fillBet = new FillBetForm(driver);
+		fillBet.logout();
+		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
+	}
+	
+	public void run() {
+		this.before();
+		Tester t = new AllRoundTester(this);
+		t.addListener(new VerboseListener());
+		t.generate(100);
+		t.buildGraph();
+		this.after();
+		
+	}
+
+	private void after() {
+		driver.quit();
+	}
+
+	private void before() {
+		// TODO Auto-generated method stub
 		
 	}
 	

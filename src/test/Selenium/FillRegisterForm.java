@@ -47,6 +47,7 @@ public class FillRegisterForm {
 		driver.findElement(By.id("CVV")).sendKeys("123");
 		List<WebElement> radio = driver.findElements(By.name("subscription"));
 		radio.get(isFree).click();
+		driver.findElement(By.id("register")).click();
 	}
 	
 	public void fillUser(String user)

@@ -37,4 +37,9 @@ public class FillBetForm {
 	{
 		driver.findElement(By.id("place_bet_submit")).click();
 	}
+	
+	public void logout()
+	{
+		driver.findElement(By.id("logout")).click();
+	}
 }
