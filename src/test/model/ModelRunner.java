@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 import org.junit.Test;
 
 public class ModelRunner {
-	private final int INSTANCES = 1;
+	private final int INSTANCES = 50;
 
 	@Test
 	public void runModel()

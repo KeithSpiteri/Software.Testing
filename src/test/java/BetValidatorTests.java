@@ -4,8 +4,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import db.services.DbService;
 import persistant.Bet;
 import persistant.User;
 import validators.BetValidator;
@@ -18,6 +21,7 @@ public class BetValidatorTests {
 	@Before
 	public void init() {
 		validator = new BetValidator();
+		validator.dbService = Mockito.mock(DbService.class);
 		}
 
 	@Test
@@ -90,5 +94,51 @@ public class BetValidatorTests {
 		bet.setRiskLevel("high");
 		
 		assertTrue(validator.validateRiskLevel(user,bet));
+	}
+	
+	@Test
+	public void validateFreeUserBetTooHigh()
+	{
+		User user = new User();
+		user.setFree(true);
+		
+		Bet bet = new Bet();
+		bet.setAmount(5.1f);
+		
+		assertFalse(validator.validateAmount(user, bet));
+	}
+	
+	@Test
+	public void validateNegativeBet()
+	{
+		Bet bet = new Bet();
+		bet.setAmount(-0.1f);
+		assertFalse(validator.validateAmount(null, bet));
+	}
+	
+	@Test
+	public void validateExceedMaxFreeBets(){
+		User user = new User();
+		user.setFree(true);
+		
+		Bet bet = new Bet();
+		bet.setAmount(1);
+		
+		Mockito.when(validator.dbService.countBets(user)).thenReturn((long) 3);
+		
+		assertFalse(validator.validateAmount(user, bet));
+	}
+	
+	@Test
+	public void validateBelowMaxFreeBets(){
+		User user = new User();
+		user.setFree(true);
+		
+		Bet bet = new Bet();
+		bet.setAmount(1);
+						
+		Mockito.when(validator.dbService.countBets(user)).thenReturn((long) 2);
+		
+		assertTrue(validator.validateAmount(user, bet));
 	}
 }

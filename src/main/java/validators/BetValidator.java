@@ -7,6 +7,8 @@ import persistant.Bet;
 import persistant.User;
 
 public class BetValidator {
+	
+	public DbService dbService = DbService.getInstance();
 
 	public boolean validateBet(User user, Bet bet) {
 		return validateRiskLevel(user, bet) && validateAmount(user, bet);
@@ -25,7 +27,6 @@ public class BetValidator {
 	}
 
 	public boolean validateAmount(User user, Bet bet) {
-		DbService dbService = DbService.getInstance();
 		if (bet.getAmount() > 0) {
 			if (user.isFree()) {
 				if (bet.getAmount() > 5)
