@@ -1,5 +1,5 @@
 package model;
 
 public enum States {
-	Login, Register, LockedAccount, Bet, BetError, RegistrationError;
+	Login, Register, Bet, BetError, RegistrationError;
 }
