@@ -61,12 +61,6 @@ public class BettingModel implements FsmModel, Runnable{
 
 			return States.RegistrationError;
 		}
-		else if(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/login"))
-		{
-			System.out.println("Locked Account");
-
-			return States.LockedAccount;
-		}
 		else if(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/placeBet"))
 		{
 			System.out.println("Bet Error");
