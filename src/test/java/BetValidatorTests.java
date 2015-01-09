@@ -141,4 +141,6 @@ public class BetValidatorTests {
 		
 		assertTrue(validator.validateAmount(user, bet));
 	}
+	
+	
 }

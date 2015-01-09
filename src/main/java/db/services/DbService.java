@@ -62,7 +62,10 @@ public class DbService {
 			LOGGER.error("Hibernate Exception in adding new User", e);
 			return false;
 		} finally {
-			session.close();
+			try {
+				session.close();
+			} catch (Exception e) {
+			}
 		}
 		return true;
 	}
@@ -81,7 +84,10 @@ public class DbService {
 			LOGGER.error("Hibernate Exception in placing new bet", e);
 			return false;
 		} finally {
-			session.close();
+			try {
+				session.close();
+			} catch (Exception e) {
+			}
 		}
 		return true;
 	}
@@ -90,9 +96,8 @@ public class DbService {
 		User user = null;
 		Connection connection = null;
 		try {
-			 connection = DriverManager.getConnection(
-					"jdbc:mysql://localhost/sql457634",
-					"root", "");
+			connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost/sql457634", "root", "");
 
 			Statement statement = connection.createStatement();
 			String free = "";
@@ -104,19 +109,18 @@ public class DbService {
 				user.setUsername(username);
 				user.setPassword(resultset.getString("password"));
 				user.setLockedTill(null);
-				user.setFailedLogins(Integer.parseInt(resultset.getString("failed_login")));
+				user.setFailedLogins(Integer.parseInt(resultset
+						.getString("failed_login")));
 				boolean f = false;
 				String fString = resultset.getString("free");
-				if(fString.equals("1"))
+				if (fString.equals("1"))
 					user.setFree(true);
 				else
 					user.setPremium(true);
 			}
 		} catch (Exception e) {
 
-		}
-		finally
-		{
+		} finally {
 			try {
 				connection.close();
 			} catch (SQLException e) {
@@ -145,7 +149,10 @@ public class DbService {
 			LOGGER.error("Hibernate Exception in updating user info", e);
 			return false;
 		} finally {
-			session.close();
+			try {
+				session.close();
+			} catch (Exception e) {
+			}
 		}
 		return true;
 	}
@@ -164,7 +171,10 @@ public class DbService {
 			LOGGER.error("Hibernate Exception in deleting User", e);
 			return false;
 		} finally {
-			session.close();
+			try {
+				session.close();
+			} catch (Exception e) {
+			}
 		}
 		return true;
 	}
