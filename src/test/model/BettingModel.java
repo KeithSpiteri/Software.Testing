@@ -153,9 +153,9 @@ public class BettingModel implements FsmModel, Runnable{
 	@Action
 	public void toValidLogin()
 	{
-		driver.findElement(By.id("login_user")).sendKeys(this.username);
-		driver.findElement(By.id("login_pass")).sendKeys("password");
+
 		fillLogin = new FillLoginForm(driver);
+		fillLogin.fillCustom(this.username, "password");
 		fillLogin.submitForm();
 	}
 	
@@ -173,10 +173,9 @@ public class BettingModel implements FsmModel, Runnable{
 	@Action
 	public void toInvalidLogin()
 	{
-		driver.findElement(By.id("login_user")).sendKeys(this.username);
-		driver.findElement(By.id("login_pass")).sendKeys("wrong_password");
 		fillLogin = new FillLoginForm(driver);
-		fillLogin.submitForm();
+		fillLogin.fillCustom(this.username, "wrong_password");
+		fillLogin.submitForm();	
 	}
 	
 	public boolean placeBetGuards()
@@ -250,13 +249,16 @@ public class BettingModel implements FsmModel, Runnable{
 					"root", "");
 	      
 	      Statement stmt = (Statement) connection.createStatement();
-	      String sql = "DELETE FROM sql457634.user " +
+	      
+	      String sql = "DELETE FROM sql457634.bet " +
+                  "WHERE user_id = \"user_%\"";
+	      stmt.executeUpdate(sql);
+	      
+	      sql = "DELETE FROM sql457634.user " +
 	                   "WHERE username = \"user_%\"";
 	      stmt.executeUpdate(sql);
 	      
-	      sql = "DELETE FROM sql457634.bet " +
-                  "WHERE user_id = \"user_%\"";
-	      stmt.executeUpdate(sql);
+	     
 	      connection.close();
 		} catch (Exception e) {
 			e.printStackTrace(); 

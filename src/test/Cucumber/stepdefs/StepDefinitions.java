@@ -259,7 +259,7 @@ public class StepDefinitions {
 	      
 	      sql = "DELETE FROM sql457634.bet " +
                   "WHERE user_id = \"LoginPremDroid\"";
-     stmt.executeUpdate(sql);
+	      stmt.executeUpdate(sql);
 			connection.close();
 		} catch (Exception e) {
 			e.printStackTrace(); 
