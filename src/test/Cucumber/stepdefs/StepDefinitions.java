@@ -1,7 +1,12 @@
 package Cucumber.stepdefs;
 
 import java.sql.DriverManager;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+
+
 
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.By;
@@ -14,7 +19,6 @@ import persistant.User;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -35,15 +39,22 @@ public class StepDefinitions {
 	FillRegisterForm fillRegister;
 	FillLoginForm fillLogin;
 	FillBetForm fillBet;
+	static boolean createdBetters = false;
+	static boolean finishedAll = false;
 	
 	@Before
 	public void init()
 	{
+		if(!createdBetters)
+		{
+			createdBetters = true;
+			createTestBetters();
+		}
 		driver = new FirefoxDriver();
 	}
 	
-	@Given("^I am a user tyring to register$")
-	public void i_am_a_user_tyring_to_register() throws Throwable {
+	@Given("^I am a user trying to register$")
+	public void i_am_a_user_trying_to_register() throws Throwable {
 	    fillRegister = new FillRegisterForm(driver);
 	    fillRegister.visitRegister();
 	}
@@ -92,6 +103,7 @@ public class StepDefinitions {
 
 	@Given("^I am a user with a free account$")
 	public void i_am_a_user_with_a_free_account() throws Throwable {
+		createTestBetters();
 	    fillLogin = new FillLoginForm(driver);
 	    fillLogin.visitLogin();
 	    fillLogin.fillForm();
@@ -165,11 +177,53 @@ public class StepDefinitions {
 	@Then("^I should be \"Not Allowed\" to bet$")
 	public void i_should_be_Not_Allowed_to_bet() throws Throwable {
 		Select comboBox = new Select(driver.findElement(By.id("risk")));
-		String selectedComboValue = comboBox.getFirstSelectedOption().getText();		
+		String selectedComboValue = comboBox.getFirstSelectedOption().getText();
+		finishedAll = true;
 	    assertEquals("Low", selectedComboValue);
 	}
 
 
+	
+	public static void createTestBetters() {
+		try { 		
+
+			User user = new User();
+			user.setUsername("LoginFreeDroid");
+			user.setPassword("12345678");
+			user.setName("Test");
+			user.setSurname("Test");
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+			String dateInString = "1994-06-06";
+			Date dob = sdf.parse(dateInString);
+			user.setDob(dob);
+			
+			user.setCreditCardNumber("5555555555554444");
+			
+			dateInString = "2016-06-31";
+			Date expiry = sdf.parse(dateInString);
+			user.setExpiry(expiry);
+			
+			user.setCvv("123");
+			user.setFree(true);
+			
+			user.setLockedTill(null);
+			user.setFailedLogins(0);
+			
+			
+			DbService dbService = DbService.getInstance();
+			dbService.addUser(user);
+			
+			user.setUsername("LoginPremDroid");
+			user.setPremium(true);
+		
+			dbService.addUser(user);
+			
+		} catch (Exception e) {
+			e.printStackTrace(); 
+		} 
+	
+	}
 	
 	public void clearTestUser() {
 
@@ -178,6 +232,10 @@ public class StepDefinitions {
 			user.setUsername("TestDroid");
 			
 			DbService dbService = DbService.getInstance();
+			dbService.deleteUser(user);
+			user.setUsername("LoginFreeDroid");
+			dbService.deleteUser(user);
+			user.setUsername("LoginPremDroid");
 			dbService.deleteUser(user);
 			
 		} catch (Exception e) {
@@ -188,11 +246,11 @@ public class StepDefinitions {
 	public void clearTestBets() {
 
 		try { 		
-	      Class.forName("com.mysql.jdbc.Driver");
+	     
 
 	      Connection connection = (Connection) DriverManager.getConnection(
-					"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
-					"sql457634", "qJ4*nP7*");
+					"jdbc:mysql://localhost/sql457634",
+					"root", "");
 	      
 	      Statement stmt = (Statement) connection.createStatement();
 	      String sql = "DELETE FROM sql457634.bet " +
@@ -209,16 +267,17 @@ public class StepDefinitions {
 		
 	
 	}
-
-	
-	
 	
 	@After
 	public void tearDown() {
-		clearTestUser();
 		clearTestBets();
+
+		if(finishedAll){
+			clearTestUser();
+		}
 		driver.quit();
 	}
+	
 	
 
 }
