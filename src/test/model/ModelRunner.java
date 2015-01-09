@@ -1,13 +1,12 @@
 package model;
 
-import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.junit.Test;
 
 public class ModelRunner {
-	private final int INSTANCES = 50;
+	private final int INSTANCES = 10;
 
 	@Test
 	public void runModel()

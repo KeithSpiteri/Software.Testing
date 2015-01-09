@@ -1,10 +1,14 @@
 package model;
 
+import java.sql.DriverManager;
 import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
 
 import static org.junit.Assert.assertEquals;
 import nz.ac.waikato.modeljunit.Action;
@@ -235,9 +239,28 @@ public class BettingModel implements FsmModel, Runnable{
 		this.after();
 		
 	}
+	
+
 
 	private void after() {
 		driver.quit();
+		try { 		
+	      Connection connection = (Connection) DriverManager.getConnection(
+					"jdbc:mysql://localhost/sql457634",
+					"root", "");
+	      
+	      Statement stmt = (Statement) connection.createStatement();
+	      String sql = "DELETE FROM sql457634.user " +
+	                   "WHERE username = \"user_%\"";
+	      stmt.executeUpdate(sql);
+	      
+	      sql = "DELETE FROM sql457634.bet " +
+                  "WHERE user_id = \"user_%\"";
+	      stmt.executeUpdate(sql);
+	      connection.close();
+		} catch (Exception e) {
+			e.printStackTrace(); 
+		}
 	}
 
 	private void before() {
