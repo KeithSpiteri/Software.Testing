@@ -144,9 +144,12 @@ public class DbService {
 			session.update(toSave);
 			tx.commit();
 		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			LOGGER.error("Hibernate Exception in updating user info", e);
+			try {
+				if (tx != null)
+					tx.rollback();
+				LOGGER.error("Hibernate Exception in updating user info", e);
+			} catch (Exception exc) {
+			}
 			return false;
 		} finally {
 			try {
