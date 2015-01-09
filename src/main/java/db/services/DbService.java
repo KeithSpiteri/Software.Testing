@@ -91,8 +91,8 @@ public class DbService {
 		Connection connection = null;
 		try {
 			 connection = DriverManager.getConnection(
-					"jdbc:mysql://sql4.freesqldatabase.com/sql457634",
-					"sql457634", "qJ4*nP7*");
+					"jdbc:mysql://localhost/sql457634",
+					"root", "");
 
 			Statement statement = connection.createStatement();
 			String free = "";
