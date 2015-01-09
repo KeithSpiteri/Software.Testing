@@ -1,12 +1,15 @@
 import static org.junit.Assert.*;
 
-
 import java.util.Calendar;
 import java.util.Date;
 
+import nz.ac.waikato.modeljunit.examples.ecinema.User;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import db.services.DbService;
 import validators.UserValidator;
 
 public class UserValidatorTests {
@@ -18,23 +21,22 @@ public class UserValidatorTests {
 	public void init() {
 		validator = new UserValidator();
 		today = new Date();
-		//DbService.dbService = Mockito.mock(DbService.class);
 	}
 
-/*	@Test
+	@Test
 	public void testValidUsername() {
-		//DbService dbService = Mockito.mock(DbService.class);
+		validator.dbService = Mockito.mock(DbService.class);
 		String name = "testUser";
 		Mockito.when(validator.dbService.loadUser(name)).thenReturn(null);
 		assertTrue(validator.validateUsername(name));
-	}*/
-/*
+	}
+
 	@Test
 	public void testInvalidUsername() {
-		//DbService dbService = Mockito.mock(DbService.class);
-		Mockito.when(validator.dbService.loadUser("testUser")).thenReturn(new User());
+		validator.dbService = Mockito.mock(DbService.class);
+		Mockito.when(validator.dbService.loadUser("testUser")).thenReturn(new persistant.User());
 		assertFalse(validator.validateUsername("testUser"));
-	}*/
+	}
 
 	@Test
 	public void test8CharPassword() {
@@ -273,9 +275,35 @@ public class UserValidatorTests {
 	public void testVisa13Digit() {
 		assertTrue(validator.validateCCNumber("4929411679018"));
 	}
+	
+	@Test
+	public void failAtLuhn()
+	{
+		assertFalse(validator.validateCCNumber("4929411679038"));
+	}
 
 	@Test
 	public void testInvalidCCNumber() {
 		assertFalse(validator.validateCCNumber("5821626287957775"));
+	}
+	
+	@Test
+	public void validUser()
+	{
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(today);
+		calendar.add(Calendar.DATE, 1);
+		Date expiry = calendar.getTime();
+	
+		calendar.setTime(today);
+		calendar.add(Calendar.YEAR, -18);
+		Date dob = calendar.getTime();
+		
+		String userName = "testUser";
+		persistant.User user = new persistant.User(userName,"testtest","test","test",dob,"4929411679018",expiry,"005",true,false);
+		validator.dbService = Mockito.mock(DbService.class);
+		Mockito.when(validator.dbService.loadUser(userName)).thenReturn(null);
+		
+		assertTrue(validator.validate(user));
 	}
 }

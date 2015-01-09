@@ -1,7 +1,9 @@
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -142,5 +144,93 @@ public class BetValidatorTests {
 		assertTrue(validator.validateAmount(user, bet));
 	}
 	
+	@Test
+	public void validatePremiumBelowLimit()
+	{
+		User user = new User();
+		user.setPremium(true);
+		
+		List<Bet> bets = new ArrayList<Bet>();
+		Bet bet = new Bet();
+		bet.setAmount(4999f);
+		bets.add(bet);
+		
+		Mockito.when(validator.dbService.getUserBets(user)).thenReturn(bets);
+		Bet newBet = new Bet();
+		newBet.setAmount(1f);
+		
+		assertTrue(validator.validateAmount(user,newBet));
+	}
 	
+	@Test
+	public void validatePremiumAboveLimit()
+	{
+		User user = new User();
+		user.setPremium(true);
+		
+		List<Bet> bets = new ArrayList<Bet>();
+		Bet bet1 = new Bet();
+		bet1.setAmount(2500f);
+		Bet bet2 = new Bet();
+		bet2.setAmount(2500f);
+		
+		bets.add(bet1);
+		bets.add(bet2);
+		
+		Mockito.when(validator.dbService.getUserBets(user)).thenReturn(bets);
+		Bet newBet = new Bet();
+		newBet.setAmount(1f);
+		
+		assertFalse(validator.validateAmount(user,newBet));
+	}
+	
+	@Test
+	public void riskLevelDoesNotExist()
+	{
+		User user = new User();
+		user.setPremium(true);
+		
+		Bet bet = new Bet();
+		bet.setRiskLevel("InvalidRiskLevel");
+		
+		assertFalse(validator.validateRiskLevel(user, bet));
+	}
+	
+	@Test
+	public void invalidRiskLevel()
+	{
+		User user = new User();
+		user.setFree(true);
+		
+		Bet bet = new Bet();
+		bet.setRiskLevel("medium");
+		
+		assertFalse(validator.validateBet(user, bet));
+	}
+	
+	@Test
+	public void invalidAmount()
+	{
+		User user = new User();
+		user.setFree(true);
+		
+		Bet bet = new Bet();
+		bet.setRiskLevel("low");
+		bet.setAmount(6f);
+		
+		assertFalse(validator.validateBet(user, bet));
+	}
+	
+	@Test
+	public void validBet()
+	{
+		User user = new User();
+		user.setFree(false);
+		
+		Bet bet = new Bet();
+		bet.setRiskLevel("low");
+		bet.setAmount(1f);
+		
+		assertTrue(validator.validateBet(user, bet));
+	}
 }

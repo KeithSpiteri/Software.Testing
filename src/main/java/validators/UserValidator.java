@@ -11,19 +11,17 @@ import persistant.User;
 
 public class UserValidator {
 
-	private DbService dbService = DbService.getInstance();
+	public DbService dbService = DbService.getInstance();
 
 	public boolean validate(User user) {
 		return validateUsername(user.getUsername())
 				&& validatePassword(user.getPassword())
 				&& validateNameOrSurname(user.getName())
 				&& validateNameOrSurname(user.getSurname())
-				&& validateDob(user.getDob())
-				&& validateCvv(user.getCvv())
+				&& validateDob(user.getDob()) && validateCvv(user.getCvv())
 				&& validateFreeOrPremium(user.isFree(), user.isPremium())
 				&& validateCCExpiry(user.getExpiry())
 				&& validateCCNumber(user.getCreditCardNumber());
-
 	}
 
 	public boolean validateUsername(String userName) {
