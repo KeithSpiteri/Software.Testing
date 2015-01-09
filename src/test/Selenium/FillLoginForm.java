@@ -29,6 +29,12 @@ public class FillLoginForm {
 		driver.findElement(By.id("login_pass")).sendKeys("12345678");
 	}
 	
+	public void fillCustom(String name, String surname)
+	{
+		driver.findElement(By.id("login_user")).sendKeys(name);
+		driver.findElement(By.id("login_pass")).sendKeys(surname);
+	}
+	
 	public void submitForm()
 	{
 		driver.findElement(By.id("login_submit")).click();
