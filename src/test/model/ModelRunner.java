@@ -11,7 +11,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 public class ModelRunner {
-	private final int INSTANCES = 1;
+	private final int INSTANCES = 20;
 
 	@Test
 	public void runModel()
@@ -45,11 +45,11 @@ public class ModelRunner {
 		      Statement stmt = (Statement) connection.createStatement();
 		      
 		      String sql = "DELETE FROM sql457634.bet " +
-	                  "WHERE user_id LIKE \"user__\"";
+	                  "WHERE user_id LIKE \"user_%\"";
 		      stmt.executeUpdate(sql);
 		      
 		      sql = "DELETE FROM sql457634.user " +
-		                   "WHERE username LIKE \"user__\"";
+		                   "WHERE username LIKE \"user_%\"";
 		      stmt.executeUpdate(sql);
 		      
 		     
