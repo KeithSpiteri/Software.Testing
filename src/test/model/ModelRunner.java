@@ -11,7 +11,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 public class ModelRunner {
-	private final int INSTANCES = 20;
+	private final int INSTANCES = 10;
 
 	@Test
 	public void runModel()
