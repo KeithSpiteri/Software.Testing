@@ -4,14 +4,8 @@ import java.util.Random;
 import java.util.Vector;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.*;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.javascript.configuration.BrowserName;
 
 import static org.junit.Assert.assertEquals;
 import nz.ac.waikato.modeljunit.Action;
@@ -30,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 public class BettingModel implements FsmModel, Runnable{
 	WebDriver driver;
 	Vector<Long> timings;
-	static int uuid;
+	//static int uuid;
 	
 	FillRegisterForm fillRegister;
 	FillLoginForm fillLogin;
@@ -53,9 +47,9 @@ public class BettingModel implements FsmModel, Runnable{
 	
 	int numBets = 0;
 	
-	public BettingModel(Vector<Long> timings){
+	public BettingModel(Vector<Long> timings, int uid){
 		this.timings =  timings;
-		this.uid = uuid++;
+		this.uid = uid;
 	}
 	
 	
@@ -101,6 +95,7 @@ public class BettingModel implements FsmModel, Runnable{
 	
 	public void reset(boolean arg0) {
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");	
+		this.afterLogin = true;
 	}
 	
 	public boolean registerErrorGuard()
@@ -165,13 +160,11 @@ public class BettingModel implements FsmModel, Runnable{
 		if(probability < 0.75)
 		{
 			fillRegister.fillModelForm(userName, 0);
-			fillRegister.submit();
 			this.isFree = true;
 		}
 		else
 		{
 			fillRegister.fillModelForm(userName, 1);
-			fillRegister.submit();
 			this.isFree = false;
 		}
 		if(!driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp"))
@@ -222,6 +215,7 @@ public class BettingModel implements FsmModel, Runnable{
 		start = System.currentTimeMillis();
 		fillLogin = new FillLoginForm(driver);
 		fillLogin.fillCustom(this.username, "password");
+		this.afterLogin = true;
 		fillLogin.submitForm();
 		assertEquals("http://localhost:8080/Software.Testing/bet.jsp", driver.getCurrentUrl());
 		timings.add(System.currentTimeMillis() - start);
@@ -342,7 +336,7 @@ public class BettingModel implements FsmModel, Runnable{
 		try{
 			while(!isLastThread )
 			{
-				Thread.sleep(1000);
+				Thread.sleep(750);
 			}
 		}catch(Exception e){}
 		
@@ -363,15 +357,7 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 
 	private void before() {
-		DesiredCapabilities capabilities = DesiredCapabilities.htmlUnit(BrowserVersion.FIREFOX_24);
-		capabilities.setBrowserName("Betting");
-		capabilities.setPlatform(Platform.WINDOWS);
-		capabilities.setVersion("firefox");
-		this.driver = new HtmlUnitDriver(capabilities);
-		
-		//this.driver = new HtmlUnitDriver();
-		
-		
+		this.driver = new FirefoxDriver();
 		if(ModelRunner.instances-1 == this.uid)
 			isLastThread = true;
 	}
