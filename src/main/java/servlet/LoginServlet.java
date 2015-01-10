@@ -37,7 +37,9 @@ public class LoginServlet extends HttpServlet {
 		
 		User user = dbService.loadUser(username);
 
-		if (user.getLockedTill() == null
+		if (user == null)
+			user = new User();
+		if (user!=null && user.getLockedTill() == null
 				|| user.getLockedTill().before(new Date())) {
 			if (user != null && password.equals(user.getPassword())) {
 				// Create a cookie for this new session
