@@ -17,6 +17,7 @@ import nz.ac.waikato.modeljunit.VerboseListener;
 import Selenium.FillRegisterForm;
 import Selenium.FillLoginForm;
 import Selenium.FillBetForm;
+import static org.junit.Assert.assertTrue;
 
 
 
@@ -66,12 +67,16 @@ public class BettingModel implements FsmModel, Runnable{
 			return States.BetError;
 		}
 		else
-			return null;
+		{
+			driver.navigate().back();
+			return getState();
+		}
 	}
 	
 	
 	public void reset(boolean arg0) {
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");	
+		
 		toInvalid = false;
 		toLogout = false;
 	}
@@ -146,8 +151,8 @@ public class BettingModel implements FsmModel, Runnable{
 	{
 		double probability = Math.random();
 		States st = this.getState();
-		
-		if(st.equals(States.Login) && probability >= 0.25 && !username.equals(""))
+		probability = 0.5;
+		if(st.equals(States.Login) && probability >= 0.25 && !username.equals("")  || (st.equals(States.Login) && !this.toInvalid))
 			return true;
 		else
 		{
@@ -173,7 +178,7 @@ public class BettingModel implements FsmModel, Runnable{
 		double probability = Math.random();
 		States st = this.getState();
 		
-		if((st.equals(States.Login) && probability < 0.25 && !username.equals("")) || (st.equals(States.Login) && this.toInvalid))
+		if((st.equals(States.Login) && this.toInvalid))
 		{
 			this.toInvalid = false;
 			return true;
@@ -229,15 +234,8 @@ public class BettingModel implements FsmModel, Runnable{
 		fillBet = new FillBetForm(driver);
 		fillBet.setAmount(bet_amount);
 		fillBet.submitBet();
-		
-		String expected = "";
-		
-		if(numBets > 3 && !this.isFree)
-			expected = "http://localhost:8080/Software.Testing/placeBet";
-		else
-			expected = "http://localhost:8080/Software.Testing/bet.jsp";
-		
-		assertEquals(expected, driver.getCurrentUrl());		
+				
+		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/bet.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/placeBet"));		
 		timings.add(System.currentTimeMillis() - start);
 	}
 	
@@ -283,12 +281,18 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 	
 	public void run() {
-		this.before();
-		Tester t = new AllRoundTester(this);
-		t.addListener(new VerboseListener());
-		t.generate(10);
-		t.buildGraph();
-		this.after();
+		try{
+			this.before();
+			Tester t = new AllRoundTester(this);
+			t.addListener(new VerboseListener());
+			t.generate(15);
+			t.buildGraph();
+			this.after();
+		}
+		catch(Exception e)
+		{
+			this.after();
+		}
 	}
 	
 
