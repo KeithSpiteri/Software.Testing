@@ -4,8 +4,14 @@ import java.util.Random;
 import java.util.Vector;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.htmlunit.*;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.javascript.configuration.BrowserName;
 
 import static org.junit.Assert.assertEquals;
 import nz.ac.waikato.modeljunit.Action;
@@ -159,11 +165,13 @@ public class BettingModel implements FsmModel, Runnable{
 		if(probability < 0.75)
 		{
 			fillRegister.fillModelForm(userName, 0);
+			fillRegister.submit();
 			this.isFree = true;
 		}
 		else
 		{
 			fillRegister.fillModelForm(userName, 1);
+			fillRegister.submit();
 			this.isFree = false;
 		}
 		if(!driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp"))
@@ -328,14 +336,17 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 	
 	public void run() {
+		
+		this.before();
+		
 		try{
-			while(!this.isLastThread )
+			while(!isLastThread )
 			{
 				Thread.sleep(1000);
 			}
 		}catch(Exception e){}
 		
-		this.before();
+		
 		Tester t = new AllRoundTester(this);
 		t.addListener(new VerboseListener());
 		t.generate(15);
@@ -352,7 +363,17 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 
 	private void before() {
-		this.driver = new FirefoxDriver();
+		DesiredCapabilities capabilities = DesiredCapabilities.htmlUnit(BrowserVersion.FIREFOX_24);
+		capabilities.setBrowserName("Betting");
+		capabilities.setPlatform(Platform.WINDOWS);
+		capabilities.setVersion("firefox");
+		this.driver = new HtmlUnitDriver(capabilities);
+		
+		//this.driver = new HtmlUnitDriver();
+		
+		
+		if(ModelRunner.instances-1 == this.uid)
+			isLastThread = true;
 	}
 	
 }

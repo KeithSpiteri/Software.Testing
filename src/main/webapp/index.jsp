@@ -4,9 +4,23 @@
 <head>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="js/jquery.tipsy.js"></script>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet"
+	href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css">
+
+<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.js"
+	type="text/javascript"></script>
+<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"
+	type="text/javascript"></script>
+
 <script language="javascript" type="text/javascript">
 	
 </script>
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8"
+	src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.js"></script>
 <!-- Basic Page Needs
   ================================================== -->
 <meta charset="utf-8">
@@ -23,6 +37,12 @@
   ================================================== -->
 
 </head>
+
+<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.js"
+	type="text/javascript"></script>
+<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"
+	type="text/javascript"></script>
+
 <body>
 
 	<div class="container">
