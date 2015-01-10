@@ -24,12 +24,13 @@ public class RegisterServlet extends HttpServlet {
 	private static Logger LOGGER = LoggerFactory
 			.getLogger(RegisterServlet.class);
 
-	private UserValidator userValidator = new UserValidator();
-	private String message;
+	public UserValidator userValidator = new UserValidator();
+
+	public DbService dbService = DbService.getInstance();
 
 	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 
 		String username = request.getParameter("user");
@@ -41,11 +42,6 @@ public class RegisterServlet extends HttpServlet {
 		String expiry = request.getParameter("expiry");
 		String cvv = request.getParameter("CVV");
 		String subscription = request.getParameter("subscription");
-
-		LOGGER.info("############################################################################################");
-		LOGGER.info("EXPIRY DATE IS: " + expiry);
-		LOGGER.info("SUBSCRIPTION IS: " + subscription);
-		LOGGER.info("############################################################################################");
 
 		SimpleDateFormat dobFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -94,9 +90,7 @@ public class RegisterServlet extends HttpServlet {
 				creditCardNumber, expiryDate, cvv, premium, free);
 
 		if (userValidator.validate(user)) {
-			DbService service = DbService.getInstance();
-
-			if (service.addUser(user)) {
+			if (dbService.addUser(user)) {
 				out.write("user - " + username + "\n");
 				out.write("password - " + password + "\n");
 				out.write("name - " + name + "\n");

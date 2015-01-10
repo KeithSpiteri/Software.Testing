@@ -1,29 +1,30 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import db.services.DbService;
 import persistant.Bet;
 import persistant.User;
 import validators.BetValidator;
-import validators.UserValidator;
+import db.services.DbService;
 
 public class BetValidatorTests {
 
 	BetValidator validator;
+	DbService dbService;
 	
 	@Before
 	public void init() {
 		validator = new BetValidator();
 		validator.dbService = Mockito.mock(DbService.class);
+		
+		this.dbService = validator.dbService;
 		}
 
 	@Test
@@ -126,7 +127,7 @@ public class BetValidatorTests {
 		Bet bet = new Bet();
 		bet.setAmount(1);
 		
-		Mockito.when(validator.dbService.countBets(user)).thenReturn((long) 3);
+		doReturn((long)3).when(dbService).countBets(user);
 		
 		assertFalse(validator.validateAmount(user, bet));
 	}
@@ -138,8 +139,8 @@ public class BetValidatorTests {
 		
 		Bet bet = new Bet();
 		bet.setAmount(1);
-						
-		Mockito.when(validator.dbService.countBets(user)).thenReturn((long) 2);
+		
+		doReturn((long)2).when(dbService).countBets(user);
 		
 		assertTrue(validator.validateAmount(user, bet));
 	}
@@ -155,7 +156,8 @@ public class BetValidatorTests {
 		bet.setAmount(4999f);
 		bets.add(bet);
 		
-		Mockito.when(validator.dbService.getUserBets(user)).thenReturn(bets);
+		doReturn(bets).when(dbService).getUserBets(user);
+		
 		Bet newBet = new Bet();
 		newBet.setAmount(1f);
 		
@@ -177,7 +179,8 @@ public class BetValidatorTests {
 		bets.add(bet1);
 		bets.add(bet2);
 		
-		Mockito.when(validator.dbService.getUserBets(user)).thenReturn(bets);
+		doReturn(bets).when(dbService).getUserBets(user);
+
 		Bet newBet = new Bet();
 		newBet.setAmount(1f);
 		

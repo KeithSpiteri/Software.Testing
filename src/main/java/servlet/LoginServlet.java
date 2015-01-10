@@ -21,19 +21,20 @@ import db.services.DbService;
 public class LoginServlet extends HttpServlet {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
+	public DbService dbService = DbService.getInstance();
+
 
 	private String message;
 
 	@Override
-	protected void doPost(HttpServletRequest request,
+	public void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 
 		String username = request.getParameter("user");
 		String password = request.getParameter("pass");
 
-		DbService dbService = DbService.getInstance();
-
+		
 		User user = dbService.loadUser(username);
 
 		if (user.getLockedTill() == null
