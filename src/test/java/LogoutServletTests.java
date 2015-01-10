@@ -37,7 +37,7 @@ public class LogoutServletTests {
 	@Mock
 	private HttpServletResponse response;
 
-	private Cookie[] cookies = {new Cookie("user", "pass")};
+	private Cookie[] cookies = { new Cookie("user", "pass") };
 
 	@Before
 	public void init() throws Exception {
@@ -45,12 +45,18 @@ public class LogoutServletTests {
 
 		logoutServlet = new LogoutServlet();
 
-		doReturn(cookies).when(request).getCookies();
-
 	}
 
 	@Test
 	public void testLogout() throws ServletException, IOException {
+		doReturn(cookies).when(request).getCookies();
+		logoutServlet.doPost(request, response);
+		verify(response).sendRedirect("index.jsp");
+	}
+
+	@Test
+	public void testLogoutCookiesAreNull() throws ServletException, IOException {
+		doReturn(null).when(request).getCookies();
 		logoutServlet.doPost(request, response);
 		verify(response).sendRedirect("index.jsp");
 	}

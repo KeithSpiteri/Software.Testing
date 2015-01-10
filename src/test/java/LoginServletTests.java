@@ -35,9 +35,6 @@ public class LoginServletTests {
 	private HttpServletResponse response;
 
 	@Mock
-	private HttpSession session;
-
-	@Mock
 	private PrintWriter out;
 
 	@Mock
@@ -55,9 +52,7 @@ public class LoginServletTests {
 
 		doReturn("user").when(request).getParameter("user");
 		doReturn("pass").when(request).getParameter("pass");
-		doReturn(session).when(request).getSession();
 		doReturn(out).when(response).getWriter();
-		doNothing().when(session).setAttribute(anyString(), anyString());
 	}
 
 	@Test
@@ -65,7 +60,7 @@ public class LoginServletTests {
 		User user = new User();
 		user.setPassword("pass");
 
-		doReturn(user).when(dbService).loadUser("user");
+		doReturn(user).when(dbService).loadUser(anyString());
 
 		loginServlet.doPost(request, response);
 		verify(response).sendRedirect("bet.jsp");
@@ -73,7 +68,7 @@ public class LoginServletTests {
 
 	@Test
 	public void testInvalidLogin() throws ServletException, IOException {
-		doReturn(new User()).when(dbService).loadUser("user");
+		doReturn(new User()).when(dbService).loadUser(anyString());
 		loginServlet.doPost(request, response);
 		verify(out).write("Invalid username or password");
 	}
@@ -86,7 +81,7 @@ public class LoginServletTests {
 		cal.add(Calendar.HOUR,1);
 		
 		doReturn(cal.getTime()).when(user).getLockedTill();
-		doReturn(user).when(dbService).loadUser("user");
+		doReturn(user).when(dbService).loadUser(anyString());
 		loginServlet.doPost(request, response); 
 		verify(out).write("Account is locked until "+cal.getTime());
 	}
