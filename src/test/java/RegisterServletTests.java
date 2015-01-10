@@ -63,7 +63,7 @@ public class RegisterServletTests {
 	}
 
 	@Test
-	public void testValidRegistrationUserCreated() throws ServletException,
+	public void testValidRegistration() throws ServletException,
 			IOException {
 		registerServlet.userValidator = Mockito.mock(UserValidator.class);
 		doReturn(true).when(registerServlet.userValidator).validate(any(User.class));
