@@ -36,9 +36,6 @@ public class BettingServletTests {
 	private HttpServletResponse response;
 
 	@Mock
-	private HttpSession session;
-
-	@Mock
 	private PrintWriter out;
 
 	private DbService dbService;
@@ -71,7 +68,16 @@ public class BettingServletTests {
 		bettingServlet.doPost(request, response);
 
 		verify(response).sendRedirect("bet.jsp");
+	}
+	
+	@Test
+	public void testFailedBet() throws IOException, ServletException {
+		doReturn(false).when(validator).validateBet(any(User.class),
+				any(Bet.class));
 
+		bettingServlet.doPost(request, response);
+
+		verify(out).write("Unable to place bet");
 	}
 
 }

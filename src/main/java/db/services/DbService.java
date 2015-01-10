@@ -28,7 +28,7 @@ public class DbService {
 	private static Logger LOGGER = LoggerFactory.getLogger(DbService.class);
 	private static SessionFactory factory;
 	private Session session;
-
+ 
 	private static DbService dbService = null;
 
 	private DbService() {

@@ -11,17 +11,20 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 public class ModelRunner {
-	private final int INSTANCES = 10;
+
+	private final int instances = 5;
 
 	@Test
 	public void runModel()
 	{
 		Long start = System.currentTimeMillis();
-		ExecutorService executor = Executors.newFixedThreadPool(INSTANCES);
+		ExecutorService executor = Executors.newFixedThreadPool(instances);
 		Vector<Long> timings = new Vector<Long>();
-		for (int i = 0; i < INSTANCES; i++) {
+		for (int i = 0; i < instances; i++) {
 			Runnable instance = new BettingModel(timings);
 			executor.execute(instance);
+			if(i == (instances -1))
+				BettingModel.isLastThread = true;
 		}
 		executor.shutdown();
 		while(!executor.isTerminated()){}

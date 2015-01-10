@@ -3,11 +3,16 @@ import static org.junit.Assert.*;
 import java.util.Calendar;
 import java.util.Date;
 
-import nz.ac.waikato.modeljunit.examples.ecinema.User;
+import persistant.User;
+
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doReturn;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import db.services.DbService;
 import validators.UserValidator;
@@ -16,25 +21,27 @@ public class UserValidatorTests {
 
 	private UserValidator validator;
 	private Date today;
-
+	private DbService dbService;
+	
 	@Before
 	public void init() {
 		validator = new UserValidator();
 		today = new Date();
+		
+		validator.dbService = Mockito.mock(DbService.class);
+		this.dbService = validator.dbService;
+
 	}
 
 	@Test
 	public void testValidUsername() {
-		validator.dbService = Mockito.mock(DbService.class);
-		String name = "testUser";
-		Mockito.when(validator.dbService.loadUser(name)).thenReturn(null);
-		assertTrue(validator.validateUsername(name));
+		doReturn(null).when(dbService).loadUser(anyString());
+		assertTrue(validator.validateUsername("user"));
 	}
 
 	@Test
 	public void testInvalidUsername() {
-		validator.dbService = Mockito.mock(DbService.class);
-		Mockito.when(validator.dbService.loadUser("testUser")).thenReturn(new persistant.User());
+		doReturn(new User()).when(dbService).loadUser(anyString());
 		assertFalse(validator.validateUsername("testUser"));
 	}
 
@@ -214,6 +221,7 @@ public class UserValidatorTests {
 	public void testCardExpiresToday() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(today);
+		calendar.add(Calendar.SECOND, 2);
 
 		Date expiry = calendar.getTime();
 
@@ -301,8 +309,8 @@ public class UserValidatorTests {
 		
 		String userName = "testUser";
 		persistant.User user = new persistant.User(userName,"testtest","test","test",dob,"4929411679018",expiry,"005",true,false);
-		validator.dbService = Mockito.mock(DbService.class);
-		Mockito.when(validator.dbService.loadUser(userName)).thenReturn(null);
+		dbService = Mockito.mock(DbService.class);
+		Mockito.when(dbService.loadUser(userName)).thenReturn(null);
 		
 		assertTrue(validator.validate(user));
 	}

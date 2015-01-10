@@ -39,6 +39,8 @@ public class BettingModel implements FsmModel, Runnable{
 	boolean toLogout = false;
 	boolean afterLogin = true;
 	
+	static boolean isLastThread = false;
+	
 	
 	Long start;
 	
@@ -327,17 +329,19 @@ public class BettingModel implements FsmModel, Runnable{
 	
 	public void run() {
 		try{
-			this.before();
-			Tester t = new AllRoundTester(this);
-			t.addListener(new VerboseListener());
-			t.generate(15);
-			t.buildGraph();
-			this.after();
-		}
-		catch(Exception e)
-		{
-			this.after();
-		}
+			while(!this.isLastThread )
+			{
+				Thread.sleep(1000);
+			}
+		}catch(Exception e){}
+		
+		this.before();
+		Tester t = new AllRoundTester(this);
+		t.addListener(new VerboseListener());
+		t.generate(15);
+		t.buildGraph();
+		this.after();
+
 	}
 	
 
