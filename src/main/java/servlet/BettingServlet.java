@@ -22,12 +22,14 @@ public class BettingServlet extends HttpServlet {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(BettingServlet.class);
 
-	private BetValidator betValidator = new BetValidator();
+	public BetValidator betValidator = new BetValidator();
 	
 	private String message;
+	
+	public DbService dbService = DbService.getInstance();
 
 	@Override
-	protected void doPost(HttpServletRequest request,
+	public void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 
@@ -39,8 +41,6 @@ public class BettingServlet extends HttpServlet {
 		bet.setRiskLevel(riskLevel);
 		bet.setAmount(Float.parseFloat(amount));
 		bet.setUserName(userName);
-		
-		DbService dbService = DbService.getInstance();
 		
 		User user = dbService.loadUser(userName);
 		

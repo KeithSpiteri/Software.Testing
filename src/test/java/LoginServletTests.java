@@ -1,10 +1,13 @@
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,13 +40,19 @@ public class LoginServletTests {
 	@Mock
 	private PrintWriter out;
 
+	@Mock
+	User user;
+	
+	private DbService dbService;
+
 	@Before
-	public void setUp() throws Exception {
+	public void init() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		loginServlet = new LoginServlet();
 
 		loginServlet.dbService = Mockito.mock(DbService.class);
-		
+		this.dbService = loginServlet.dbService;
+
 		doReturn("user").when(request).getParameter("user");
 		doReturn("pass").when(request).getParameter("pass");
 		doReturn(session).when(request).getSession();
@@ -52,38 +61,33 @@ public class LoginServletTests {
 	}
 
 	@Test
-	public void testValidLogin() throws ServletException,
-			IOException {
+	public void testValidLogin() throws ServletException, IOException {
 		User user = new User();
 		user.setPassword("pass");
-		Mockito.when(loginServlet.dbService.loadUser("user")).thenReturn(user);
-		
+
+		doReturn(user).when(dbService).loadUser("user");
+
 		loginServlet.doPost(request, response);
 		verify(response).sendRedirect("bet.jsp");
 	}
 
-	/*@Test
-	public void testLoginInvalidPassword() throws ServletException,
-			IOException {
-		// given
-		doReturn(false).when(login).validate(anyString(), anyString());
-		// when
+	@Test
+	public void testInvalidLogin() throws ServletException, IOException {
+		doReturn(new User()).when(dbService).loadUser("user");
 		loginServlet.doPost(request, response);
-		// then
-		verify(out)
-				.println(
-						(new MessagePageImpl())
-								.printMessagePageLoggedOut("Wrong username or password Please Try again"));
-	}*/
+		verify(out).write("Invalid username or password");
+	}
 
-	/*@Test
-	public void testValidLoginUserSetInSession() throws ServletException, IOException {
-		// given
-		doReturn(true).when(login).validate(anyString(), anyString());
-		// when
-		loginServlet.doPost(request, response);
-		// then
-		verify(session).setAttribute("user", "user");
-	}*/
+	@Test
+	public void testLockedAccount() throws ServletException,
+			IOException { 
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.HOUR,1);
+		
+		doReturn(cal.getTime()).when(user).getLockedTill();
+		doReturn(user).when(dbService).loadUser("user");
+		loginServlet.doPost(request, response); 
+		verify(out).write("Account is locked until "+cal.getTime());
+	}
 }
-

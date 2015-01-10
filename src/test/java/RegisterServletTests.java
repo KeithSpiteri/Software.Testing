@@ -43,7 +43,7 @@ public class RegisterServletTests {
 	private User user;
 
 	@Before
-	public void setUp() throws Exception {
+	public void init() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		registerServlet = new RegisterServlet();
 
@@ -57,17 +57,17 @@ public class RegisterServletTests {
 		doReturn("378282246310005").when(request).getParameter("CCN");
 		doReturn("2020-12-31").when(request).getParameter("expiry");
 		doReturn("123").when(request).getParameter("CVV");
-		doReturn("free").when(request).getParameter("subscription");
+		doReturn("premium").when(request).getParameter("subscription");
 
 		doReturn(out).when(response).getWriter();
 	}
 
 	@Test
-	public void testValidRegistration() throws ServletException,
-			IOException {
+	public void testValidRegistration() throws ServletException, IOException {
 		registerServlet.userValidator = Mockito.mock(UserValidator.class);
-		doReturn(true).when(registerServlet.userValidator).validate(any(User.class));
-		
+		doReturn(true).when(registerServlet.userValidator).validate(
+				any(User.class));
+
 		registerServlet.dbService = Mockito.mock(DbService.class);
 		doReturn(true).when(registerServlet.dbService).addUser(any(User.class));
 
@@ -75,13 +75,31 @@ public class RegisterServletTests {
 		verify(response).sendRedirect("index.jsp");
 	}
 
-	/*
-	 * @Test public void testInvalidRegistrationUserNotCreated() throws
-	 * ServletException, IOException { //given
-	 * doReturn(false).when(register).validateForm(anyString(), anyString(),
-	 * anyString(), anyString(), anyString(), anyString(), anyString(),
-	 * anyString(), anyString()); //when registerServlet.doPost(request,
-	 * response); //then verify(userRequest,
-	 * never()).createUser(any(User.class)); }
-	 */
+	@Test
+	public void testInvalidRegistration()
+			throws ServletException, IOException { // given
+		registerServlet.userValidator = Mockito.mock(UserValidator.class);
+		doReturn(false).when(registerServlet.userValidator).validate(
+				any(User.class));
+
+		registerServlet.dbService = Mockito.mock(DbService.class);
+		doReturn(true).when(registerServlet.dbService).addUser(any(User.class));
+
+		registerServlet.doPost(request, response);
+		verify(out).write("Invalid user details encountered");
+	}
+	
+	@Test
+	public void testErrorInsertingUser()
+			throws ServletException, IOException { // given
+		registerServlet.userValidator = Mockito.mock(UserValidator.class);
+		doReturn(true).when(registerServlet.userValidator).validate(
+				any(User.class));
+
+		registerServlet.dbService = Mockito.mock(DbService.class);
+		doReturn(false).when(registerServlet.dbService).addUser(any(User.class));
+
+		registerServlet.doPost(request, response);
+		verify(out).write("Not inserted");
+	}
 }

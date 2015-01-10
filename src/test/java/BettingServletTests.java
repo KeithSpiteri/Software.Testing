@@ -1,5 +1,6 @@
 import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
@@ -15,9 +16,14 @@ import javax.servlet.http.HttpSession;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import persistant.User;
+import persistant.Bet;
+import db.services.DbService;
 import servlet.BettingServlet;
+import validators.BetValidator;
 
 public class BettingServletTests {
 
@@ -35,93 +41,37 @@ public class BettingServletTests {
 	@Mock
 	private PrintWriter out;
 
-/* */
+	private DbService dbService;
 
-/*	@Test
-	public void testNotLoggedInVerifyRedirection() throws IOException,
-			ServletException {
-		// given
-		doReturn(null).when(session).getAttribute("user");
-		// when
-		bettingServlet.doPost(request, response);
-		// then
-		verify(response).sendRedirect("index.jsp");
-	}*/
+	private BetValidator validator;
 
-	/*@Test
-	public void testValidateBetNoErrors() throws ServletException, IOException {
-		// given
-		doReturn("user").when(session).getAttribute("user");
-		doReturn("Low").when(request).getParameter("betrisk");
-		doReturn("1.0").when(request).getParameter("amm");
-		doReturn(true).when(bettingImpl).validateBets(anyString(), anyString(),
-				anyDouble());
-		doReturn("Bet placed successfully").when(bettingImpl).getMessage();
-		// when
-		bettingServlet.doPost(request, response);
-		// then
-		verify(out).println(noErrors);
-	}*/
+	@Before
+	public void init() throws IOException {
+		MockitoAnnotations.initMocks(this);
 
-	/*@Test
-	public void testValidateBetNumberFormatExceptionOccurs()
-			throws ServletException, IOException {
-		// given
-		doReturn("user").when(session).getAttribute("user");
-		doReturn("Low").when(request).getParameter("betrisk");
-		doReturn("abc").when(request).getParameter("amm");
-		doReturn(true).when(bettingImpl).validateBets(anyString(), anyString(),
-				anyDouble());
-		// when
-		bettingServlet.doPost(request, response);
-		// then
-		verify(out).println(invalidAmountError);
-	}*/
+		bettingServlet = new BettingServlet();
+		bettingServlet.dbService = Mockito.mock(DbService.class);
+		bettingServlet.betValidator = Mockito.mock(BetValidator.class);
+		
+		doReturn("low").when(request).getParameter("risk");
+		doReturn("4.5").when(request).getParameter("amount");
+		doReturn("user").when(request).getParameter("userName");
 
-	/*@Test
-	public void testValidateBetNullPointerExceptionOccurs()
-			throws ServletException, IOException {
-		// given
-		doReturn("user").when(session).getAttribute("user");
-		doReturn("Low").when(request).getParameter("betrisk");
-		doReturn(null).when(request).getParameter("amm");
-		doReturn(true).when(bettingImpl).validateBets(anyString(), anyString(),
-				anyDouble());
-		// when
-		bettingServlet.doPost(request, response);
-		// then
-		verify(out).println(invalidAmountError);
-	}*/
+		this.dbService = bettingServlet.dbService;
+		this.validator = bettingServlet.betValidator;
 
-	/*@Test
-	public void testValidateBetInvalidBet() throws ServletException,
-			IOException {
-		// given
-		doReturn("usr").when(session).getAttribute("user");
-		doReturn("Low").when(request).getParameter("betrisk");
-		doReturn("1.0").when(request).getParameter("amm");
-		doReturn(false).when(bettingImpl).validateBets(anyString(),
-				anyString(), anyDouble());
-		doReturn("An error occured. Please try again.").when(bettingImpl)
-				.getMessage();
-		// when
-		bettingServlet.doPost(request, response);
-		// then
-		verify(out).println(errorOccurs);
-	}*/
+		doReturn(out).when(response).getWriter();
+	}
 
-	/*@Test
-	public void testValidateBetRiskIsNull() throws ServletException,
-			IOException {
-		// given
-		doReturn("usr").when(session).getAttribute("user");
-		doReturn(null).when(request).getParameter("betrisk");
-		doReturn("1.0").when(request).getParameter("amm");
-		doReturn(true).when(bettingImpl).validateBets(anyString(), anyString(),
-				anyDouble());
-		// when
+	@Test
+	public void testSuccesfullBet() throws IOException, ServletException {
+		doReturn(true).when(validator).validateBet(any(User.class),
+				any(Bet.class));
+
 		bettingServlet.doPost(request, response);
-		// then
-		verify(out).println(invalidRisk);
-	}*/
+
+		verify(response).sendRedirect("bet.jsp");
+
+	}
+
 }

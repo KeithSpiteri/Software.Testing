@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LogoutServlet extends HttpServlet {
         
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Cookie loginCookie = null;
         Cookie[] cookies = request.getCookies();
         if(cookies != null){
