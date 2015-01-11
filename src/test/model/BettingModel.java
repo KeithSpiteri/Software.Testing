@@ -135,6 +135,12 @@ public class BettingModel implements FsmModel, Runnable{
 	{
 		start = System.currentTimeMillis();
 		driver.findElement(By.xpath("/html/body/div/div/ul/li[2]/a")).click();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		assertEquals(driver.findElement(By.className("active")).getText(), "Register");
 		timings.add(System.currentTimeMillis() - start);
 	}
@@ -166,6 +172,12 @@ public class BettingModel implements FsmModel, Runnable{
 		if(!driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp"))
 			this.username = "";
 		//assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/register"));
 		timings.add(System.currentTimeMillis() - start);
 	}
@@ -187,6 +199,12 @@ public class BettingModel implements FsmModel, Runnable{
 	{
 		start = System.currentTimeMillis();
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
 		timings.add(System.currentTimeMillis() - start);
 	}
@@ -215,6 +233,12 @@ public class BettingModel implements FsmModel, Runnable{
 		this.afterLogin = true;
 		fillLogin.submitForm();
 		//assertEquals("http://localhost:8080/Software.Testing/bet.jsp", driver.getCurrentUrl());
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/bet.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/login"));
 		timings.add(System.currentTimeMillis() - start);
 	}
@@ -238,6 +262,11 @@ public class BettingModel implements FsmModel, Runnable{
 		fillLogin = new FillLoginForm(driver);
 		fillLogin.fillCustom(this.username, "wrong_password");
 		fillLogin.submitForm();	
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
 		timings.add(System.currentTimeMillis() - start);
 	}
@@ -247,7 +276,7 @@ public class BettingModel implements FsmModel, Runnable{
 		States st = getState();
 		double probability = Math.random();
 		
-		if(st.equals(States.Bet) && (probability <= 0.5 || this.afterLogin) ){
+		if(st.equals(States.Bet) && (probability <= 0.5 || this.afterLogin == true) ){
 			this.afterLogin = false;
 			return true;
 		}
@@ -281,7 +310,12 @@ public class BettingModel implements FsmModel, Runnable{
 		fillBet = new FillBetForm(driver);
 		fillBet.setAmount(bet_amount);
 		fillBet.submitBet();
-				
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/bet.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/placeBet"));		
 		timings.add(System.currentTimeMillis() - start);
 	}
@@ -300,6 +334,11 @@ public class BettingModel implements FsmModel, Runnable{
 	{
 		start = System.currentTimeMillis();
 		driver.get("http://localhost:8080/Software.Testing/bet.jsp");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		assertEquals("http://localhost:8080/Software.Testing/bet.jsp", driver.getCurrentUrl());
 		timings.add(System.currentTimeMillis() - start);
 	}
@@ -323,6 +362,11 @@ public class BettingModel implements FsmModel, Runnable{
 		fillBet = new FillBetForm(driver);
 		fillBet.logout();
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
 		timings.add(System.currentTimeMillis() - start);
 	}
