@@ -24,7 +24,7 @@
 <!-- Basic Page Needs
   ================================================== -->
 <meta charset="utf-8">
-<title>BetTest</title>
+<title>Test365</title>
 <meta name="description" content="">
 <meta name="author" content="">
 
@@ -49,7 +49,7 @@
 		<div class="flat-form">
 			<header class="tabs" style="margin-bottom: 0px; background: #c0392b;">
 				<a
-					style="background: #c0392b; font-size: 25px; padding-bottom: 0px; padding-top: 5px; padding-right: 100px">BetTest</a>
+					style="background: #c0392b; font-size: 25px; padding-bottom: 0px; padding-top: 5px; padding-right: 100px">Test365</a>
 			</header>
 			<ul class="tabs">
 				<li><a href="#login" class="active">Login</a></li>
@@ -108,8 +108,8 @@
 		    </div> 
 		    <!-- Free/Premium -->
 		    <div style= "margin-bottom:20px; margin-top:15px">
-		        <input type="radio" name="subscription" value="free" checked="checked" >Free
-				<input type="radio" name="subscription" value="premium">     Premium
+		        <input type="radio" id="subscription" name="subscription" value="free" checked="checked" >Free
+				<input type="radio" id="subscription" name="subscription" value="premium">     Premium
 		    </div> 
 		    <!-- Submit -->
 		    <div>

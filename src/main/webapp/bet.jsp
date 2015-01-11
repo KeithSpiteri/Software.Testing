@@ -84,7 +84,7 @@
 
 			<header class="tabs" style="margin-bottom: 0px; background: #c0392b;">
 				<a
-					style="background: #c0392b; font-size: 25px; padding-bottom: 0px; padding-top: 5px; padding-right: 100px">BetTest</a>
+					style="background: #c0392b; font-size: 25px; padding-bottom: 0px; padding-top: 5px; padding-right: 100px">Test365</a>
 			</header>
 			<ul class="tabs">
 				<li><h class="xihaga"><%=userName%>'s Betting Page</h></li>
