@@ -5,12 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -31,6 +29,7 @@ public class DbService {
  
 	private static DbService dbService = null;
 
+	@SuppressWarnings("deprecation")
 	private DbService() {
 		try {
 			factory = new Configuration().configure().buildSessionFactory();
@@ -100,7 +99,6 @@ public class DbService {
 					"jdbc:mysql://localhost/sql457634", "root", "");
 
 			Statement statement = connection.createStatement();
-			String free = "";
 			ResultSet resultset = statement
 					.executeQuery("select * from sql457634.user where username = \""
 							+ username + "\"");
@@ -111,7 +109,6 @@ public class DbService {
 				user.setLockedTill(null);
 				user.setFailedLogins(Integer.parseInt(resultset
 						.getString("failed_login")));
-				boolean f = false;
 				String fString = resultset.getString("free");
 				if (fString.equals("1"))
 					user.setFree(true);
@@ -185,11 +182,13 @@ public class DbService {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Bet> getUserBets(User user) {
 		session = factory.openSession();
 
 		Criteria cr = session.createCriteria(Bet.class);
 		cr.add(Restrictions.eq("userName", user.getUsername()));
+		@SuppressWarnings("rawtypes")
 		List result = cr.list();
 
 		try {

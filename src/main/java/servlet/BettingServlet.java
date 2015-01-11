@@ -2,16 +2,11 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import persistant.Bet;
 import persistant.User;
@@ -19,12 +14,9 @@ import validators.BetValidator;
 import db.services.DbService;
 
 public class BettingServlet extends HttpServlet {
-
-	private static Logger LOGGER = LoggerFactory.getLogger(BettingServlet.class);
+	private static final long serialVersionUID = 1L;
 
 	public BetValidator betValidator = new BetValidator();
-	
-	private String message;
 	
 	public DbService dbService = DbService.getInstance();
 

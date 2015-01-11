@@ -12,22 +12,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import db.services.DbService;
 import persistant.User;
 import validators.UserValidator;
+import db.services.DbService;
 
 public class RegisterServlet extends HttpServlet {
 
-	private static Logger LOGGER = LoggerFactory
-			.getLogger(RegisterServlet.class);
+
+	private static final long serialVersionUID = 7551627509242039557L;
 
 	public UserValidator userValidator = new UserValidator();
 
 	public DbService dbService = DbService.getInstance();
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

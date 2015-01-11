@@ -4,27 +4,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import persistant.User;
 import db.services.DbService;
 
 public class LoginServlet extends HttpServlet {
-
-	private static Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
+	private static final long serialVersionUID = -6924892271690933863L;
 	public DbService dbService = DbService.getInstance();
-
-
-	private String message;
 
 	@Override
 	public void doPost(HttpServletRequest request,

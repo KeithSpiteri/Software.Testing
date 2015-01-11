@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LogoutServlet extends HttpServlet {
 
+	private static final long serialVersionUID = 6521119091058095979L;
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Cookie loginCookie = null;
