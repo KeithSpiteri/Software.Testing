@@ -423,15 +423,6 @@ public class BettingModel implements FsmModel, Runnable{
 //		driver = new HtmlUnitDriver(capabilities); 
 //		((HtmlUnitDriver) driver).setJavascriptEnabled(true);
 		this.driver = new FirefoxDriver();
-		
-		try{
-			while(!isLastThread )
-			{
-				Thread.sleep(500);
-				if(ModelRunner.instances-1 == this.uid)
-					isLastThread = true;
-			}
-		}catch(Exception e){}
 	}
 	
 	private void clearUser()
