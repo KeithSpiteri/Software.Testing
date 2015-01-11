@@ -2,9 +2,11 @@ package db.services;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -26,7 +28,7 @@ public class DbService {
 	private static Logger LOGGER = LoggerFactory.getLogger(DbService.class);
 	private static SessionFactory factory;
 	private Session session;
- 
+
 	private static DbService dbService = null;
 
 	@SuppressWarnings("deprecation")
@@ -48,44 +50,86 @@ public class DbService {
 	}
 
 	public boolean addUser(User user) {
+		Connection connection = null;
+		LOGGER.info("Inserting User");
 
-		Transaction tx = null;
 		try {
-			session = factory.openSession();
-			tx = session.beginTransaction();
-			session.save(user);
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			LOGGER.error("Hibernate Exception in adding new User", e);
+			connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost/sql457634", "root", "");
+
+			LOGGER.info("Created Connection");
+
+			String insertUser = "INSERT INTO sql457634.user"
+					+ "(username, password, name, surname, dob, credit_card_number, expiry_date, cvv, premium, free, failed_login) VALUES"
+					+ "(?,?,?,?,?,?,?,?,?,?,?)";
+			LOGGER.info("Preparing Statment " + user.getName() + " "
+					+ user.getSurname() + " " + user.getDob() + " ");
+
+			PreparedStatement preparedStatement = connection
+					.prepareStatement(insertUser);
+			LOGGER.info("Prepared Statment");
+			preparedStatement.setString(1, user.getUsername());
+			preparedStatement.setString(2, user.getPassword());
+			LOGGER.info("Filled Statment");
+			preparedStatement.setString(3, user.getName());
+			preparedStatement.setString(4, user.getSurname());
+			preparedStatement.setTimestamp(5, new Timestamp(user.getDob()
+					.getTime()));
+			preparedStatement.setString(6, user.getCreditCardNumber());
+			preparedStatement.setTimestamp(7, new Timestamp(user.getExpiry()
+					.getTime()));
+			preparedStatement.setString(8, user.getCvv());
+			preparedStatement.setBoolean(9, user.isPremium());
+			preparedStatement.setBoolean(10, user.isFree());
+			preparedStatement.setInt(11, user.getFailedLogins());
+			
+			// execute insert SQL stetement
+
+			preparedStatement.executeUpdate();
+			LOGGER.info("Executed Statment");
+		} catch (Exception e) {
+			LOGGER.error("ERROR", e);
 			return false;
 		} finally {
 			try {
-				session.close();
-			} catch (Exception e) {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
 		return true;
 	}
 
 	public boolean addBet(Bet bet) {
+		Connection connection = null;
+		LOGGER.info("Inserting User");
 
-		Transaction tx = null;
 		try {
-			session = factory.openSession();
-			tx = session.beginTransaction();
-			session.save(bet);
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			LOGGER.error("Hibernate Exception in placing new bet", e);
+			connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost/sql457634", "root", "");
+
+			LOGGER.info("Created Connection");
+
+			String insertUser = "INSERT INTO sql457634.bet"
+					+ "(risk_level, amount, user_id) VALUES" + "(?,?,?)";
+
+			PreparedStatement preparedStatement = connection
+					.prepareStatement(insertUser);
+			LOGGER.info("Prepared Statment");
+			preparedStatement.setString(1, bet.getRiskLevel());
+			preparedStatement.setFloat(2, bet.getAmount());
+			preparedStatement.setString(3, bet.getUserName());
+
+			// execute insert SQL stetement
+			preparedStatement.executeUpdate();
+		} catch (Exception e) {
+			LOGGER.error("ERROR", e);
 			return false;
 		} finally {
 			try {
-				session.close();
-			} catch (Exception e) {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
 		return true;
@@ -125,12 +169,6 @@ public class DbService {
 			}
 		}
 		return user;
-
-		/*
-		 * session = factory.openSession(); User user = (User)
-		 * session.get(User.class, username); try { session.clear();
-		 * session.close(); } catch (Exception e) { } return user;
-		 */
 	}
 
 	public boolean update(Object toSave) {
@@ -162,23 +200,23 @@ public class DbService {
 
 	public boolean deleteUser(User user) {
 
-		Transaction tx = null;
+		Connection connection = null;
 		try {
-			session = factory.openSession();
-			tx = session.beginTransaction();
-			session.delete(user);
-			tx.commit();
-		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
-			LOGGER.error("Hibernate Exception in deleting User", e);
-			return false;
-		} finally {
+			connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost/sql457634", "root", "");
+
+			Statement statment = connection.createStatement();
+			String sql = "DELETE FROM sql457634.user where username = \""
+					+ user.getUsername() + "\"";
+			statment.executeUpdate(sql);
+		} catch (Exception exc) {
 			try {
-				session.close();
-			} catch (Exception e) {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
+
 		return true;
 	}
 
@@ -199,21 +237,39 @@ public class DbService {
 		return (List<Bet>) result;
 	}
 
-	public Long countBets(User user) {
-		session = factory.openSession();
-		Long count = (long) 0;
+	public int countBets(User user) {
+		int count = 0;
+
+		Connection connection = null;
 		try {
-			Criteria crit = session.createCriteria(Bet.class);
-			crit.setProjection(Projections.rowCount());
-			crit.add(Restrictions.eq("userName", user.getUsername()));
-			count = (Long) crit.uniqueResult();
-		} catch (Exception e) {
-			LOGGER.error("Error occured################################", e);
+			connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost/sql457634", "root", "");
+
+			Statement statment = connection.createStatement();
+			ResultSet r = statment
+					.executeQuery("SELECT COUNT(*) AS rowcount FROM sql457634.bet where username = \""
+							+ user.getUsername() + "\"");
+			r.next();
+			count = r.getInt("rowcount");
+			r.close();
+		} catch (Exception exc) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		try {
-			session.close();
-		} catch (Exception e) {
-		}
+
+		/*
+		 * session = factory.openSession(); Long count = (long) 0; try {
+		 * Criteria crit = session.createCriteria(Bet.class);
+		 * crit.setProjection(Projections.rowCount());
+		 * crit.add(Restrictions.eq("userName", user.getUsername())); count =
+		 * (Long) crit.uniqueResult(); } catch (Exception e) {
+		 * LOGGER.error("Error occured################################", e); }
+		 * try { session.close(); } catch (Exception e) { }
+		 * 
+		 */
 		LOGGER.info("bets Count returning: " + count);
 		return count;
 	}

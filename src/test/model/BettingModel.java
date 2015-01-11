@@ -26,6 +26,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
 
+
 public class BettingModel implements FsmModel, Runnable{
 	FirefoxDriver driver;
 	Vector<Long> timings;
