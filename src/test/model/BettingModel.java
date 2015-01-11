@@ -19,8 +19,6 @@ import Selenium.FillLoginForm;
 import Selenium.FillBetForm;
 import static org.junit.Assert.assertTrue;
 
-
-
 public class BettingModel implements FsmModel, Runnable{
 	WebDriver driver;
 	Vector<Long> timings;
@@ -50,7 +48,6 @@ public class BettingModel implements FsmModel, Runnable{
 		this.timings =  timings;
 		this.uid = uid;
 	}
-	
 	
 	public States getState()
 	{

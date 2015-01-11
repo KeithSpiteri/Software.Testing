@@ -119,7 +119,7 @@ public class BetValidatorTests {
 		Bet bet = new Bet();
 		bet.setAmount(1);
 
-		doReturn((long) 3).when(dbService).countBets(user);
+		doReturn((int) 3).when(dbService).countBets(user);
 
 		assertFalse(validator.validateAmount(user, bet));
 	}
@@ -132,7 +132,7 @@ public class BetValidatorTests {
 		Bet bet = new Bet();
 		bet.setAmount(1);
 
-		doReturn((long) 2).when(dbService).countBets(user);
+		doReturn((int) 2).when(dbService).countBets(user);
 
 		assertTrue(validator.validateAmount(user, bet));
 	}

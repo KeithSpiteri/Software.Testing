@@ -12,14 +12,14 @@ import com.mysql.jdbc.Statement;
 
 public class ModelRunner {
 
-	static final int instances = 20;
+	static final int instances = 100;
 
 	@Test
 	public void runModel()
 	{
 		Long start = System.currentTimeMillis();
-		ExecutorService executor = Executors.newFixedThreadPool(instances);
-		//ExecutorService executor = Executors.newCachedThreadPool();
+		//ExecutorService executor = Executors.newFixedThreadPool(instances);
+		ExecutorService executor = Executors.newCachedThreadPool();
 		Vector<Long> timings = new Vector<Long>();
 		for (int i = 0; i < instances; i++) {
 			Runnable instance = new BettingModel(timings, i);
