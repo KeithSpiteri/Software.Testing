@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 public class BettingModel implements FsmModel, Runnable{
 	WebDriver driver;
 	Vector<Long> timings;
-	//static int uuid;
 	
 	FillRegisterForm fillRegister;
 	FillLoginForm fillLogin;
@@ -332,17 +331,9 @@ public class BettingModel implements FsmModel, Runnable{
 		
 		this.before();
 		
+
 		
-		try{
-			while(!isLastThread )
-			{
-				Thread.sleep(1500);
-				if(ModelRunner.instances-1 == this.uid)
-					isLastThread = true;
-			}
-		}catch(Exception e){}
-		
-		Tester t = new GreedyTester(this);
+		Tester t = new AllRoundTester(this);
 		t.addListener(new VerboseListener());
 		t.generate(10);
 		t.buildGraph();
@@ -358,7 +349,15 @@ public class BettingModel implements FsmModel, Runnable{
 
 	private void before() {
 		this.driver = new FirefoxDriver();
-		reset(true);
+		
+		try{
+			while(!isLastThread )
+			{
+				Thread.sleep(500);
+				if(ModelRunner.instances-1 == this.uid)
+					isLastThread = true;
+			}
+		}catch(Exception e){}
 	}
 	
 }
