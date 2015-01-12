@@ -10,13 +10,15 @@ import java.util.Vector;
 import nz.ac.waikato.modeljunit.Action;
 import nz.ac.waikato.modeljunit.AllRoundTester;
 import nz.ac.waikato.modeljunit.FsmModel;
+import nz.ac.waikato.modeljunit.StopOnFailureListener;
 import nz.ac.waikato.modeljunit.Tester;
 import nz.ac.waikato.modeljunit.VerboseListener;
+import nz.ac.waikato.modeljunit.coverage.CoverageMetric;
+import nz.ac.waikato.modeljunit.coverage.TransitionCoverage;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import Selenium.FillBetForm;
 import Selenium.FillLoginForm;
@@ -57,6 +59,7 @@ public class BettingModel implements FsmModel, Runnable{
 		this.uid = uid;
 	}
 	
+	@Override
 	public States getState()
 	{
 		if(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp") 
@@ -92,9 +95,12 @@ public class BettingModel implements FsmModel, Runnable{
 		}
 	}
 	
-	public void reset(boolean arg0) {
+	public @Override void reset(boolean testing) {
+		toInvalid = false;
+		toLogout = false;
+		afterLogin = true;
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");	
-		this.afterLogin = true;
+
 	}
 	
 	public boolean registerErrorGuard()
@@ -175,13 +181,11 @@ public class BettingModel implements FsmModel, Runnable{
 		}
 		if(!driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp"))
 			this.username = "";
-		//assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println(driver.getCurrentUrl());
 		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/register"));
 		timings.add(System.currentTimeMillis() - start);
 	}
@@ -217,8 +221,7 @@ public class BettingModel implements FsmModel, Runnable{
 	{
 		double probability = Math.random();
 		States st = getState();
-		probability = 0.5;
-		if(st.equals(States.Login) && probability >= 0.25 && !username.equals("")  || (st.equals(States.Login) && !this.toInvalid))
+		if(st.equals(States.Login) && probability >= 0.25 && !username.equals(""))
 			return true;
 		else
 		{
@@ -298,17 +301,17 @@ public class BettingModel implements FsmModel, Runnable{
 		start = System.currentTimeMillis();
 		int min = 1;
 		int max = 6;
+		
+		if(!this.isFree)
+		{
+			min = 100;
+			max = 2000;
+		}
+		
 		Random r = new Random();
 		int bet_amount = r.nextInt(max - min + 1) + min;
 		
 		
-		
-		if(!this.isFree)
-		{
-			if(this.numBets > 3)
-				bet_amount = 5000;
-			
-		}
 		this.numBets++;
 		
 		fillBet = new FillBetForm(driver);
@@ -375,7 +378,7 @@ public class BettingModel implements FsmModel, Runnable{
 		timings.add(System.currentTimeMillis() - start);
 	}
 	
-	@Test
+	@Override
 	public void run() {
 		
 		this.before();
@@ -389,9 +392,9 @@ public class BettingModel implements FsmModel, Runnable{
 		this.after();
 		
 //		this.before();
-//		Tester tester = new GreedyTester(this);
+//		Tester tester = new AllRoundTester(this);
 //		tester.setRandom(new Random());
-//		tester.generate(100);
+//		tester.generate(25);
 //		
 //		tester.buildGraph();
 //		clearUser();

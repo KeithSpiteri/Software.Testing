@@ -52,8 +52,8 @@
 					style="background: #c0392b; font-size: 25px; padding-bottom: 0px; padding-top: 5px; padding-right: 100px">Test365</a>
 			</header>
 			<ul class="tabs">
-				<li><a href="#login" class="active">Login</a></li>
-				<li><a href="#register">Register</a></li>
+				<li><a id="login_tab" href="#login" class="active">Login</a></li>
+				<li><a id="reg_tab" href="#register">Register</a></li>
 			</ul>
 			<div id="login" class="form-action show">
 				<h1 style="padding-bottom: 50px">Login</h1>

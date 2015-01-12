@@ -15,7 +15,7 @@ public class FillRegisterForm {
 	{
 		this.driver = driver;
 	}
-	
+		
 	public void visitRegister()
 	{
 		driver.get("http://localhost:8080/Software.Testing/");
