@@ -10,6 +10,9 @@ import java.util.Vector;
 import nz.ac.waikato.modeljunit.Action;
 import nz.ac.waikato.modeljunit.AllRoundTester;
 import nz.ac.waikato.modeljunit.FsmModel;
+import nz.ac.waikato.modeljunit.GreedyTester;
+import nz.ac.waikato.modeljunit.LookaheadTester;
+import nz.ac.waikato.modeljunit.RandomTester;
 import nz.ac.waikato.modeljunit.StopOnFailureListener;
 import nz.ac.waikato.modeljunit.Tester;
 import nz.ac.waikato.modeljunit.VerboseListener;
@@ -130,15 +133,9 @@ public class BettingModel implements FsmModel, Runnable{
 		fillLogin.fillCustom(this.username, "password");
 		this.afterLogin = true;
 		fillLogin.submitForm();
-		//assertEquals("http://localhost:8080/Software.Testing/bet.jsp", driver.getCurrentUrl());
-		
-		try {
-			Thread.sleep(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/bet.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/login"));
+
 		timings.add(System.currentTimeMillis() - start);
+		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/bet.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/login"));
 	}
 	
 	public boolean toInvalidLoginGuard()
@@ -164,13 +161,8 @@ public class BettingModel implements FsmModel, Runnable{
 		fillLogin = new FillLoginForm(driver);
 		fillLogin.fillCustom(this.username, "wrong_password");
 		fillLogin.submitForm();	
-		try {
-			Thread.sleep(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
 		timings.add(System.currentTimeMillis() - start);
+		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
 	}
 	
 	public boolean registerErrorGuard()
@@ -185,8 +177,8 @@ public class BettingModel implements FsmModel, Runnable{
 		start = System.currentTimeMillis();
 		this.username = "";
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");
-		driver.findElement(By.xpath("/html/body/div/div/ul/li[2]/a")).click();
 		timings.add(System.currentTimeMillis() - start);
+		driver.findElement(By.xpath("/html/body/div/div/ul/li[2]/a")).click();
 	}
 	
 	public boolean loginErrorGuard()
@@ -198,10 +190,8 @@ public class BettingModel implements FsmModel, Runnable{
 	@Action
 	public void loginError()
 	{
-		start = System.currentTimeMillis();
 		this.username = "";
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");
-		timings.add(System.currentTimeMillis() - start);
 	}
 	
 	public boolean toRegistrationGuard()
@@ -215,14 +205,10 @@ public class BettingModel implements FsmModel, Runnable{
 	{
 		start = System.currentTimeMillis();
 		driver.findElement(By.xpath("/html/body/div/div/ul/li[2]/a")).click();
-		try {
-			Thread.sleep(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		assertEquals(driver.findElement(By.className("active")).getText(), "Register");
+
 		timings.add(System.currentTimeMillis() - start);
+		assertEquals(driver.findElement(By.className("active")).getText(), "Register");
+		
 	}
 	
 	public boolean registerUserGuard()
@@ -251,13 +237,10 @@ public class BettingModel implements FsmModel, Runnable{
 		}
 		if(!driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp"))
 			this.username = "";
-		try {
-			Thread.sleep(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/register"));
+
 		timings.add(System.currentTimeMillis() - start);
+		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/register"));
+		
 	}
 	
 	public String generateUsername()
@@ -312,14 +295,9 @@ public class BettingModel implements FsmModel, Runnable{
 		fillBet = new FillBetForm(driver);
 		fillBet.setAmount(bet_amount);
 		fillBet.submitBet();
-		
-		try {
-			Thread.sleep(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/bet.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/placeBet"));		
+
 		timings.add(System.currentTimeMillis() - start);
+		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/bet.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/placeBet"));		
 	}
 	
 	public boolean backInvalidBetGuard()
@@ -334,15 +312,8 @@ public class BettingModel implements FsmModel, Runnable{
 	@Action
 	public void backInvalidBet()
 	{
-		start = System.currentTimeMillis();
 		driver.get("http://localhost:8080/Software.Testing/bet.jsp");
-		try {
-			Thread.sleep(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		assertEquals("http://localhost:8080/Software.Testing/bet.jsp", driver.getCurrentUrl());
-		timings.add(System.currentTimeMillis() - start);
 	}
 	
 	public boolean doLogoutGuard()
@@ -370,26 +341,43 @@ public class BettingModel implements FsmModel, Runnable{
 		fillBet = new FillBetForm(driver);
 		fillBet.logout();
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");
-		try {
-			Thread.sleep(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
 		timings.add(System.currentTimeMillis() - start);
+		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
 	}
 	
 	@Test
 	public void run() {
+//		this.before();
+//		Tester tester = new GreedyTester(this);
+//		tester.setRandom(new Random());
+//		tester.generate(20);
+//		
+//		tester.buildGraph();
+//		
+//		tester.addListener(new StopOnFailureListener());
+//		
+//		CoverageMetric trCoverage = new TransitionCoverage();
+//		tester.addCoverageMetric(trCoverage);
+//		clearUser();
+//		username = "";
+//		
+//		VerboseListener verboseListener = new VerboseListener();
+//		verboseListener.setModel(tester.getModel());
+//		tester.addListener(verboseListener);
+//		
+//		tester.generate(20);
+//		
+//		tester.getModel().printMessage(trCoverage.getName() + " was " + trCoverage.toString());
+//		this.after();
 		
 		this.before();
 		
-
+	
 		
-		Tester t = new AllRoundTester(this);
+		Tester t = new GreedyTester(this);
 		t.addListener(new VerboseListener());
-		t.generate(50);
-		//t.buildGraph();
+		t.generate(20);
+		t.buildGraph();
 		this.after();
 		
 	}
@@ -403,13 +391,14 @@ public class BettingModel implements FsmModel, Runnable{
 	private void before() {
 		this.driver = new FirefoxDriver();
 		
-		if(uid == ModelRunner.instances-1)
-			isLastThread = true;
+		
 		
 		while(!isLastThread)
 		{
 			try {
 				Thread.sleep(500);
+				if(uid == ModelRunner.instances-1)
+					isLastThread = true;
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -417,5 +406,28 @@ public class BettingModel implements FsmModel, Runnable{
 		
 	}
 	
+	private void clearUser()
+	{
+		try { 		
+		      Connection connection = (Connection) DriverManager.getConnection(
+						"jdbc:mysql://localhost/sql457634",
+						"root", "");
+		      
+		      Statement stmt = (Statement) connection.createStatement();
+		      
+		      String sql = "DELETE FROM sql457634.bet " +
+	                  "WHERE user_id LIKE \"user_"+uid+"\"";
+		      stmt.executeUpdate(sql);
+		      
+		      sql = "DELETE FROM sql457634.user " +
+		                   "WHERE username LIKE \"user_"+uid+"\"";
+		      stmt.executeUpdate(sql);
+		      
+		     
+		      connection.close();
+			} catch (Exception e) {
+				e.printStackTrace(); 
+			}
+	}
 	
 }

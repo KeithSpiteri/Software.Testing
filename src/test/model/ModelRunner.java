@@ -12,7 +12,7 @@ import com.mysql.jdbc.Statement;
 
 public class ModelRunner {
 
-	static final int instances = 5;
+	static final int instances = 1;
 
 	@Test
 	public void runModel()
