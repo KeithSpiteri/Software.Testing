@@ -112,7 +112,7 @@ public class Model implements FsmModel, Runnable {
 		start = System.currentTimeMillis();
 		driver.findElement(By.xpath("/html/body/div/div/ul/li[2]/a")).click();
 		timings.add(System.currentTimeMillis() - start);
-
+		
 		assertEquals(driver.findElement(By.className("active")).getText(), "Register");
 	}
 	
@@ -143,8 +143,9 @@ public class Model implements FsmModel, Runnable {
 			fillRegister.fillModelForm(userName, 1);
 			this.isFree = false;
 		}
+		System.out.println(driver.getCurrentUrl());
 		timings.add(System.currentTimeMillis() - start);
-
+		
 		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp"));
 	}
 	

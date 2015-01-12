@@ -39,14 +39,17 @@ public class BettingModel implements FsmModel, Runnable{
 	
 	
 	String username = "";
-	private static int uid = 0;
+	private int uid = 0;
 	
 	boolean isFree = true;
 	boolean toInvalid = false;
 	boolean toLogout = false;
 	boolean afterLogin = true;
+	boolean toBet = false;
 	
 	static boolean isLastThread = false;
+	
+	boolean toValid = false;
 	
 	
 	Long start;
@@ -55,7 +58,7 @@ public class BettingModel implements FsmModel, Runnable{
 	int numBets = 0;
 	
 	public BettingModel(Vector<Long> timings, int uid){
-		this.timings =  timings;
+		this.timings = timings;
 		this.uid = uid;
 	}
 	
@@ -95,12 +98,79 @@ public class BettingModel implements FsmModel, Runnable{
 		}
 	}
 	@Override
-	public  void reset(boolean testing) {
+	public void reset(boolean testing) {
 		toInvalid = false;
+		toValid = false;
 		toLogout = false;
 		afterLogin = true;
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");	
 
+	}
+	
+	public boolean toValidLoginGuard()
+	{
+		double probability = Math.random();
+		States st = getState();
+		if((st.equals(States.Login) && probability >= 0.25 && !username.equals("")) || toValid){
+			toValid = false;
+			return true;
+		}else
+		{
+			if(st.equals(States.Login) && !username.equals(""))
+				toInvalid = true;
+			return false;
+		}
+	}
+	
+	@Action
+	public void toValidLogin()
+	{
+		start = System.currentTimeMillis();
+		fillLogin = new FillLoginForm(driver);
+		fillLogin.fillCustom(this.username, "password");
+		this.afterLogin = true;
+		fillLogin.submitForm();
+		//assertEquals("http://localhost:8080/Software.Testing/bet.jsp", driver.getCurrentUrl());
+		
+		try {
+			Thread.sleep(0);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/bet.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/login"));
+		timings.add(System.currentTimeMillis() - start);
+	}
+	
+	public boolean toInvalidLoginGuard()
+	{
+		double probability = Math.random();
+		States st = getState();
+		
+		if(((st.equals(States.Login) && !username.equals("") && probability < 0.25)) || toInvalid)
+		{
+			this.toInvalid = false;
+			return true;
+		}else{
+			if(st.equals(States.Login) && !username.equals(""))
+					toValid = true;
+			return false;
+		}
+	}
+	
+	@Action
+	public void toInvalidLogin()
+	{
+		start = System.currentTimeMillis();
+		fillLogin = new FillLoginForm(driver);
+		fillLogin.fillCustom(this.username, "wrong_password");
+		fillLogin.submitForm();	
+		try {
+			Thread.sleep(0);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
+		timings.add(System.currentTimeMillis() - start);
 	}
 	
 	public boolean toLoginGuard()
@@ -110,12 +180,12 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 	
 	@Action
-	public  void toLogin()
+	public void toLogin()
 	{
 		start = System.currentTimeMillis();
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -132,7 +202,7 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 	
 	@Action
-	public  void registerError()
+	public void registerError()
 	{
 		start = System.currentTimeMillis();
 		this.username = "";
@@ -148,7 +218,7 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 	
 	@Action
-	public  void loginError()
+	public void loginError()
 	{
 		start = System.currentTimeMillis();
 		this.username = "";
@@ -163,12 +233,12 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 	
 	@Action
-	public  void toRegistration()
+	public void toRegistration()
 	{
 		start = System.currentTimeMillis();
 		driver.findElement(By.xpath("/html/body/div/div/ul/li[2]/a")).click();
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -184,7 +254,7 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 	
 	@Action
-	public  void registerUser()
+	public void registerUser()
 	{
 		start = System.currentTimeMillis();
 		String userName = generateUsername();
@@ -204,7 +274,7 @@ public class BettingModel implements FsmModel, Runnable{
 		if(!driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/index.jsp"))
 			this.username = "";
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -214,92 +284,36 @@ public class BettingModel implements FsmModel, Runnable{
 	
 	public String generateUsername()
 	{
-		this.username = "user_"+uid++;
+		this.username = "user_"+uid;
 		return this.username;
 	}
 	
 	
 	
-	public boolean toValidLoginGuard()
-	{
-		double probability = Math.random();
-		States st = getState();
-		if(st.equals(States.Login) && probability >= 0.25 && !username.equals(""))
-			return true;
-		else
-		{
-			if(!username.equals("") && st.equals(States.Login))
-				this.toInvalid = true;
-			return false;
-		}
-	}
 	
-	@Action
-	public  void toValidLogin()
-	{
-		start = System.currentTimeMillis();
-		fillLogin = new FillLoginForm(driver);
-		fillLogin.fillCustom(this.username, "password");
-		this.afterLogin = true;
-		fillLogin.submitForm();
-		//assertEquals("http://localhost:8080/Software.Testing/bet.jsp", driver.getCurrentUrl());
-		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		assertTrue(driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/bet.jsp") || driver.getCurrentUrl().equals("http://localhost:8080/Software.Testing/login"));
-		timings.add(System.currentTimeMillis() - start);
-	}
 	
-	public boolean toInvalidLoginGuard()
-	{
-		States st = getState();
-		
-		if((st.equals(States.Login) && !username.equals("") && this.toInvalid))
-		{
-			this.toInvalid = false;
-			return true;
-		}else
-			return false;
-	}
 	
-	@Action
-	public  void toInvalidLogin()
-	{
-		start = System.currentTimeMillis();
-		fillLogin = new FillLoginForm(driver);
-		fillLogin.fillCustom(this.username, "wrong_password");
-		fillLogin.submitForm();	
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
-		timings.add(System.currentTimeMillis() - start);
-	}
 	
 	public boolean placeBetGuard()
 	{
 		States st = getState();
 		double probability = Math.random();
 		
-		if(st.equals(States.Bet) && (probability <= 0.5 || this.afterLogin == true) ){
+		if((st.equals(States.Bet) && probability <= 0.5) || (st.equals(States.Bet) && this.afterLogin) || toBet ){
+			this.toBet = false;
 			this.afterLogin = false;
 			return true;
 		}
 		else
 		{
 			if(st.equals(States.Bet))
-				this.toLogout = true;
+				toLogout = true;
 			return false;
 		}
 	}
 	
 	@Action
-	public  void placeBet()
+	public void placeBet()
 	{
 		start = System.currentTimeMillis();
 		int min = 1;
@@ -322,7 +336,7 @@ public class BettingModel implements FsmModel, Runnable{
 		fillBet.submitBet();
 		
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -340,12 +354,12 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 	
 	@Action
-	public  void backInvalidBet()
+	public void backInvalidBet()
 	{
 		start = System.currentTimeMillis();
 		driver.get("http://localhost:8080/Software.Testing/bet.jsp");
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -357,23 +371,29 @@ public class BettingModel implements FsmModel, Runnable{
 	{
 		States st = getState();
 		double probability = Math.random();
-		if(((st.equals(States.Bet) && probability >= 0.5 )|| (st.equals(States.Bet) && this.toLogout == true)) && !this.afterLogin)
+		if((st.equals(States.Bet) && probability >= 0.5  && !this.afterLogin) || toLogout)
 		{
+			this.afterLogin = true;
+			this.toBet = false;
 			this.toLogout = false;
 			return true;
-		}else
+		}else{
+			if(st.equals(States.Bet))
+				toBet = true;
+			
 			return false;
+		}
 	}
 
 	@Action
-	public  void doLogout()
+	public void doLogout()
 	{
 		start = System.currentTimeMillis();
 		fillBet = new FillBetForm(driver);
 		fillBet.logout();
 		driver.get("http://localhost:8080/Software.Testing/index.jsp");
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -384,37 +404,37 @@ public class BettingModel implements FsmModel, Runnable{
 	@Test
 	public void run() {
 		
-		this.before();
-		
-
-		
-		Tester t = new AllRoundTester(this);
-		t.addListener(new VerboseListener());
-		t.generate(10);
-		t.buildGraph();
-		this.after();
-		
 //		this.before();
-//		Tester tester = new AllRoundTester(this);
-//		tester.setRandom(new Random());
-//		tester.generate(25);
 //		
-//		tester.buildGraph();
-//		clearUser();
+//
 //		
-//		tester.addListener(new StopOnFailureListener());
-//		
-//		CoverageMetric trCoverage = new TransitionCoverage();
-//		tester.addCoverageMetric(trCoverage);
-//		
-//		VerboseListener verboseListener = new VerboseListener();
-//		verboseListener.setModel(tester.getModel());
-//		tester.addListener(verboseListener);
-//		
-//		tester.generate(10);
-//		
-//		tester.getModel().printMessage(trCoverage.getName() + " was " + trCoverage.toString());
+//		Tester t = new AllRoundTester(this);
+//		t.addListener(new VerboseListener());
+//		t.generate(20);
+//		t.buildGraph();
 //		this.after();
+		
+		this.before();
+		Tester tester = new AllRoundTester(this);
+		tester.setRandom(new Random());
+		tester.generate(20);
+		
+		tester.buildGraph();
+		clearUser();
+		
+		tester.addListener(new StopOnFailureListener());
+		
+		CoverageMetric trCoverage = new TransitionCoverage();
+		tester.addCoverageMetric(trCoverage);
+		
+		VerboseListener verboseListener = new VerboseListener();
+		verboseListener.setModel(tester.getModel());
+		tester.addListener(verboseListener);
+		
+		tester.generate(10);
+		
+		tester.getModel().printMessage(trCoverage.getName() + " was " + trCoverage.toString());
+		this.after();
 	}
 	
 
@@ -424,33 +444,42 @@ public class BettingModel implements FsmModel, Runnable{
 	}
 
 	private void before() {
-//		DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-//	     
-//		driver = new HtmlUnitDriver(capabilities); 
-//		((HtmlUnitDriver) driver).setJavascriptEnabled(true);
 		this.driver = new FirefoxDriver();
+		
+		if(uid == ModelRunner.instances-1)
+			isLastThread = true;
+		
+		while(!isLastThread)
+		{
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	private void clearUser()
 	{
 
 		try { 		
-	      Connection connection = (Connection) DriverManager.getConnection(
+	   Connection connection = (Connection) DriverManager.getConnection(
 					"jdbc:mysql://localhost/sql457634",
 					"root", "");
-	      
-	      Statement stmt = (Statement) connection.createStatement();
-	      
-	      String sql = "DELETE FROM sql457634.bet " +
-                  "WHERE user_id LIKE \"user_"+uid+"\"";
-	      stmt.executeUpdate(sql);
-	      
-	      sql = "DELETE FROM sql457634.user " +
-	                   "WHERE username LIKE \"user_"+uid+"\"";
-	      stmt.executeUpdate(sql);
-	      
-	     
-	      connection.close();
+	   
+	   Statement stmt = (Statement) connection.createStatement();
+	   
+	   String sql = "DELETE FROM sql457634.bet " +
+         "WHERE user_id LIKE \"user_"+uid+"\"";
+	   stmt.executeUpdate(sql);
+	   
+	   sql = "DELETE FROM sql457634.user " +
+	          "WHERE username LIKE \"user_"+uid+"\"";
+	   stmt.executeUpdate(sql);
+	   
+	   
+	   connection.close();
 		} catch (Exception e) {
 			e.printStackTrace(); 
 		}

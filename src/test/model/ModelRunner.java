@@ -12,7 +12,7 @@ import com.mysql.jdbc.Statement;
 
 public class ModelRunner {
 
-	static final int instances = 1;
+	static final int instances = 5;
 
 	@Test
 	public void runModel()
@@ -22,9 +22,8 @@ public class ModelRunner {
 		//ExecutorService executor = Executors.newCachedThreadPool();
 		Vector<Long> timings = new Vector<Long>();
 		for (int i = 0; i < instances; i++) {
-			//Runnable instance = new BettingModel(timings, i);
-			Runnable thread = new Model();
-			executor.execute(thread);
+			Runnable instance = new BettingModel(timings, i);
+			executor.execute(instance);
 		}
 		executor.shutdown();
 		while(!executor.isTerminated()){}
