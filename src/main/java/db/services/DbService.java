@@ -172,27 +172,46 @@ public class DbService {
 	}
 
 	public boolean update(Object toSave) {
-		Transaction tx = null;
+//		Transaction tx = null;
+//		try {
+//			session = factory.openSession();
+//			tx = session.beginTransaction();
+//			session.update(toSave);
+//			tx.commit();
+//		} catch (HibernateException e) {
+//			try {
+//				try {
+//					if (tx != null)
+//						tx.rollback();
+//					LOGGER.error("Hibernate Exception in updating user info", e);
+//				} catch (Exception exc) {
+//				}
+//			} catch (Exception exc) {
+//			}
+//			return false;
+//		} finally {
+//			try {
+//				session.close();
+//			} catch (Exception e) {
+//			}
+//		}
+		Connection connection = null;
 		try {
-			session = factory.openSession();
-			tx = session.beginTransaction();
-			session.update(toSave);
-			tx.commit();
-		} catch (HibernateException e) {
-			try {
-				try {
-					if (tx != null)
-						tx.rollback();
-					LOGGER.error("Hibernate Exception in updating user info", e);
-				} catch (Exception exc) {
-				}
-			} catch (Exception exc) {
-			}
-			return false;
+			connection = DriverManager.getConnection(
+					"jdbc:mysql://localhost/sql457634", "root", "");
+
+			Statement statement = connection.createStatement();
+			statement
+					.execute("Update sql457634.user SET failed_login = "+ ((User) toSave).getFailedLogins()+1 +" where username = \""
+							+ ((User) toSave).getUsername() + "\"");
+			
+		} catch (Exception e) {
+
 		} finally {
 			try {
-				session.close();
-			} catch (Exception e) {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
 		return true;

@@ -173,28 +173,6 @@ public class BettingModel implements FsmModel, Runnable{
 		timings.add(System.currentTimeMillis() - start);
 	}
 	
-	public boolean toLoginGuard()
-	{
-		States st = getState();
-		return (st.equals(States.Register) && !username.equals(""));
-	}
-	
-	@Action
-	public void toLogin()
-	{
-		start = System.currentTimeMillis();
-		driver.get("http://localhost:8080/Software.Testing/index.jsp");
-		try {
-			Thread.sleep(0);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
-		timings.add(System.currentTimeMillis() - start);
-	}
-	
-	
 	public boolean registerErrorGuard()
 	{
 		States st = getState();
@@ -404,37 +382,16 @@ public class BettingModel implements FsmModel, Runnable{
 	@Test
 	public void run() {
 		
-//		this.before();
-//		
-//
-//		
-//		Tester t = new AllRoundTester(this);
-//		t.addListener(new VerboseListener());
-//		t.generate(20);
-//		t.buildGraph();
-//		this.after();
-		
 		this.before();
-		Tester tester = new AllRoundTester(this);
-		tester.setRandom(new Random());
-		tester.generate(20);
 		
-		tester.buildGraph();
-		clearUser();
+
 		
-		tester.addListener(new StopOnFailureListener());
-		
-		CoverageMetric trCoverage = new TransitionCoverage();
-		tester.addCoverageMetric(trCoverage);
-		
-		VerboseListener verboseListener = new VerboseListener();
-		verboseListener.setModel(tester.getModel());
-		tester.addListener(verboseListener);
-		
-		tester.generate(10);
-		
-		tester.getModel().printMessage(trCoverage.getName() + " was " + trCoverage.toString());
+		Tester t = new AllRoundTester(this);
+		t.addListener(new VerboseListener());
+		t.generate(50);
+		//t.buildGraph();
 		this.after();
+		
 	}
 	
 
@@ -460,30 +417,5 @@ public class BettingModel implements FsmModel, Runnable{
 		
 	}
 	
-	private void clearUser()
-	{
-
-		try { 		
-	   Connection connection = (Connection) DriverManager.getConnection(
-					"jdbc:mysql://localhost/sql457634",
-					"root", "");
-	   
-	   Statement stmt = (Statement) connection.createStatement();
-	   
-	   String sql = "DELETE FROM sql457634.bet " +
-         "WHERE user_id LIKE \"user_"+uid+"\"";
-	   stmt.executeUpdate(sql);
-	   
-	   sql = "DELETE FROM sql457634.user " +
-	          "WHERE username LIKE \"user_"+uid+"\"";
-	   stmt.executeUpdate(sql);
-	   
-	   
-	   connection.close();
-		} catch (Exception e) {
-			e.printStackTrace(); 
-		}
-		
-	}
 	
 }
