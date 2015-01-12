@@ -39,7 +39,7 @@ public class BettingModel implements FsmModel, Runnable{
 	
 	
 	String username = "";
-	private int uid = 0;
+	private static int uid = 0;
 	
 	boolean isFree = true;
 	boolean toInvalid = false;
@@ -94,8 +94,8 @@ public class BettingModel implements FsmModel, Runnable{
 			return getState();
 		}
 	}
-	
-	public @Override void reset(boolean testing) {
+	@Override
+	public  void reset(boolean testing) {
 		toInvalid = false;
 		toLogout = false;
 		afterLogin = true;
@@ -103,14 +103,36 @@ public class BettingModel implements FsmModel, Runnable{
 
 	}
 	
+	public boolean toLoginGuard()
+	{
+		States st = getState();
+		return (st.equals(States.Register) && !username.equals(""));
+	}
+	
+	@Action
+	public  void toLogin()
+	{
+		start = System.currentTimeMillis();
+		driver.get("http://localhost:8080/Software.Testing/index.jsp");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
+		timings.add(System.currentTimeMillis() - start);
+	}
+	
+	
 	public boolean registerErrorGuard()
 	{
 		States st = getState();
 		return (st.equals(States.RegisterError));
 	}
 	
-	
-	public @Action void registerError()
+	@Action
+	public  void registerError()
 	{
 		start = System.currentTimeMillis();
 		this.username = "";
@@ -125,8 +147,8 @@ public class BettingModel implements FsmModel, Runnable{
 		return (st.equals(States.LoginError));
 	}
 	
-	
-	public @Action void loginError()
+	@Action
+	public  void loginError()
 	{
 		start = System.currentTimeMillis();
 		this.username = "";
@@ -140,8 +162,8 @@ public class BettingModel implements FsmModel, Runnable{
 		return (st.equals(States.Login) && username.equals(""));
 	}
 	
-	
-	public @Action void toRegistration()
+	@Action
+	public  void toRegistration()
 	{
 		start = System.currentTimeMillis();
 		driver.findElement(By.xpath("/html/body/div/div/ul/li[2]/a")).click();
@@ -161,8 +183,8 @@ public class BettingModel implements FsmModel, Runnable{
 		return st.equals(States.Register) && username.equals("");
 	}
 	
-	
-	public @Action void registerUser()
+	@Action
+	public  void registerUser()
 	{
 		start = System.currentTimeMillis();
 		String userName = generateUsername();
@@ -192,30 +214,11 @@ public class BettingModel implements FsmModel, Runnable{
 	
 	public String generateUsername()
 	{
-		this.username = "user_"+uid;
+		this.username = "user_"+uid++;
 		return this.username;
 	}
 	
-	public boolean toLoginGuard()
-	{
-		States st = getState();
-		return (st.equals(States.Register) && !username.equals(""));
-	}
 	
-	
-	public @Action void toLogin()
-	{
-		start = System.currentTimeMillis();
-		driver.get("http://localhost:8080/Software.Testing/index.jsp");
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-		assertEquals("http://localhost:8080/Software.Testing/index.jsp", driver.getCurrentUrl());
-		timings.add(System.currentTimeMillis() - start);
-	}
 	
 	public boolean toValidLoginGuard()
 	{
@@ -231,8 +234,8 @@ public class BettingModel implements FsmModel, Runnable{
 		}
 	}
 	
-	
-	public @Action void toValidLogin()
+	@Action
+	public  void toValidLogin()
 	{
 		start = System.currentTimeMillis();
 		fillLogin = new FillLoginForm(driver);
@@ -262,8 +265,8 @@ public class BettingModel implements FsmModel, Runnable{
 			return false;
 	}
 	
-	
-	public @Action void toInvalidLogin()
+	@Action
+	public  void toInvalidLogin()
 	{
 		start = System.currentTimeMillis();
 		fillLogin = new FillLoginForm(driver);
@@ -295,8 +298,8 @@ public class BettingModel implements FsmModel, Runnable{
 		}
 	}
 	
-	
-	public @Action void placeBet()
+	@Action
+	public  void placeBet()
 	{
 		start = System.currentTimeMillis();
 		int min = 1;
@@ -336,8 +339,8 @@ public class BettingModel implements FsmModel, Runnable{
 			return false;
 	}
 	
-	
-	public @Action void backInvalidBet()
+	@Action
+	public  void backInvalidBet()
 	{
 		start = System.currentTimeMillis();
 		driver.get("http://localhost:8080/Software.Testing/bet.jsp");
@@ -362,8 +365,8 @@ public class BettingModel implements FsmModel, Runnable{
 			return false;
 	}
 
-	
-	public @Action void doLogout()
+	@Action
+	public  void doLogout()
 	{
 		start = System.currentTimeMillis();
 		fillBet = new FillBetForm(driver);
@@ -378,7 +381,7 @@ public class BettingModel implements FsmModel, Runnable{
 		timings.add(System.currentTimeMillis() - start);
 	}
 	
-	@Override
+	@Test
 	public void run() {
 		
 		this.before();

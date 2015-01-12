@@ -247,7 +247,7 @@ public class DbService {
 
 			Statement statment = connection.createStatement();
 			ResultSet r = statment
-					.executeQuery("SELECT COUNT(*) AS rowcount FROM sql457634.bet where username = \""
+					.executeQuery("SELECT COUNT(*) AS rowcount FROM sql457634.bet where user_id = \""
 							+ user.getUsername() + "\"");
 			r.next();
 			count = r.getInt("rowcount");
